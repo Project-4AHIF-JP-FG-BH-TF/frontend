@@ -1,6 +1,6 @@
 <template>
   <div>
-<!--    <NuxtWelcome/>-->
+    <!--    <NuxtWelcome/>-->
     <HomePage></HomePage>
   </div>
 </template>
