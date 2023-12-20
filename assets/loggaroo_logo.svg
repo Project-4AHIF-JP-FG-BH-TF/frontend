@@ -14,14 +14,4 @@
           fill="#8ECEEC"></path>
     <path d="M6.01 50.31s1.97-.64 2.66-1.28s1.67-1.48 2.41-1.18s.98 1.38-.39 2.46c-1.04.82-2.41 1.23-2.41 1.23s-.84.05-1.52-.25c-.4-.16-.85-.73-.75-.98z"
           fill="#8ECEEC"></path>
-
-    <text x="50%"
-          y="99%"
-          text-anchor="middle"
-          alignment-baseline="ideographic"
-          font-family="Tahoma"
-          fill="#8ECEEC"
-    >
-        Loggaroo
-    </text>
 </svg>

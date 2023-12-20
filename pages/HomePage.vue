@@ -8,14 +8,13 @@
 
     <aside id="sidebar-left">
       <div>
-        <img id="logo" src="assets/loggaroo_logo.svg">
+        <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo">
       </div>
 
       <div id="actions">
         <button class="button">Log-Dateien</button><br>
         <button class="button">Log-Einträge</button><br>
         <button class="button">Statistiken</button><br>
-        <button class="button">Einstellungen</button><br>
       </div>
 
     </aside>
@@ -59,7 +58,6 @@
 
     #logo{
       height: 120px;
-      margin-bottom: 20px;
     }
   }
 }
@@ -77,7 +75,7 @@
   background-color: gray;
   border-radius: 10px;
   width:150px;
-  margin: 10px;
+  margin: 15px;
   padding: 5px;
 }
 
