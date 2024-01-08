@@ -3,7 +3,9 @@ import { useLogEntryStore } from "~/stores/logEntryStore";
 
 const entryStore = useLogEntryStore();
 
-entryStore.loadEntries(0, 0);
+callOnce(() => {
+  entryStore.loadEntries(0, 0);
+});
 </script>
 
 <template>
