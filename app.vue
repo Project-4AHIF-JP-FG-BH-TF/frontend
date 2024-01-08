@@ -1,3 +1,7 @@
+<script>
+
+</script>
+
 <template>
   <nuxt-layout>
     <nuxt-page />
