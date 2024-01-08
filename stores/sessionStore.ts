@@ -15,7 +15,12 @@ export const useSessionStore = defineStore("session", {
     },
     actions: {
         async requestSession() {
-            this.sessionID = await fetchNewSession();
+            if (this.sessionID) {
+                // TODO ERROR HANDLING
+                console.log("Shouldn't occur!")
+            } else {
+                this.sessionID = await fetchNewSession();
+            }
         },
         async refreshSession() {
             if (this.sessionID != null) {
