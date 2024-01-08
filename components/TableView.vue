@@ -1,20 +1,52 @@
 <script setup lang="ts">
 const logs = ref([
   {
-    date: "8.1.2024",
-    level: "RED",
+    date: "8.1.2024 9:30",
+    level: "ERROR",
     ip: "192.168.0.1",
     user_id: 123,
     session_id: 456,
-    text: "Zusatz Kommentar",
+    text: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
   },
   {
-    date: "7.1.2024",
+    date: "17.12.2023 23:59",
+    level: "INFO",
+    ip: "192.168.0.12",
+    user_id: 2,
+    session_id: 35,
+    text: "Zusatz-Text",
+  },
+  {
+    date: "7.1.2024 10:45",
     level: "INFO",
     ip: "192.168.0.45",
     user_id: 1,
     session_id: 2,
     text: "Zusatz-Text",
+  },
+  {
+    date: "6.1.2024 10:45",
+    level: "INFO",
+    ip: "192.168.0.45",
+    user_id: 1,
+    session_id: 5,
+    text: "Zusatz-Text",
+  },
+  {
+    date: "5.1.2024 10:45",
+    level: "INFO",
+    ip: "192.168.0.45",
+    user_id: 1,
+    session_id: 65,
+    text: "Zusatz-Text",
+  },
+  {
+    date: "4.1.2024 10:45",
+    level: "ERROR",
+    ip: "192.168.0.45",
+    user_id: 1,
+    session_id: 12,
+    text: "Kommentar",
   },
 ]);
 </script>
@@ -27,22 +59,35 @@ const logs = ref([
 
     <div id="tableView">
       <div id="tableHeader">
-        <span class="headerElement border-bottom-and-right">Datum</span>
-        <span class="headerElement border-bottom-and-right">Level</span>
-        <span class="headerElement border-bottom-and-right">IP-Adresse</span>
-        <span class="headerElement border-bottom-and-right">Nutzer-ID</span>
-        <span class="headerElement border-bottom-and-right">Sitzungs-ID</span>
-        <span class="headerElement border-bottom">Text</span>
+        <span class="headerElement border-bottom-and-right flex-4">Datum</span>
+        <span class="headerElement border-bottom-and-right flex-3">Level</span>
+        <span class="headerElement border-bottom-and-right flex-4"
+          >IP-Adresse</span
+        >
+        <span class="headerElement border-bottom-and-right flex-3"
+          >Nutzer-ID</span
+        >
+        <span class="headerElement border-bottom-and-right flex-3"
+          >Sitzungs-ID</span
+        >
+        <span class="headerElement border-bottom flex-10">Text</span>
       </div>
       <!-- Liste an Log-Einträgen -->
       <div class="list">
         <div class="list-element" v-for="log in logs">
-          <span class="list-data border-right">{{ log.date }}</span>
-          <span class="list-data border-right">{{ log.level }}</span>
-          <span class="list-data border-right">{{ log.ip }}</span>
-          <span class="list-data border-right">{{ log.user_id }}</span>
-          <span class="list-data border-right">{{ log.session_id }}</span>
-          <span class="list-data">{{ log.text }}</span>
+          <span class="list-data border-right flex-4">{{ log.date }}</span>
+          <!--          <span class="list-data border-right">{{ log.level }}</span>-->
+          <div class="list-data border-right flex-3" id="level-field">
+            <div v-bind:class="log.level"></div>
+          </div>
+          <span class="list-data border-right flex-4">{{ log.ip }}</span>
+          <span class="list-data border-right flex-3">{{ log.user_id }}</span>
+          <span class="list-data border-right flex-3">{{
+            log.session_id
+          }}</span>
+          <span class="list-data text-overflow-ellipsis flex-10">{{
+            log.text
+          }}</span>
         </div>
       </div>
     </div>
@@ -82,7 +127,6 @@ const logs = ref([
     padding: 10px;
     margin: 5px 2px 2px;
     text-align: center;
-    flex: 10;
   }
 
   .border-bottom-and-right {
@@ -107,6 +151,43 @@ const logs = ref([
     padding: 10px;
     margin: 0 2px 2px;
     text-align: center;
+  }
+
+  .ERROR {
+    height: 30px;
+    width: 30px;
+    background-color: red;
+    border-radius: 30px;
+  }
+
+  .INFO {
+    height: 30px;
+    width: 30px;
+    background-color: lightgray;
+    border-radius: 30px;
+  }
+
+  #level-field {
+    display: flex;
+    justify-content: center;
+  }
+
+  .text-overflow-ellipsis {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .flex-3 {
+    flex: 3;
+  }
+
+  .flex-4 {
+    flex: 4;
+  }
+
+  .flex-10 {
     flex: 10;
   }
 }
