@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TableView from "~/components/TableView.vue";
+</script>
 
 <template>
   <div id="main">
@@ -18,9 +20,7 @@
     </aside>
 
     <div id="main-view">
-      <div>
-        <h1>MAIN TABLE</h1>
-      </div>
+      <TableView> </TableView>
     </div>
   </div>
 </template>
