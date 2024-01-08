@@ -1,51 +1,54 @@
-import {defineStore} from "pinia"
-import {useAsyncData} from "nuxt/app";
-import type {UUID} from "node:crypto";
+import type { UUID } from "node:crypto";
+
+import { defineStore } from "pinia";
 
 interface State {
-    sessionID: UUID | null
+  sessionID: UUID | null;
 }
 
 export const useSessionStore = defineStore("session", {
-    state: (): State => ({
-        sessionID: null
-    }),
-    getters: {
-        getSessionID: (state) => state.sessionID,
+  state: (): State => ({
+    sessionID: null,
+  }),
+  getters: {
+    getSessionID: (state) => state.sessionID,
+  },
+  actions: {
+    async requestSession() {
+      if (this.sessionID) {
+        // TODO ERROR HANDLING
+        // eslint-disable-next-line no-console
+        console.log("Shouldn't occur!");
+      } else {
+        this.sessionID = await fetchNewSession();
+      }
     },
-    actions: {
-        async requestSession() {
-            if (this.sessionID) {
-                // TODO ERROR HANDLING
-                console.log("Shouldn't occur!")
-            } else {
-                this.sessionID = await fetchNewSession();
-            }
-        },
-        async refreshSession() {
-            if (this.sessionID != null) {
-                await fetchRefreshSession(this.sessionID);
-            }
-        }
+    async refreshSession() {
+      if (this.sessionID != null) {
+        await fetchRefreshSession(this.sessionID);
+      }
     },
-})
+  },
+});
 
 async function fetchNewSession(): Promise<UUID | null> {
-    const {data, error} = await useAsyncData(async () =>
-        await useFetch("/api/session/", {
-            method: "GET",
-        })
-    );
+  try {
+    const data = await useFetch("/api/session/", {
+      method: "GET",
+    });
 
-    if (error.value != null) return null;
-    return data.value!.data.value as UUID;
+    return data.error.value == null ? (data.data.value as UUID) : null;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log("Nuxt Error");
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return null;
+  }
 }
 
 async function fetchRefreshSession(sessionID: UUID): Promise<void> {
-    await useFetch(`/api/session/${sessionID}`, {
-        method: "POST"
-    })
+  await useFetch(`/api/session/${sessionID as string}`, {
+    method: "POST",
+  });
 }
-
-
-
