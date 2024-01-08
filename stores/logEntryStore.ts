@@ -1,6 +1,7 @@
 import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
+import { delay } from "unicorn-magic";
 
 export interface LogEntry {
   session_id: UUID;
@@ -46,7 +47,8 @@ export const useLogEntryStore = defineStore("logEntries", {
       _desc: boolean = false,
       _filters: Filters = {},
     ) {
-      await this.clearEntries();
+      await delay({ milliseconds: 1 });
+      this.clearEntries();
 
       // to bypass lint
 
@@ -82,6 +84,30 @@ export const useLogEntryStore = defineStore("logEntries", {
           entry_nr: 0,
           creation_date: new Date(Date.parse("2024-01-01T12:00:23.1234+01:00")),
           classification: "info",
+          service_ip: "192.168.0.1",
+          user_id: "123",
+          user_session_id: "456",
+          java_class: "",
+          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
+        },
+        {
+          session_id: generateUuid() as UUID,
+          file_name: "",
+          entry_nr: 0,
+          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
+          classification: "error",
+          service_ip: "192.168.0.1",
+          user_id: "123",
+          user_session_id: "456",
+          java_class: "",
+          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
+        },
+        {
+          session_id: generateUuid() as UUID,
+          file_name: "",
+          entry_nr: 0,
+          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
+          classification: "error",
           service_ip: "192.168.0.1",
           user_id: "123",
           user_session_id: "456",
