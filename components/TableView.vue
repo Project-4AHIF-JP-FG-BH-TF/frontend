@@ -76,9 +76,11 @@ const logs = ref([
       <div class="list">
         <div class="list-element" v-for="log in logs">
           <span class="list-data border-right flex-4">{{ log.date }}</span>
-          <!--          <span class="list-data border-right">{{ log.level }}</span>-->
           <div class="list-data border-right flex-3" id="level-field">
-            <div v-bind:class="log.level"></div>
+            <div v-if="log.level == 'ERROR'" class="log-type error">
+              <span>!</span>
+            </div>
+            <div v-else class="log-type info"></div>
           </div>
           <span class="list-data border-right flex-4">{{ log.ip }}</span>
           <span class="list-data border-right flex-3">{{ log.user_id }}</span>
@@ -153,18 +155,20 @@ const logs = ref([
     text-align: center;
   }
 
-  .ERROR {
+  .log-type {
     height: 30px;
     width: 30px;
-    background-color: red;
     border-radius: 30px;
   }
 
-  .INFO {
-    height: 30px;
-    width: 30px;
+  .error {
+    background-color: red;
+    color: black;
+    font-weight: bold;
+  }
+
+  .info {
     background-color: lightgray;
-    border-radius: 30px;
   }
 
   #level-field {
