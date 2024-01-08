@@ -2,4 +2,9 @@
 export default defineNuxtConfig({
     devtools: {enabled: true},
     modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", '@nuxtjs/axios'],
+    runtimeConfig: {
+        public: {
+            baseURL: process.env.BASE_URL || 'https://api.example.com/',
+        },
+    },
 });
