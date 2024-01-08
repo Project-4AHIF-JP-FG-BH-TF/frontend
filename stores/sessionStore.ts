@@ -33,7 +33,7 @@ export const useSessionStore = defineStore("session", {
 
 async function fetchNewSession(): Promise<UUID | null> {
   try {
-    const data = await useFetch("/api/session/", {
+    const data = await useFetch(`${process.env.baseURL}/api/session/`, {
       method: "GET",
     });
 
@@ -48,7 +48,7 @@ async function fetchNewSession(): Promise<UUID | null> {
 }
 
 async function fetchRefreshSession(sessionID: UUID): Promise<void> {
-  await useFetch(`/api/session/${sessionID as string}`, {
+  await useFetch(`${process.env.baseURL}/api/session/${sessionID as string}`, {
     method: "POST",
   });
 }
