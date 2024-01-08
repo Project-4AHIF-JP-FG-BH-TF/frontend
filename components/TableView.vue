@@ -3,8 +3,6 @@ import { useLogEntryStore } from "~/stores/logEntryStore";
 
 const entryStore = useLogEntryStore();
 
-const logs = ref(entryStore.getEntries);
-
 entryStore.loadEntries(0, 0);
 </script>
 
@@ -32,12 +30,11 @@ entryStore.loadEntries(0, 0);
       <!-- Liste an Log-Einträgen -->
       <div id="list">
         <div
-          v-for="log in logs"
+          v-for="log in entryStore.entries"
           :key="log.file_name + log.entry_nr.toString()"
           class="list-element"
         >
           <span class="list-data border-right flex-4">{{
-            // toFormattedDate(log.creation_date)
             log.creation_date.toLocaleString()
           }}</span>
           <div id="level-field" class="list-data border-right flex-3">

@@ -2,6 +2,7 @@ import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import { delay } from "unicorn-magic";
+import { useSessionStore } from "~/stores/sessionStore";
 
 export interface LogEntry {
   session_id: UUID;
@@ -26,9 +27,6 @@ export const useLogEntryStore = defineStore("logEntries", {
   state: (): State => ({
     entries: [],
   }),
-  getters: {
-    getEntries: (state): LogEntry[] => state.entries,
-  },
   actions: {
     addEntry(entry: LogEntry) {
       this.entries.push(entry);
@@ -42,17 +40,19 @@ export const useLogEntryStore = defineStore("logEntries", {
       this.entries = [];
     },
     async loadEntries(
-      _start: number,
-      _count: number,
+      start: number,
+      count: number,
       _desc: boolean = false,
       _filters: Filters = {},
     ) {
       await delay({ milliseconds: 1 });
       this.clearEntries();
 
-      // to bypass lint
-
       // TODO with backend
+      // TODO check if it works
+
+      const logs = await fetchLogEntries(start, count, []);
+
       const testEntries: LogEntry[] = [
         {
           session_id: generateUuid() as UUID,
@@ -152,8 +152,44 @@ export const useLogEntryStore = defineStore("logEntries", {
         },
       ];
 
+      if (logs !== null) {
+        this.addEntries(logs);
+      }
+
       this.addEntries(testEntries);
       this.addEntries(testEntries);
     },
   },
 });
+
+async function fetchLogEntries(
+  from: number,
+  count: number,
+  files: string[],
+): Promise<LogEntry[] | null> {
+  const sessionStore = useSessionStore();
+
+  try {
+    const data = await useFetch(
+      `${process.env.baseURL}/api/log/${sessionStore.sessionID}`,
+      {
+        method: "GET",
+        body: {
+          from,
+          count,
+          files,
+        },
+      },
+    );
+
+    return data.error.value == null
+      ? (data.data.value as { logs: LogEntry[] }).logs
+      : null;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log("Nuxt Error");
+    // eslint-disable-next-line no-console
+    console.log(error);
+    return null;
+  }
+}
