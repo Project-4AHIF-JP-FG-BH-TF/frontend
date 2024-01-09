@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
 
+const emit = defineEmits<{
+  (e: 'quick-filter', id: string, value: string): void
+}>()
+
 const entryStore = useLogEntryStore();
 
 callOnce(() => {
@@ -32,27 +36,27 @@ callOnce(() => {
       <!-- Liste an Log-Einträgen -->
       <div id="list">
         <div
-          v-for="log in entryStore.entries"
+          v-for="(log, index) in entryStore.entries"
           :key="log.file_name + log.entry_nr.toString()"
           class="list-element"
         >
           <span class="list-data border-right flex-4">{{
             log.creation_date.toLocaleString()
           }}</span>
-          <div id="level-field" class="list-data border-right flex-3">
+          <div id="level-field" class="list-data border-right flex-3" @click="emit('quick-filter', 'classification', log.classification)">
             <div v-if="log.classification == 'error'" class="log-type error">
               <span>!</span>
             </div>
             <div v-else class="log-type info"></div>
           </div>
-          <span class="list-data border-right flex-4">{{
+          <span class="list-data border-right flex-4" @click="emit('quick-filter', 'ip', log.service_ip)">{{
             log.service_ip
           }}</span>
           <span class="list-data border-right flex-3">{{ log.user_id }}</span>
-          <span class="list-data border-right flex-3">{{
+          <span class="list-data border-right flex-3" @click="emit('quick-filter', 'user_session_id', log.user_session_id)">{{
             log.user_session_id
           }}</span>
-          <span class="list-data text-overflow-ellipsis flex-10"
+          <span class="list-data text-overflow-ellipsis flex-10" @click="emit('quick-filter', 'text', log.content)"
             >{{ log.java_class }} {{ log.content }}</span
           >
         </div>
