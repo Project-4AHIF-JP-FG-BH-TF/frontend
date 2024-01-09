@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import TableView from "~/components/TableView.vue";
+import TableView, { type QuickFilter } from "~/components/TableView.vue";
+
+function handleQuickFilter(origin: QuickFilter, value: string) {
+  // eslint-disable-next-line no-console
+  console.log(`From Quickfilter: ${value}(${origin})`);
+}
 </script>
 
 <template>
@@ -20,7 +25,7 @@ import TableView from "~/components/TableView.vue";
     </aside>
 
     <div id="main-view">
-      <TableView> </TableView>
+      <TableView @quick-filter="handleQuickFilter"> </TableView>
     </div>
   </div>
 </template>
