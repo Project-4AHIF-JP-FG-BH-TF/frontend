@@ -3,19 +3,7 @@ import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import { delay } from "unicorn-magic";
 import { useSessionStore } from "~/stores/sessionStore";
-
-export interface LogEntry {
-  session_id: UUID;
-  file_name: string;
-  entry_nr: number;
-  creation_date: Date;
-  classification: "info" | "error";
-  service_ip: string;
-  user_id: string;
-  user_session_id: string;
-  java_class: string;
-  content: string;
-}
+import type { LogEntry } from "~/types/LogEntry";
 
 interface State {
   entries: LogEntry[];

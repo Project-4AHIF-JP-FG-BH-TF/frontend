@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { LogEntry } from "~/stores/logEntryStore";
+import type { LogEntry } from "~/types/LogEntry";
 
 defineProps<{
   log: LogEntry;
