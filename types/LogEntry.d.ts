@@ -12,3 +12,21 @@ export interface LogEntry {
   java_class: string;
   content: string;
 }
+
+export interface RangeDate {
+  from: Date | undefined;
+  to: Date | undefined;
+}
+
+export enum Classification {
+  info = "info",
+  error = "error",
+}
+
+export interface Filters {
+  date: RangeDate | undefined;
+  ip: string | undefined;
+  text: string | undefined;
+  regex: boolean | undefined;
+  classification: Classification | undefined;
+}

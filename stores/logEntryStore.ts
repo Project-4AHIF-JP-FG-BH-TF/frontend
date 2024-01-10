@@ -2,28 +2,10 @@ import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import { useSessionStore } from "~/stores/sessionStore";
-import type { LogEntry } from "~/types/LogEntry";
+import type { Filters, LogEntry } from "~/types/LogEntry";
 
 interface State {
   entries: LogEntry[];
-}
-
-export type RangeDate = {
-  from: Date | undefined;
-  to: Date | undefined;
-};
-
-export enum Classification {
-  info = "info",
-  error = "error",
-}
-
-export interface Filters {
-  date: RangeDate | undefined;
-  ip: string | undefined;
-  text: string | undefined;
-  regex: boolean | undefined;
-  classification: Classification | undefined;
 }
 
 export const useLogEntryStore = defineStore("logEntries", {

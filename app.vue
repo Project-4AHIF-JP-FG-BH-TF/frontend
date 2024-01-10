@@ -1,5 +1,6 @@
 <script setup>
 import { useSessionStore } from "~/stores/sessionStore.ts";
+
 const sessionStore = useSessionStore();
 
 await callOnce(async () => {
@@ -9,7 +10,8 @@ await callOnce(async () => {
 if (process.client) {
   setInterval(() => {
     sessionStore.refreshSession();
-  }, 1000);
+    // 1 minute
+  }, 1000 * 60);
 }
 </script>
 
