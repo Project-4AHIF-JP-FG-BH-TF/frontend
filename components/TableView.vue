@@ -41,11 +41,11 @@ callOnce(() => {
           }}</span>
           <div id="level-field" class="list-data border-right flex-2">
             <img
-              src="~/assets/error.svg"
               v-if="log.classification == 'error'"
+              src="~/assets/error.svg"
               alt="error"
             />
-            <img src="~/assets/info.svg" v-else alt="info" />
+            <img v-else src="~/assets/info.svg" alt="info" />
           </div>
           <span class="list-data border-right flex-4">{{
             log.service_ip
