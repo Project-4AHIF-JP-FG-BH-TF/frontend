@@ -31,33 +31,12 @@ callOnce(() => {
       </div>
       <!-- Liste an Log-Einträgen -->
       <div id="list">
-        <div
+        <LogEntryComponent
           v-for="log in entryStore.entries"
           :key="log.file_name + log.entry_nr.toString()"
-          class="list-element"
+          :log="log"
         >
-          <span class="list-data border-right flex-4">{{
-            log.creation_date.toLocaleString()
-          }}</span>
-          <div id="level-field" class="list-data border-right flex-2">
-            <img
-              v-if="log.classification == 'error'"
-              src="~/assets/error.svg"
-              alt="error"
-            />
-            <img v-else src="~/assets/info.svg" alt="info" />
-          </div>
-          <span class="list-data border-right flex-4">{{
-            log.service_ip
-          }}</span>
-          <span class="list-data border-right flex-3">{{ log.user_id }}</span>
-          <span class="list-data border-right flex-3">{{
-            log.user_session_id
-          }}</span>
-          <span class="list-data text-overflow-ellipsis flex-10"
-            >{{ log.java_class }} {{ log.content }}</span
-          >
-        </div>
+        </LogEntryComponent>
       </div>
     </div>
   </div>
@@ -127,39 +106,6 @@ callOnce(() => {
   #list {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-  }
-
-  .list-element {
-    width: 100%;
-    display: flex;
-  }
-
-  .list-data {
-    padding: 10px;
-    margin: 0 2px 2px;
-    text-align: center;
-  }
-
-  .log-type {
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
-  }
-
-  #level-field {
-    display: flex;
-    justify-content: center;
-
-    img {
-      width: 30px;
-    }
-  }
-
-  .text-overflow-ellipsis {
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .flex-2 {
