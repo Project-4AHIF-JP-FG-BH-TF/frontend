@@ -20,7 +20,7 @@ function onOpenCloseSettings() {
 <template>
   <div id="settings">
     <div id="settings-head">
-      <button class="pl-2" @click="onOpenCloseSettings">
+      <button id="open-close-button" @click="onOpenCloseSettings">
         <Icon :name="settingsButtonIcon" color="white" size="32px"/>
       </button>
       <span>{{ settingsButtonText }}</span>
@@ -40,7 +40,7 @@ function onOpenCloseSettings() {
         </div>
       </div>
       <div id="filter-settings-2" class="filter-settings">
-        <div id="date" class="flex justify-between gap-3" style="width: 50%">
+        <div id="date">
           <div id="from" class="labeled-input">
             <label>From:</label>
             <input type="datetime-local">
@@ -50,7 +50,7 @@ function onOpenCloseSettings() {
             <input type="datetime-local">
           </div>
         </div>
-        <div id="log-level" class="labeled-input" style="width: 50%">
+        <div id="log-level" class="labeled-input">
           <label>Log Level</label>
           <select>
             <option>Info</option>
@@ -82,6 +82,10 @@ function onOpenCloseSettings() {
       @apply flex items-center;
       height: 50px;
       width: 100%;
+
+      #open-close-button {
+        @apply pl-2;
+      }
     }
 
     #filter-settings-1 {
@@ -96,18 +100,16 @@ function onOpenCloseSettings() {
 
     #filter-settings-2 {
       #date {
+        @apply flex justify-between gap-3;
+        width: 50%;
+
         .labeled-input {
           @apply grow;
-          input {
-            &::-webkit-calendar-picker-indicator {
-              display: none;
-              -webkit-appearance: none;
-            }
-          }
         }
       }
 
       #log-level {
+        width: 50%;
       }
     }
 
