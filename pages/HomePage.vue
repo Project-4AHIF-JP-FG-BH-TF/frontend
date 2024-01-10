@@ -20,7 +20,7 @@ import TableView from "~/components/TableView.vue";
     </aside>
 
     <div id="main-view">
-      <TableView> </TableView>
+      <TableView></TableView>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ import TableView from "~/components/TableView.vue";
 #main {
   width: 100vw;
   height: 100vh;
-  background-color: #2e2e2e;
+  background-color: var(--base-background);
 
   #sidebar-left {
     display: flex;
@@ -42,7 +42,7 @@ import TableView from "~/components/TableView.vue";
     width: 240px;
     flex-direction: column;
     text-align: center;
-    background-color: #535353;
+    background-color: var(--highlighted-background);
     height: 100vh;
 
     justify-content: flex-start;
@@ -62,8 +62,8 @@ import TableView from "~/components/TableView.vue";
 }
 
 .button {
-  border: gray 2px solid;
-  background-color: gray;
+  border: var(--base-background) 2px solid;
+  background-color: var(--base-background);
   border-radius: 10px;
   width: 150px;
   margin: 15px;

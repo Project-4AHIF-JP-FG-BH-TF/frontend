@@ -76,7 +76,7 @@ callOnce(() => {
     margin-bottom: 20px;
     width: 90%;
     height: 8%;
-    background-color: #535353;
+    background-color: var(--highlighted-background);
     border-radius: 10px;
   }
 
@@ -84,7 +84,7 @@ callOnce(() => {
     margin-bottom: 20px;
     width: 90%;
     height: 90%;
-    background-color: #535353;
+    background-color: var(--highlighted-background);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -100,16 +100,16 @@ callOnce(() => {
   }
 
   .border-bottom-and-right {
-    border-right: #2e2e2e solid 2px;
-    border-bottom: #2e2e2e solid 2px;
+    border-right: var(--base-background) solid 2px;
+    border-bottom: var(--base-background) solid 2px;
   }
 
   .border-bottom {
-    border-bottom: #2e2e2e solid 2px;
+    border-bottom: var(--base-background) solid 2px;
   }
 
   .border-right {
-    border-right: #2e2e2e solid 2px;
+    border-right: var(--base-background) solid 2px;
   }
 
   #list {
