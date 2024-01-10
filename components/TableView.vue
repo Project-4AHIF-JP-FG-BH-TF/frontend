@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLogEntryStore } from "~/stores/logEntryStore";
+import {useLogEntryStore} from "~/stores/logEntryStore";
 
 const entryStore = useLogEntryStore();
 
@@ -10,35 +10,33 @@ callOnce(() => {
 
 <template>
   <div id="main">
-    <div id="settings">
-      <span>Settings-Placeholder</span>
-    </div>
+    <FilterSettings />
 
-    <div id="tableView">
+    <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
         <span class="headerElement border-bottom-and-right flex-4">Datum</span>
         <span class="headerElement border-bottom-and-right flex-3">Level</span>
         <span class="headerElement border-bottom-and-right flex-4"
-          >IP-Adresse</span
+        >IP-Adresse</span
         >
         <span class="headerElement border-bottom-and-right flex-3"
-          >Nutzer-ID</span
+        >Nutzer-ID</span
         >
         <span class="headerElement border-bottom-and-right flex-3"
-          >Sitzungs-ID</span
+        >Sitzungs-ID</span
         >
         <span class="headerElement border-bottom flex-10">Text</span>
       </div>
       <!-- Liste an Log-Einträgen -->
       <div id="list">
         <div
-          v-for="log in entryStore.entries"
-          :key="log.file_name + log.entry_nr.toString()"
-          class="list-element"
+            v-for="log in entryStore.entries"
+            :key="log.file_name + log.entry_nr.toString()"
+            class="list-element"
         >
           <span class="list-data border-right flex-4">{{
-            log.creation_date.toLocaleString()
-          }}</span>
+              log.creation_date.toLocaleString()
+            }}</span>
           <div id="level-field" class="list-data border-right flex-3">
             <div v-if="log.classification == 'error'" class="log-type error">
               <span>!</span>
@@ -46,14 +44,14 @@ callOnce(() => {
             <div v-else class="log-type info"></div>
           </div>
           <span class="list-data border-right flex-4">{{
-            log.service_ip
-          }}</span>
+              log.service_ip
+            }}</span>
           <span class="list-data border-right flex-3">{{ log.user_id }}</span>
           <span class="list-data border-right flex-3">{{
-            log.user_session_id
-          }}</span>
+              log.user_session_id
+            }}</span>
           <span class="list-data text-overflow-ellipsis flex-10"
-            >{{ log.java_class }} {{ log.content }}</span
+          >{{ log.java_class }} {{ log.content }}</span
           >
         </div>
       </div>
@@ -62,26 +60,15 @@ callOnce(() => {
 </template>
 
 <style scoped lang="scss">
-#main {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  #settings {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 90%;
-    height: 8%;
-    background-color: #535353;
-    border-radius: 10px;
-  }
+#main {
+  @apply w-[100] h-[100] flex flex-col items-center;
 
   #tableView {
-    margin-bottom: 20px;
     width: 90%;
-    height: 90%;
     background-color: #535353;
     border-radius: 10px;
     overflow: hidden;
