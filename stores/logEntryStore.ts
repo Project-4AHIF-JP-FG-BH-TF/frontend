@@ -1,7 +1,6 @@
 import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
-import { delay } from "unicorn-magic";
 import { useSessionStore } from "~/stores/sessionStore";
 import type { LogEntry } from "~/types/LogEntry";
 
@@ -9,7 +8,23 @@ interface State {
   entries: LogEntry[];
 }
 
-interface Filters {}
+export type RangeDate = {
+  from: Date | undefined;
+  to: Date | undefined;
+};
+
+export enum Classification {
+  info = "info",
+  error = "error",
+}
+
+export interface Filters {
+  date: RangeDate | undefined;
+  ip: string | undefined;
+  text: string | undefined;
+  regex: boolean | undefined;
+  classification: Classification | undefined;
+}
 
 export const useLogEntryStore = defineStore("logEntries", {
   state: (): State => ({
@@ -30,16 +45,27 @@ export const useLogEntryStore = defineStore("logEntries", {
     async loadEntries(
       start: number,
       count: number,
-      _desc: boolean = false,
-      _filters: Filters = {},
+      desc: string = "ASC",
+      filters: Filters = {
+        date: undefined,
+        ip: undefined,
+        text: undefined,
+        regex: undefined,
+        classification: undefined,
+      },
     ) {
-      await delay({ milliseconds: 1 });
       this.clearEntries();
 
       // TODO with backend
       // TODO check if it works
 
-      const logs = await fetchLogEntries(start, count, []);
+      const logs = await fetchLogEntries(
+        start,
+        count,
+        ["cock", "cock2"],
+        desc,
+        filters,
+      );
 
       const testEntries: LogEntry[] = [
         {
@@ -154,18 +180,24 @@ async function fetchLogEntries(
   from: number,
   count: number,
   files: string[],
+  order: string = "ASC",
+  filters: Filters,
 ): Promise<LogEntry[] | null> {
   const sessionStore = useSessionStore();
 
+  const runtimeConfig = useRuntimeConfig();
+
   try {
     const data = await useFetch(
-      `${process.env.baseURL}/api/log/${sessionStore.sessionID}`,
+      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}`,
       {
         method: "GET",
-        body: {
+        query: {
           from,
           count,
           files,
+          order,
+          filters,
         },
       },
     );

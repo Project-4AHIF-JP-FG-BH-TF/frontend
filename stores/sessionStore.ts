@@ -32,12 +32,19 @@ export const useSessionStore = defineStore("session", {
 });
 
 async function fetchNewSession(): Promise<UUID | null> {
-  try {
-    const data = await useFetch(`${process.env.baseURL}/api/session/`, {
-      method: "GET",
-    });
+  const runtimeConfig = useRuntimeConfig();
 
-    return data.error.value == null ? (data.data.value as UUID) : null;
+  try {
+    const data = await useFetch(
+      `${runtimeConfig.public.baseURL}/api/session/`,
+      {
+        method: "GET",
+      },
+    );
+
+    return data.error.value == null
+      ? (data.data.value as { uuid: UUID }).uuid
+      : null;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log("Nuxt Error");
@@ -48,7 +55,9 @@ async function fetchNewSession(): Promise<UUID | null> {
 }
 
 async function fetchRefreshSession(sessionID: UUID): Promise<void> {
-  await useFetch(`${process.env.baseURL}/api/session/${sessionID as string}`, {
+  const runtimeConfig = useRuntimeConfig();
+
+  await useFetch(`${runtimeConfig.public.baseURL}/api/session/${sessionID}`, {
     method: "POST",
   });
 }

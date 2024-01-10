@@ -4,8 +4,22 @@ import { useLogEntryStore } from "~/stores/logEntryStore";
 const entryStore = useLogEntryStore();
 
 callOnce(() => {
-  entryStore.loadEntries(0, 0);
+  entryStore.loadEntries(0, 1);
 });
+
+const desc = ref(true);
+
+const icon = ref("material-symbols:arrow-downward");
+
+function changeSortingDirection() {
+  desc.value = !desc.value;
+  entryStore.loadEntries(0, 1, desc ? "DESC" : "ASC");
+  if (desc.value) {
+    icon.value = "material-symbols:arrow-downward";
+  } else {
+    icon.value = "material-symbols:arrow-upward";
+  }
+}
 </script>
 
 <template>
@@ -16,7 +30,11 @@ callOnce(() => {
 
     <div id="tableView">
       <div id="tableHeader">
-        <span class="headerElement border-bottom-and-right flex-4">Datum</span>
+        <span class="headerElement border-bottom-and-right flex-4"
+          >Datum
+          <button id="sortButton" @click="changeSortingDirection">
+            <Icon :name="icon" class="icons"></Icon></button
+        ></span>
         <span class="headerElement border-bottom-and-right flex-2">Level</span>
         <span class="headerElement border-bottom-and-right flex-4"
           >IP-Adresse</span
@@ -35,8 +53,7 @@ callOnce(() => {
           v-for="log in entryStore.entries"
           :key="log.file_name + log.entry_nr.toString()"
           :log="log"
-        >
-        </LogEntryComponent>
+        ></LogEntryComponent>
       </div>
     </div>
   </div>
@@ -122,6 +139,15 @@ callOnce(() => {
 
   .flex-10 {
     flex: 10;
+  }
+
+  #sortButton {
+    float: right;
+  }
+
+  .icons {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>
