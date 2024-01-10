@@ -17,7 +17,7 @@ callOnce(() => {
     <div id="tableView">
       <div id="tableHeader">
         <span class="headerElement border-bottom-and-right flex-4">Datum</span>
-        <span class="headerElement border-bottom-and-right flex-3">Level</span>
+        <span class="headerElement border-bottom-and-right flex-2">Level</span>
         <span class="headerElement border-bottom-and-right flex-4"
           >IP-Adresse</span
         >
@@ -39,11 +39,13 @@ callOnce(() => {
           <span class="list-data border-right flex-4">{{
             log.creation_date.toLocaleString()
           }}</span>
-          <div id="level-field" class="list-data border-right flex-3">
-            <div v-if="log.classification == 'error'" class="log-type error">
-              <span>!</span>
-            </div>
-            <div v-else class="log-type info"></div>
+          <div id="level-field" class="list-data border-right flex-2">
+            <img
+              v-if="log.classification == 'error'"
+              src="~/assets/error.svg"
+              alt="error"
+            />
+            <img v-else src="~/assets/info.svg" alt="info" />
           </div>
           <span class="list-data border-right flex-4">{{
             log.service_ip
@@ -74,7 +76,7 @@ callOnce(() => {
     margin-bottom: 20px;
     width: 90%;
     height: 8%;
-    background-color: #535353;
+    background-color: var(--highlighted-background);
     border-radius: 10px;
   }
 
@@ -82,7 +84,7 @@ callOnce(() => {
     margin-bottom: 20px;
     width: 90%;
     height: 90%;
-    background-color: #535353;
+    background-color: var(--highlighted-background);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -98,16 +100,16 @@ callOnce(() => {
   }
 
   .border-bottom-and-right {
-    border-right: #2e2e2e solid 2px;
-    border-bottom: #2e2e2e solid 2px;
+    border-right: var(--base-background) solid 2px;
+    border-bottom: var(--base-background) solid 2px;
   }
 
   .border-bottom {
-    border-bottom: #2e2e2e solid 2px;
+    border-bottom: var(--base-background) solid 2px;
   }
 
   .border-right {
-    border-right: #2e2e2e solid 2px;
+    border-right: var(--base-background) solid 2px;
   }
 
   #list {
@@ -144,19 +146,13 @@ callOnce(() => {
     border-radius: 30px;
   }
 
-  .error {
-    background-color: red;
-    color: black;
-    font-weight: bold;
-  }
-
-  .info {
-    background-color: lightgray;
-  }
-
   #level-field {
     display: flex;
     justify-content: center;
+
+    img {
+      width: 30px;
+    }
   }
 
   .text-overflow-ellipsis {
@@ -164,6 +160,10 @@ callOnce(() => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .flex-2 {
+    flex: 2;
   }
 
   .flex-3 {

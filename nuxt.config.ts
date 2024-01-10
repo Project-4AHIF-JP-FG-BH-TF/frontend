@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL || "https://api.example.com/",
     },
   },
+  css: ["@/assets/style/color.scss"],
   pinia: {
     storesDirs: ["./stores/**"],
   },
