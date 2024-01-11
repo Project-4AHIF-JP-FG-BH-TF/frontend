@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import { useSessionStore } from "~/stores/sessionStore";
 import type { Filters, LogEntry } from "~/types/LogEntry";
-import {useOrderStore} from "~/stores/orderStore";
-import {useFilterStore} from "~/stores/filterStore";
+import { useOrderStore } from "~/stores/orderStore";
+import { useFilterStore } from "~/stores/filterStore";
 
 interface State {
   entries: LogEntry[];
@@ -154,8 +154,6 @@ export const useLogEntryStore = defineStore("logEntries", {
       this.addEntries(testEntries);
       this.addEntries(testEntries);
     },
-
-
   },
 });
 

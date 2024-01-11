@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import {Classification} from "~/types/LogEntry";
-import {useFilterStore} from "~/stores/filterStore";
+import { Classification } from "~/types/LogEntry";
+import { useFilterStore } from "~/stores/filterStore";
 
 interface Props {
   ipList: string[];
@@ -55,7 +55,10 @@ function updatedValue() {
   filterStore.setFilter({
     from: fromInput.value === null ? undefined : fromInput.value,
     to: toInput.value === null ? undefined : toInput.value,
-    classification: classificationInput.value === "" ? undefined : classificationInput.value as Classification,
+    classification:
+      classificationInput.value === ""
+        ? undefined
+        : (classificationInput.value as Classification),
     text: textInput.value === "" ? undefined : textInput.value,
     regex: regexInput.value,
     ip: ipInput.value === "" ? undefined : textInput.value,
@@ -142,7 +145,11 @@ function applyFilter() {
         </div>
         <div id="log-level" class="labeled-input">
           <label>Log Classification</label>
-          <select v-model="classificationInput" class="input" @change="updatedValue">
+          <select
+            v-model="classificationInput"
+            class="input"
+            @change="updatedValue"
+          >
             <option></option>
             <option value="info">Info</option>
             <option value="error">Error</option>

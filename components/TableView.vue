@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
-import {useOrderStore} from "~/stores/orderStore";
+import { useOrderStore } from "~/stores/orderStore";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
@@ -26,13 +26,13 @@ function changeSortingDirection() {
   } else {
     icon.value = "material-symbols:arrow-upward";
   }
-  orderStore.setOrder(desc.value ? "DESC" : "ASC")
+  orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
 </script>
 
 <template>
   <div id="main">
-    <FilterSettings :ip-list="ips"  />
+    <FilterSettings :ip-list="ips" />
 
     <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
