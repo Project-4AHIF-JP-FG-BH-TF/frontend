@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Classification } from "~/types/LogEntry";
+import type { Classification } from "~/types/LogEntry";
 import { useFilterStore } from "~/stores/filterStore";
 
 interface Props {
