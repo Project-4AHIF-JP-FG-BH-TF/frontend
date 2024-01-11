@@ -47,7 +47,7 @@ let applyId: NodeJS.Timeout;
 function filtersWereChanged() {
   console.log("changes");
   clearTimeout(applyId);
-  applyId = setTimeout(applyFilters, 1000)
+  applyId = setTimeout(applyFilters, 1500)
 }
 
 function resetFilters() {
