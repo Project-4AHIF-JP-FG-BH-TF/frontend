@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {useFilterStore} from "~/stores/filterStore";
+import { computed, ref } from "vue";
+import { useFilterStore } from "~/stores/filterStore";
 
 const ips = ref([] as string[]);
 
@@ -14,21 +14,17 @@ async function fetchIps() {
 
   try {
     const data = await useFetch(
-        `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}/ips`,
-        {
-          method: "GET",
-          query: [
-            files,
-            filters,
-          ]
-        }
+      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}/ips`,
+      {
+        method: "GET",
+        query: [files, filters],
+      },
     );
 
     if (data.error.value == null) {
       ips.value = data.data.value as string[];
     }
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 fetchIps();
@@ -39,8 +35,8 @@ const settingsOpened = ref(false);
 
 const settingsButtonIcon = computed(() => {
   return settingsOpened.value
-      ? "material-symbols:arrow-drop-up"
-      : "material-symbols:arrow-drop-down";
+    ? "material-symbols:arrow-drop-up"
+    : "material-symbols:arrow-drop-down";
 });
 
 const settingsButtonText = computed(() => {
@@ -82,9 +78,9 @@ function updatedValue() {
     from: fromInput.value === null ? undefined : fromInput.value,
     to: toInput.value === null ? undefined : toInput.value,
     classification:
-        classificationInput.value === ""
-            ? undefined
-            : (classificationInput.value as "info" | "error"),
+      classificationInput.value === ""
+        ? undefined
+        : (classificationInput.value as "info" | "error"),
     text: textInput.value === "" ? undefined : textInput.value,
     regex: regexInput.value,
     ip: ipInput.value === "" ? undefined : textInput.value,
@@ -106,7 +102,7 @@ function applyFilter() {
   <div id="settings">
     <div id="settings-head">
       <button id="open-close-button" @click="openCloseSettings">
-        <Icon :name="settingsButtonIcon" color="white" size="32px"/>
+        <Icon :name="settingsButtonIcon" color="white" size="32px" />
       </button>
       <span>{{ settingsButtonText }}</span>
     </div>
@@ -124,8 +120,8 @@ function applyFilter() {
           <div id="text-regex-selector">
             <div id="text-selector">
               <button
-                  :class="{ 'grayed-out': regexInput }"
-                  @click="setRegex(false)"
+                :class="{ 'grayed-out': regexInput }"
+                @click="setRegex(false)"
               >
                 Text
               </button>
@@ -133,18 +129,18 @@ function applyFilter() {
             <label id="separator">|</label>
             <div id="regex-selector">
               <button
-                  :class="{ 'grayed-out': !regexInput }"
-                  @click="setRegex(true)"
+                :class="{ 'grayed-out': !regexInput }"
+                @click="setRegex(true)"
               >
                 Regex
               </button>
             </div>
           </div>
           <input
-              v-model="textInput"
-              type="text"
-              class="input"
-              @input="updatedValue"
+            v-model="textInput"
+            type="text"
+            class="input"
+            @input="updatedValue"
           />
         </div>
       </div>
@@ -153,28 +149,28 @@ function applyFilter() {
           <div id="from" class="labeled-input">
             <label>From:</label>
             <input
-                v-model="fromInput"
-                type="datetime-local"
-                class="input"
-                @change="updatedValue"
+              v-model="fromInput"
+              type="datetime-local"
+              class="input"
+              @change="updatedValue"
             />
           </div>
           <div id="to" class="labeled-input">
             <label>To:</label>
             <input
-                v-model="toInput"
-                type="datetime-local"
-                class="input"
-                @change="updatedValue"
+              v-model="toInput"
+              type="datetime-local"
+              class="input"
+              @change="updatedValue"
             />
           </div>
         </div>
         <div id="log-level" class="labeled-input">
           <label>Log Classification</label>
           <select
-              v-model="classificationInput"
-              class="input"
-              @change="updatedValue"
+            v-model="classificationInput"
+            class="input"
+            @change="updatedValue"
           >
             <option></option>
             <option value="info">Info</option>
