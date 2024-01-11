@@ -1,30 +1,31 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import type {Filters} from "~/types/filters";
+import { computed, ref } from "vue";
+import type { Filters } from "~/types/filters";
 
 interface Props {
-  ipList: string[],
+  ipList: string[];
 }
 
 const props = defineProps<Props>();
 
 const emits = defineEmits<{
-  (e: "filters-changed", filters: Filters): void
-}>()
+  (e: "filters-changed", filters: Filters): void;
+}>();
 
 const settingsOpened = ref(false);
 
 const settingsButtonIcon = computed(() => {
-  return settingsOpened.value ? 'material-symbols:arrow-drop-up' : 'material-symbols:arrow-drop-down';
+  return settingsOpened.value
+    ? "material-symbols:arrow-drop-up"
+    : "material-symbols:arrow-drop-down";
 });
 
 const settingsButtonText = computed(() => {
-  return settingsOpened.value ? 'Close settings' : 'Open settings';
+  return settingsOpened.value ? "Close settings" : "Open settings";
 });
 
 function onOpenCloseSettings() {
   settingsOpened.value = !settingsOpened.value;
-  console.log(settingsOpened.value);
 }
 
 const ipInput = ref("");
@@ -39,15 +40,13 @@ let filters = {
 } as Filters;
 
 function applyFilters() {
-  console.log("applied");
   emits("filters-changed", filters);
 }
 
 let applyId: NodeJS.Timeout;
 function filtersWereChanged() {
-  console.log("changes");
   clearTimeout(applyId);
-  applyId = setTimeout(applyFilters, 1500)
+  applyId = setTimeout(applyFilters, 1500);
 }
 
 function resetFilters() {
@@ -99,45 +98,72 @@ function updateLevel() {
   <div id="settings">
     <div id="settings-head">
       <button id="open-close-button" @click="onOpenCloseSettings">
-        <Icon :name="settingsButtonIcon" color="white" size="32px"/>
+        <Icon :name="settingsButtonIcon" color="white" size="32px" />
       </button>
       <span>{{ settingsButtonText }}</span>
     </div>
-    <div id="settings-body" v-if="settingsOpened">
+    <div v-if="settingsOpened" id="settings-body">
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
           <label>Ip Address:</label>
-          <select class="input" v-model="ipInput" @change="updateIp">
-            <option v-for="ip of ['', ...props.ipList]">{{ ip }}</option>
+          <select v-model="ipInput" class="input" @change="updateIp">
+            <option v-for="ip of ['', ...props.ipList]" :key="ip">
+              {{ ip }}
+            </option>
           </select>
         </div>
         <div id="text-regex" class="labeled-input">
           <div id="text-regex-selector">
             <div id="text-selector">
-              <button :class="{'grayed-out': regexInput}" @click="setRegex(false)">Text</button>
+              <button
+                :class="{ 'grayed-out': regexInput }"
+                @click="setRegex(false)"
+              >
+                Text
+              </button>
             </div>
             <label id="separator">|</label>
             <div id="regex-selector">
-              <button :class="{'grayed-out': !regexInput}" @click="setRegex(true)">Regex</button>
+              <button
+                :class="{ 'grayed-out': !regexInput }"
+                @click="setRegex(true)"
+              >
+                Regex
+              </button>
             </div>
           </div>
-          <input type="text" class="input" v-model="textInput" @input="updateText">
+          <input
+            v-model="textInput"
+            type="text"
+            class="input"
+            @input="updateText"
+          />
         </div>
       </div>
       <div id="filter-settings-2" class="filter-settings">
         <div id="date">
           <div id="from" class="labeled-input">
             <label>From:</label>
-            <input type="datetime-local" class="input" v-model="fromInput" @change="updateFrom">
+            <input
+              v-model="fromInput"
+              type="datetime-local"
+              class="input"
+              @change="updateFrom"
+            />
           </div>
           <div id="to" class="labeled-input">
             <label>To:</label>
-            <input type="datetime-local" class="input" v-model="toInput" @change="updateTo">
+            <input
+              v-model="toInput"
+              type="datetime-local"
+              class="input"
+              @change="updateTo"
+            />
           </div>
         </div>
         <div id="log-level" class="labeled-input">
           <label>Log Level</label>
-          <select class="input" v-model="levelInput" @change="updateLevel">
+          <select v-model="levelInput" class="input" @change="updateLevel">
             <option></option>
             <option>Info</option>
             <option>Error</option>
@@ -245,7 +271,8 @@ function updateLevel() {
 .labeled-input {
   @apply flex flex-col items-center inline;
 
-  input, select {
+  input,
+  select {
     box-sizing: border-box;
     max-width: 100%;
     width: 100%;

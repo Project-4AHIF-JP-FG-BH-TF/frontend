@@ -1,13 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    devtools: {enabled: true},
-    modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "nuxt-icon"],
-    runtimeConfig: {
-        public: {
-            baseURL: process.env.BASE_URL || "https://api.example.com/",
-        },
+  devtools: { enabled: true },
+  modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "nuxt-icon"],
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL || "https://api.example.com/",
     },
-    pinia: {
-        storesDirs: ["./stores/**"],
-    },
+  },
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
 });
