@@ -9,11 +9,6 @@ callOnce(() => {
   entryStore.reloadEntries();
 });
 
-// TODO use backend
-const ips = computed(() => {
-  return [...new Set(entryStore.entries.map((value) => value.service_ip))];
-});
-
 const desc = ref(true);
 
 const icon = ref("material-symbols:arrow-downward");
@@ -32,7 +27,7 @@ function changeSortingDirection() {
 
 <template>
   <div id="main">
-    <FilterSettings :ip-list="ips" />
+    <FilterSettings />
 
     <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
