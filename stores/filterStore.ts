@@ -1,6 +1,6 @@
 import type { Filters } from "~/types/LogEntry";
 
-export interface FilterStoreState {
+interface FilterStoreState {
   ip: string | undefined;
   regex: boolean | undefined;
   text: string | undefined;

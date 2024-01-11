@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export interface OrderStoreState {
+interface OrderStoreState {
   order: "ASC" | "DESC";
 }
 

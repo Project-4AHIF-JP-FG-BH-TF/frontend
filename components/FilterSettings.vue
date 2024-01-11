@@ -170,7 +170,7 @@ function applyFilter() {
 #settings {
   @apply flex flex-col flex-none rounded-[8px] mt-3 mb-6;
   width: 90%;
-  background-color: #535353;
+  background-color: var(--highlighted-background);
 
   #settings-body {
     width: 100%;
@@ -242,11 +242,12 @@ function applyFilter() {
       width: 100%;
 
       #reset-button {
-        @apply rounded bg-red-500 text-white p-1;
+        @apply rounded text-white p-1;
+        background-color: var(--light-red);
         width: 100%;
 
         &:hover {
-          @apply bg-red-700;
+          background-color: var(--darken-red);
         }
       }
     }
@@ -273,11 +274,11 @@ function applyFilter() {
 .input {
   @apply rounded ps-[6px] pe-[6px] ms-[-6px] me-[-6px];
   height: 30px !important;
-  background: gray;
+  background: var(--base-background);
   appearance: none;
 
   &:focus {
-    outline: deepskyblue solid 2px !important;
+    outline: var(--highlight) solid 2px !important;
   }
 
   &::-webkit-calendar-picker-indicator {

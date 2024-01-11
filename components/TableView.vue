@@ -6,7 +6,7 @@ const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
 
 callOnce(() => {
-  entryStore.loadNextEntries();
+  entryStore.reloadEntries();
 });
 
 // TODO use backend
