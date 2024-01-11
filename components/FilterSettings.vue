@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import type { Filters } from "~/types/filters";
+import {Classification} from "~/types/LogEntry";
+import {useFilterStore} from "~/stores/filterStore";
 
 interface Props {
   ipList: string[];
@@ -8,9 +9,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const emits = defineEmits<{
-  (e: "filters-changed", filters: Filters): void;
-}>();
+const entryStore = useLogEntryStore();
 
 const settingsOpened = ref(false);
 
@@ -24,7 +23,7 @@ const settingsButtonText = computed(() => {
   return settingsOpened.value ? "Close settings" : "Open settings";
 });
 
-function onOpenCloseSettings() {
+function openCloseSettings() {
   settingsOpened.value = !settingsOpened.value;
 }
 
@@ -33,71 +32,51 @@ const regexInput = ref(false);
 const textInput = ref("");
 const fromInput = ref(null as Date | null);
 const toInput = ref(null as Date | null);
-const levelInput = ref("");
-
-let filters = {
-  regex: false,
-} as Filters;
-
-function applyFilters() {
-  emits("filters-changed", filters);
-}
+const classificationInput = ref("");
 
 let applyId: NodeJS.Timeout;
-function filtersWereChanged() {
-  clearTimeout(applyId);
-  applyId = setTimeout(applyFilters, 1500);
-}
-
 function resetFilters() {
-  filters = {
-    regex: false,
-  } as Filters;
   ipInput.value = "";
   regexInput.value = false;
   textInput.value = "";
   fromInput.value = null;
   toInput.value = null;
-  levelInput.value = "";
+  classificationInput.value = "";
   filtersWereChanged();
 }
 
 function setRegex(value: boolean) {
   regexInput.value = value;
-  filters.regex = value;
   filtersWereChanged();
 }
 
-function updateIp() {
-  filters.ip = ipInput.value === "" ? undefined : ipInput.value;
+const filterStore = useFilterStore();
+function updatedValue() {
+  filterStore.setFilter({
+    from: fromInput.value === null ? undefined : fromInput.value,
+    to: toInput.value === null ? undefined : toInput.value,
+    classification: classificationInput.value === "" ? undefined : classificationInput.value as Classification,
+    text: textInput.value === "" ? undefined : textInput.value,
+    regex: regexInput.value,
+    ip: ipInput.value === "" ? undefined : textInput.value,
+  });
   filtersWereChanged();
 }
 
-function updateText() {
-  filters.text = textInput.value === "" ? undefined : ipInput.value;
-  filtersWereChanged();
+function filtersWereChanged() {
+  clearTimeout(applyId);
+  applyId = setTimeout(applyFilter, 1500);
 }
 
-function updateFrom() {
-  filters.from = fromInput.value === null ? undefined : fromInput.value;
-  filtersWereChanged();
-}
-
-function updateTo() {
-  filters.to = toInput.value === null ? undefined : toInput.value;
-  filtersWereChanged();
-}
-
-function updateLevel() {
-  filters.level = levelInput.value === "" ? undefined : levelInput.value;
-  filtersWereChanged();
+function applyFilter() {
+  entryStore.reloadEntries();
 }
 </script>
 
 <template>
   <div id="settings">
     <div id="settings-head">
-      <button id="open-close-button" @click="onOpenCloseSettings">
+      <button id="open-close-button" @click="openCloseSettings">
         <Icon :name="settingsButtonIcon" color="white" size="32px" />
       </button>
       <span>{{ settingsButtonText }}</span>
@@ -106,7 +85,7 @@ function updateLevel() {
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
           <label>Ip Address:</label>
-          <select v-model="ipInput" class="input" @change="updateIp">
+          <select v-model="ipInput" class="input" @change="updatedValue">
             <option v-for="ip of ['', ...props.ipList]" :key="ip">
               {{ ip }}
             </option>
@@ -136,7 +115,7 @@ function updateLevel() {
             v-model="textInput"
             type="text"
             class="input"
-            @input="updateText"
+            @input="updatedValue"
           />
         </div>
       </div>
@@ -148,7 +127,7 @@ function updateLevel() {
               v-model="fromInput"
               type="datetime-local"
               class="input"
-              @change="updateFrom"
+              @change="updatedValue"
             />
           </div>
           <div id="to" class="labeled-input">
@@ -157,16 +136,16 @@ function updateLevel() {
               v-model="toInput"
               type="datetime-local"
               class="input"
-              @change="updateTo"
+              @change="updatedValue"
             />
           </div>
         </div>
         <div id="log-level" class="labeled-input">
-          <label>Log Level</label>
-          <select v-model="levelInput" class="input" @change="updateLevel">
+          <label>Log Classification</label>
+          <select v-model="classificationInput" class="input" @change="updatedValue">
             <option></option>
-            <option>Info</option>
-            <option>Error</option>
+            <option value="info">Info</option>
+            <option value="error">Error</option>
           </select>
         </div>
       </div>

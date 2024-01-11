@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
+import {useOrderStore} from "~/stores/orderStore";
 
 const entryStore = useLogEntryStore();
+const orderStore = useOrderStore();
 
 callOnce(() => {
-  entryStore.loadEntries(0, 1);
+  entryStore.loadNextEntries();
 });
 
 // TODO use backend
@@ -18,18 +20,19 @@ const icon = ref("material-symbols:arrow-downward");
 
 function changeSortingDirection() {
   desc.value = !desc.value;
-  entryStore.loadEntries(0, 1, desc ? "DESC" : "ASC");
+  entryStore.loadNextEntries();
   if (desc.value) {
     icon.value = "material-symbols:arrow-downward";
   } else {
     icon.value = "material-symbols:arrow-upward";
   }
+  orderStore.setOrder(desc.value ? "DESC" : "ASC")
 }
 </script>
 
 <template>
   <div id="main">
-    <FilterSettings :ip-list="ips" />
+    <FilterSettings :ip-list="ips"  />
 
     <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
