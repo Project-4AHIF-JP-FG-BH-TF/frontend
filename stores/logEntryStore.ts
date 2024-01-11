@@ -6,12 +6,12 @@ import type { Filters, LogEntry } from "~/types/LogEntry";
 import { useOrderStore } from "~/stores/orderStore";
 import { useFilterStore } from "~/stores/filterStore";
 
-interface State {
+interface EntryStoreState {
   entries: LogEntry[];
 }
 
 export const useLogEntryStore = defineStore("logEntries", {
-  state: (): State => ({
+  state: (): EntryStoreState => ({
     entries: [],
   }),
   actions: {

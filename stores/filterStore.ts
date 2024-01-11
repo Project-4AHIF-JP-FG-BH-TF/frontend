@@ -1,16 +1,16 @@
-import type { Classification, Filters } from "~/types/LogEntry";
+import type { Filters } from "~/types/LogEntry";
 
-export interface State {
+export interface FilterStoreState {
   ip: string | undefined;
   regex: boolean | undefined;
   text: string | undefined;
   from: Date | undefined;
   to: Date | undefined;
-  classification: Classification | undefined;
+  classification: "info" | "error" | undefined;
 }
 
 export const useFilterStore = defineStore("filter", {
-  state: (): State => ({}) as State,
+  state: (): FilterStoreState => ({}) as FilterStoreState,
   getters: {
     getFilter: (state): Filters => {
       return {
@@ -26,7 +26,7 @@ export const useFilterStore = defineStore("filter", {
     },
   },
   actions: {
-    setFilter(filter: State) {
+    setFilter(filter: FilterStoreState) {
       this.from = filter.from;
       this.to = filter.to;
       this.classification = filter.classification;

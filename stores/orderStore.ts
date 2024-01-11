@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 
-export interface State {
+export interface OrderStoreState {
   order: "ASC" | "DESC";
 }
 
 export const useOrderStore = defineStore("order", {
-  state: (): State => ({
+  state: (): OrderStoreState => ({
     order: "DESC",
   }),
   actions: {

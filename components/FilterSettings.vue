@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import type { Classification } from "~/types/LogEntry";
 import { useFilterStore } from "~/stores/filterStore";
 
 interface Props {
@@ -58,7 +57,7 @@ function updatedValue() {
     classification:
       classificationInput.value === ""
         ? undefined
-        : (classificationInput.value as Classification),
+        : (classificationInput.value as "info" | "error"),
     text: textInput.value === "" ? undefined : textInput.value,
     regex: regexInput.value,
     ip: ipInput.value === "" ? undefined : textInput.value,

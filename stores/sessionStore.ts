@@ -2,12 +2,12 @@ import type { UUID } from "node:crypto";
 
 import { defineStore } from "pinia";
 
-interface State {
+interface SessionStoreState {
   sessionID: UUID | null;
 }
 
 export const useSessionStore = defineStore("session", {
-  state: (): State => ({
+  state: (): SessionStoreState => ({
     sessionID: null,
   }),
   getters: {
