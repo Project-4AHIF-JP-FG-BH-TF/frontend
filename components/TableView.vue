@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import {useLogEntryStore} from "~/stores/logEntryStore";
+import {computed} from "vue";
 
 const entryStore = useLogEntryStore();
 
 callOnce(() => {
   entryStore.loadEntries(0, 0);
 });
+
+// TODO use backend
+const ips = computed(() => {
+  return [...new Set(entryStore.entries.map(value => value.service_ip))];
+})
 </script>
 
 <template>
   <div id="main">
-    <FilterSettings />
+    <FilterSettings :ip-list="ips"/>
 
     <div id="tableView" class="grow mb-5">
       <div id="tableHeader">

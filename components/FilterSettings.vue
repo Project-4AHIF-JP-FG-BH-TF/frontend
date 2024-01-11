@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
 
+interface Props {
+  ipList: string[],
+}
+
+const props = defineProps<Props>();
+
 const settingsOpened = ref(false);
 
 const settingsButtonIcon = computed(() => {
@@ -29,30 +35,32 @@ function onOpenCloseSettings() {
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
           <label>Ip Address:</label>
-          <input type="text">
+          <select class="input">
+            <option v-for="ip of props.ipList" :key="ip">{{ ip }}</option>
+          </select>
         </div>
         <div id="text-regex" class="labeled-input">
           <div>
             <label>Text</label>
             <label>Regex</label>
           </div>
-          <input type="text">
+          <input type="text" class="input">
         </div>
       </div>
       <div id="filter-settings-2" class="filter-settings">
         <div id="date">
           <div id="from" class="labeled-input">
             <label>From:</label>
-            <input type="datetime-local">
+            <input type="datetime-local" class="input">
           </div>
           <div id="to" class="labeled-input">
             <label>To:</label>
-            <input type="datetime-local">
+            <input type="datetime-local" class="input">
           </div>
         </div>
         <div id="log-level" class="labeled-input">
           <label>Log Level</label>
-          <select>
+          <select class="input">
             <option>Info</option>
             <option>Error</option>
           </select>
@@ -91,10 +99,20 @@ function onOpenCloseSettings() {
     #filter-settings-1 {
       #ip-address {
         @apply grow;
+        width: 50%;
+
+        .input {
+          @apply text-center;
+        }
       }
 
       #text-regex {
         @apply grow;
+        width: 50%;
+
+        .input {
+          @apply text-center;
+        }
       }
     }
 
@@ -110,6 +128,10 @@ function onOpenCloseSettings() {
 
       #log-level {
         width: 50%;
+
+        .input {
+          @apply text-center;
+        }
       }
     }
 
@@ -133,6 +155,8 @@ function onOpenCloseSettings() {
   @apply flex flex-col items-center inline;
 
   input, select {
+    box-sizing: border-box;
+    max-width: 100%;
     width: 100%;
     height: 25px;
   }
@@ -141,5 +165,20 @@ function onOpenCloseSettings() {
 .filter-settings {
   @apply flex gap-6 ps-6 pe-6 pb-4;
   width: 100%;
+}
+
+.input {
+  @apply rounded ps-[6px] pe-[6px] ms-[-6px] me-[-6px];
+  height: 30px !important;
+  background: gray;
+  appearance: none;
+
+  &:focus {
+    outline: deepskyblue solid 2px !important;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 }
 </style>
