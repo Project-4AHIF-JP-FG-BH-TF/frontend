@@ -21,6 +21,7 @@ export const useIpsStore = defineStore("ips", {
           {
             method: "GET",
             query: { files, filters },
+            server: false,
           },
         );
 
