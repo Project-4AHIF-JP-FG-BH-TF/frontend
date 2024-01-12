@@ -24,46 +24,23 @@ function openCloseSettings() {
   settingsOpened.value = !settingsOpened.value;
 }
 
-const ipInput = ref("");
 const regexInput = ref(false);
-const textInput = ref("");
-const fromInput = ref(null as Date | null);
-const toInput = ref(null as Date | null);
-const classificationInput = ref("");
 
 let applyId: NodeJS.Timeout;
 
 function resetFilters() {
-  ipInput.value = "";
-  regexInput.value = false;
-  textInput.value = "";
-  fromInput.value = null;
-  toInput.value = null;
-  classificationInput.value = "";
+  filterStore.clearFilter();
   filtersWereChanged();
 }
 
 function setRegex(value: boolean) {
-  regexInput.value = value;
-  filtersWereChanged();
+  if (filterStore.regex !== value) {
+    filterStore.regex = value;
+    filtersWereChanged();
+  }
 }
 
 const filterStore = useFilterStore();
-
-function updatedValue() {
-  filterStore.setFilter({
-    from: fromInput.value === null ? undefined : fromInput.value,
-    to: toInput.value === null ? undefined : toInput.value,
-    classification:
-      classificationInput.value === ""
-        ? undefined
-        : (classificationInput.value as "info" | "error"),
-    text: textInput.value === "" ? undefined : textInput.value,
-    regex: regexInput.value,
-    ip: ipInput.value === "" ? undefined : textInput.value,
-  });
-  filtersWereChanged();
-}
 
 function filtersWereChanged() {
   clearTimeout(applyId);
@@ -72,7 +49,7 @@ function filtersWereChanged() {
 
 function applyFilter() {
   entryStore.reloadEntries();
-  fetchIps();
+  ipsStore.reloadIps();
 }
 </script>
 
@@ -88,7 +65,11 @@ function applyFilter() {
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
           <label>Ip Address:</label>
-          <select v-model="ipInput" class="input" @change="updatedValue">
+          <select
+            v-model="filterStore.ip"
+            class="input"
+            @change="filtersWereChanged"
+          >
             <option v-for="ip of ['', ...ipsStore.ips]" :key="ip">
               {{ ip }}
             </option>
@@ -115,10 +96,10 @@ function applyFilter() {
             </div>
           </div>
           <input
-            v-model="textInput"
+            v-model="filterStore.text"
             type="text"
             class="input"
-            @input="updatedValue"
+            @input="filtersWereChanged"
           />
         </div>
       </div>
@@ -127,28 +108,28 @@ function applyFilter() {
           <div id="from" class="labeled-input">
             <label>From:</label>
             <input
-              v-model="fromInput"
+              v-model="filterStore.from"
               type="datetime-local"
               class="input"
-              @change="updatedValue"
+              @change="filtersWereChanged"
             />
           </div>
           <div id="to" class="labeled-input">
             <label>To:</label>
             <input
-              v-model="toInput"
+              v-model="filterStore.to"
               type="datetime-local"
               class="input"
-              @change="updatedValue"
+              @change="filtersWereChanged"
             />
           </div>
         </div>
         <div id="log-level" class="labeled-input">
           <label>Log Classification</label>
           <select
-            v-model="classificationInput"
+            v-model="filterStore.classification"
             class="input"
-            @change="updatedValue"
+            @change="filtersWereChanged"
           >
             <option></option>
             <option value="info">Info</option>

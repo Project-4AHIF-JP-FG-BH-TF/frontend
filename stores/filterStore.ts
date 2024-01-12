@@ -1,12 +1,12 @@
 import type { Filters } from "~/types/LogEntry";
 
 interface FilterStoreState {
-  ip: string | undefined;
-  regex: boolean | undefined;
-  text: string | undefined;
-  from: Date | undefined;
-  to: Date | undefined;
-  classification: "info" | "error" | undefined;
+  ip: string;
+  regex: boolean;
+  text: string;
+  from: Date | null;
+  to: Date | null;
+  classification: "info" | "error" | "";
 }
 
 export interface QuickFilterData {
@@ -21,24 +21,25 @@ export const useFilterStore = defineStore("filter", {
     getFilter: (state): Filters => {
       return {
         date: {
-          from: state.from,
-          to: state.to,
+          from: state.from === null ? undefined : state.from,
+          to: state.to === null ? undefined : state.to,
         },
-        classification: state.classification,
-        text: state.text,
+        classification:
+          state.classification === "" ? undefined : state.classification,
+        text: state.text === "" ? undefined : state.text,
         regex: state.regex,
-        ip: state.ip,
+        ip: state.ip === "" ? undefined : state.ip,
       };
     },
   },
   actions: {
-    setFilter(filter: FilterStoreState) {
-      this.from = filter.from;
-      this.to = filter.to;
-      this.classification = filter.classification;
-      this.text = filter.text;
-      this.regex = filter.regex;
-      this.ip = filter.ip;
+    clearFilter() {
+      this.from = null;
+      this.to = null;
+      this.classification = "";
+      this.text = "";
+      this.regex = false;
+      this.ip = "";
     },
     applyQuickFilter(quickFilter: QuickFilterData) {
       if (quickFilter.ip) {
