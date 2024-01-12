@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "nuxt-icon", "@vueuse/nuxt"],
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || "http://localhost:3001",
+      baseURL: "http://localhost:3001",
     },
   },
   css: ["@/assets/style/color.scss"],
