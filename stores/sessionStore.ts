@@ -39,6 +39,7 @@ async function fetchNewSession(): Promise<UUID | null> {
       `${runtimeConfig.public.baseURL}/api/session/`,
       {
         method: "GET",
+        server: false,
       },
     );
 
@@ -59,5 +60,6 @@ async function fetchRefreshSession(sessionID: UUID): Promise<void> {
 
   await useFetch(`${runtimeConfig.public.baseURL}/api/session/${sessionID}`, {
     method: "POST",
+    server: false,
   });
 }
