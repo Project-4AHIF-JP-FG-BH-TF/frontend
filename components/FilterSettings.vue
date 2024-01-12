@@ -18,6 +18,7 @@ async function fetchIps() {
       {
         method: "GET",
         query: { files, filters },
+        server: false,
       },
     );
 

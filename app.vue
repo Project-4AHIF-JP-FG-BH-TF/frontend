@@ -3,11 +3,9 @@ import { useSessionStore } from "~/stores/sessionStore.ts";
 
 const sessionStore = useSessionStore();
 
-await callOnce(async () => {
-  await sessionStore.requestSession();
-});
-
 if (process.client) {
+  await sessionStore.requestSession();
+
   setInterval(() => {
     sessionStore.refreshSession();
     // 1 minute

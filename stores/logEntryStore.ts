@@ -180,6 +180,7 @@ async function fetchLogEntries(
           order,
           filters,
         },
+        server: false,
       },
     );
 
