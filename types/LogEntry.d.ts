@@ -18,15 +18,10 @@ export interface RangeDate {
   to: Date | undefined;
 }
 
-export enum Classification {
-  info = "info",
-  error = "error",
-}
-
 export interface Filters {
   date: RangeDate | undefined;
   ip: string | undefined;
   text: string | undefined;
   regex: boolean | undefined;
-  classification: Classification | undefined;
+  classification: "info" | "error" | undefined;
 }

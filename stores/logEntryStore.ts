@@ -3,13 +3,15 @@ import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import { useSessionStore } from "~/stores/sessionStore";
 import type { Filters, LogEntry } from "~/types/LogEntry";
+import { useOrderStore } from "~/stores/orderStore";
+import { useFilterStore } from "~/stores/filterStore";
 
-interface State {
+interface EntryStoreState {
   entries: LogEntry[];
 }
 
 export const useLogEntryStore = defineStore("logEntries", {
-  state: (): State => ({
+  state: (): EntryStoreState => ({
     entries: [],
   }),
   actions: {
@@ -24,29 +26,26 @@ export const useLogEntryStore = defineStore("logEntries", {
     clearEntries() {
       this.entries = [];
     },
-    async loadEntries(
-      start: number,
-      count: number,
-      desc: string = "ASC",
-      filters: Filters = {
-        date: undefined,
-        ip: undefined,
-        text: undefined,
-        regex: undefined,
-        classification: undefined,
-      },
-    ) {
+    async reloadEntries() {
       this.clearEntries();
+      await this.fetchWithParameters(0);
+    },
+    async loadNextEntries() {
+      await this.fetchWithParameters(this.entries.length);
+    },
+    async fetchWithParameters(from: number) {
+      const orderStore = useOrderStore();
+      const filterStore = useFilterStore();
 
       // TODO with backend
       // TODO check if it works
 
       const logs = await fetchLogEntries(
-        start,
-        count,
+        from,
+        50,
         ["cock", "cock2"],
-        desc,
-        filters,
+        orderStore.order,
+        filterStore.getFilter,
       );
 
       const testEntries: LogEntry[] = [

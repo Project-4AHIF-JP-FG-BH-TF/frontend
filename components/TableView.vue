@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
+import { useOrderStore } from "~/stores/orderStore";
 
 const entryStore = useLogEntryStore();
+const orderStore = useOrderStore();
 
 callOnce(() => {
-  entryStore.loadEntries(0, 1);
+  entryStore.reloadEntries();
 });
 
 const desc = ref(true);
@@ -13,22 +15,21 @@ const icon = ref("material-symbols:arrow-downward");
 
 function changeSortingDirection() {
   desc.value = !desc.value;
-  entryStore.loadEntries(0, 1, desc ? "DESC" : "ASC");
+  entryStore.loadNextEntries();
   if (desc.value) {
     icon.value = "material-symbols:arrow-downward";
   } else {
     icon.value = "material-symbols:arrow-upward";
   }
+  orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
 </script>
 
 <template>
   <div id="main">
-    <div id="settings">
-      <span>Settings-Placeholder</span>
-    </div>
+    <FilterSettings />
 
-    <div id="tableView">
+    <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
         <span class="headerElement border-bottom-and-right flex-4"
           >Datum
@@ -60,26 +61,15 @@ function changeSortingDirection() {
 </template>
 
 <style scoped lang="scss">
-#main {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  #settings {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 90%;
-    height: 8%;
-    background-color: var(--highlighted-background);
-    border-radius: 10px;
-  }
+#main {
+  @apply w-[100] h-[100] flex flex-col items-center;
 
   #tableView {
-    margin-bottom: 20px;
     width: 90%;
-    height: 90%;
     background-color: var(--highlighted-background);
     border-radius: 10px;
     overflow: hidden;
