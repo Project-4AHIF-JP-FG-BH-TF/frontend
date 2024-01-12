@@ -1,33 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useFilterStore } from "~/stores/filterStore";
+import { useIpsStore } from "~/stores/ipsStore";
 
-const ips = ref([] as string[]);
-
-async function fetchIps() {
-  const runtimeConfig = useRuntimeConfig();
-  const sessionStore = useSessionStore();
-  const filterStore = useFilterStore();
-
-  const files = ["cock", "cock2"];
-  const filters = filterStore.getFilter;
-
-  try {
-    const data = await useFetch(
-      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}/ips`,
-      {
-        method: "GET",
-        query: { files, filters },
-      },
-    );
-
-    if (data.error.value == null) {
-      ips.value = (data.data.value as { ips: string[] }).ips;
-    }
-  } catch (e) {}
-}
-
-fetchIps();
+const ipsStore = useIpsStore();
+ipsStore.reloadIps();
 
 const entryStore = useLogEntryStore();
 
@@ -112,7 +89,7 @@ function applyFilter() {
         <div id="ip-address" class="labeled-input">
           <label>Ip Address:</label>
           <select v-model="ipInput" class="input" @change="updatedValue">
-            <option v-for="ip of ['', ...ips]" :key="ip">
+            <option v-for="ip of ['', ...ipsStore.ips]" :key="ip">
               {{ ip }}
             </option>
           </select>

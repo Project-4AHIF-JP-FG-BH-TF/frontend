@@ -9,6 +9,12 @@ interface FilterStoreState {
   classification: "info" | "error" | undefined;
 }
 
+export interface QuickFilterData {
+  classification: "info" | "error" | undefined;
+  ip: string | undefined;
+  text: string | undefined;
+}
+
 export const useFilterStore = defineStore("filter", {
   state: (): FilterStoreState => ({}) as FilterStoreState,
   getters: {
@@ -33,6 +39,18 @@ export const useFilterStore = defineStore("filter", {
       this.text = filter.text;
       this.regex = filter.regex;
       this.ip = filter.ip;
+    },
+    applyQuickFilter(quickFilter: QuickFilterData) {
+      if (quickFilter.ip) {
+        this.ip = quickFilter.ip;
+      }
+      if (quickFilter.text) {
+        this.regex = false;
+        this.text = quickFilter.text;
+      }
+      if (quickFilter.classification) {
+        this.classification = quickFilter.classification;
+      }
     },
   },
 });

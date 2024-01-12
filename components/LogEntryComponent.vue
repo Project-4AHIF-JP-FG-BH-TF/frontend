@@ -1,9 +1,37 @@
 <script setup lang="ts">
 import type { LogEntry } from "~/types/LogEntry";
+import { type QuickFilterData, useFilterStore } from "~/stores/filterStore";
+import { useIpsStore } from "~/stores/ipsStore";
 
-defineProps<{
+const props = defineProps<{
   log: LogEntry;
 }>();
+
+const filterStore = useFilterStore();
+const entryStore = useLogEntryStore();
+const ipsStore = useIpsStore();
+
+function clickedClassification() {
+  filterStore.applyQuickFilter({
+    classification: props.log.classification,
+  } as QuickFilterData);
+  refetch();
+}
+
+function clickedIp() {
+  filterStore.applyQuickFilter({ ip: props.log.service_ip } as QuickFilterData);
+  refetch();
+}
+
+function clickedText() {
+  filterStore.applyQuickFilter({ text: props.log.content } as QuickFilterData);
+  refetch();
+}
+
+function refetch() {
+  entryStore.reloadEntries();
+  ipsStore.reloadIps();
+}
 </script>
 
 <template>
@@ -12,19 +40,23 @@ defineProps<{
       log.creation_date.toLocaleString()
     }}</span>
     <div id="level-field" class="list-data border-right flex-2">
-      <img
-        v-if="log.classification == 'error'"
-        src="~/assets/error.svg"
-        alt="error"
-      />
-      <img v-else src="~/assets/info.svg" alt="info" />
+      <button @click="clickedClassification">
+        <img
+          v-if="log.classification == 'error'"
+          src="~/assets/error.svg"
+          alt="error"
+        />
+        <img v-else src="~/assets/info.svg" alt="info" />
+      </button>
     </div>
-    <span class="list-data border-right flex-4">{{ log.service_ip }}</span>
+    <span class="list-data border-right flex-4"
+      ><button @click="clickedIp">{{ log.service_ip }}</button></span
+    >
     <span class="list-data border-right flex-3">{{ log.user_id }}</span>
     <span class="list-data border-right flex-3">{{ log.user_session_id }}</span>
-    <span class="list-data text-overflow-ellipsis flex-10"
-      >{{ log.java_class }} {{ log.content }}</span
-    >
+    <span class="list-data text-overflow-ellipsis flex-10">
+      <button @click="clickedText">{{ log.content }}</button>
+    </span>
   </div>
 </template>
 
