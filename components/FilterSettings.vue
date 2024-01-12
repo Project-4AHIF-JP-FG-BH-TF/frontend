@@ -24,8 +24,6 @@ function openCloseSettings() {
   settingsOpened.value = !settingsOpened.value;
 }
 
-const regexInput = ref(false);
-
 let applyId: NodeJS.Timeout;
 
 function resetFilters() {
@@ -79,7 +77,7 @@ function applyFilter() {
           <div id="text-regex-selector">
             <div id="text-selector">
               <button
-                :class="{ 'grayed-out': regexInput }"
+                :class="{ 'grayed-out': filterStore.regex }"
                 @click="setRegex(false)"
               >
                 Text
@@ -88,7 +86,7 @@ function applyFilter() {
             <label id="separator">|</label>
             <div id="regex-selector">
               <button
-                :class="{ 'grayed-out': !regexInput }"
+                :class="{ 'grayed-out': !filterStore.regex }"
                 @click="setRegex(true)"
               >
                 Regex
