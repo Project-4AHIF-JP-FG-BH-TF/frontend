@@ -35,17 +35,14 @@ async function fetchNewSession(): Promise<UUID | null> {
   const runtimeConfig = useRuntimeConfig();
 
   try {
-    const data = await useFetch(
+    const data = await $fetch<{ uuid: UUID }>(
       `${runtimeConfig.public.baseURL}/api/session/`,
       {
         method: "GET",
-        server: false,
       },
     );
 
-    return data.error.value == null
-      ? (data.data.value as { uuid: UUID }).uuid
-      : null;
+    return data.uuid;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log("Nuxt Error");
@@ -58,8 +55,10 @@ async function fetchNewSession(): Promise<UUID | null> {
 async function fetchRefreshSession(sessionID: UUID): Promise<void> {
   const runtimeConfig = useRuntimeConfig();
 
-  await useFetch(`${runtimeConfig.public.baseURL}/api/session/${sessionID}`, {
-    method: "POST",
-    server: false,
-  });
+  await $fetch<{ uuid: UUID }>(
+    `${runtimeConfig.public.baseURL}/api/session/${sessionID}`,
+    {
+      method: "POST",
+    },
+  );
 }

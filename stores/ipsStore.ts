@@ -16,18 +16,15 @@ export const useIpsStore = defineStore("ips", {
       const filters = filterStore.getFilter;
 
       try {
-        const data = await useFetch(
+        const data = await $fetch<{ ips: string[] }>(
           `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}/ips`,
           {
             method: "GET",
             query: { files, filters },
-            server: false,
           },
         );
 
-        if (data.error.value == null) {
-          this.ips = (data.data.value as { ips: string[] }).ips;
-        }
+        this.ips = data.ips;
       } catch (e) {}
     },
   },
