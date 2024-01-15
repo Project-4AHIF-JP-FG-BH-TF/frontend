@@ -169,7 +169,7 @@ async function fetchLogEntries(
   const runtimeConfig = useRuntimeConfig();
 
   try {
-    const data = await useFetch(
+    const data = await $fetch<{ logs: LogEntry[] }>(
       `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}`,
       {
         method: "GET",
@@ -180,16 +180,11 @@ async function fetchLogEntries(
           order,
           filters,
         },
-        server: false,
       },
     );
 
-    return data.error.value == null
-      ? (data.data.value as { logs: LogEntry[] }).logs
-      : null;
+    return data.logs;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log("Nuxt Error");
     // eslint-disable-next-line no-console
     console.log(error);
     return null;

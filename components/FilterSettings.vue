@@ -4,7 +4,9 @@ import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 
 const ipsStore = useIpsStore();
-ipsStore.reloadIps();
+if (process.client) {
+  ipsStore.reloadIps();
+}
 
 const entryStore = useLogEntryStore();
 
