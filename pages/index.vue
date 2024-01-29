@@ -1,8 +1,8 @@
 <template>
   <div>
-    <HomePage></HomePage>
+    <LogEntry></LogEntry>
   </div>
 </template>
 <script setup lang="ts">
-import HomePage from "~/pages/HomePage.vue";
+import LogEntry from "~/pages/LogEntry.vue";
 </script>
