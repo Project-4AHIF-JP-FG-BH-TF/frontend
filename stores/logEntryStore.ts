@@ -1,30 +1,17 @@
 import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
-import { delay } from "unicorn-magic";
 import { useSessionStore } from "~/stores/sessionStore";
+import type { Filters, LogEntry } from "~/types/LogEntry";
+import { useOrderStore } from "~/stores/orderStore";
+import { useFilterStore } from "~/stores/filterStore";
 
-export interface LogEntry {
-  session_id: UUID;
-  file_name: string;
-  entry_nr: number;
-  creation_date: Date;
-  classification: "info" | "error";
-  service_ip: string;
-  user_id: string;
-  user_session_id: string;
-  java_class: string;
-  content: string;
-}
-
-interface State {
+interface EntryStoreState {
   entries: LogEntry[];
 }
 
-interface Filters {}
-
 export const useLogEntryStore = defineStore("logEntries", {
-  state: (): State => ({
+  state: (): EntryStoreState => ({
     entries: [],
   }),
   actions: {
@@ -39,19 +26,27 @@ export const useLogEntryStore = defineStore("logEntries", {
     clearEntries() {
       this.entries = [];
     },
-    async loadEntries(
-      start: number,
-      count: number,
-      _desc: boolean = false,
-      _filters: Filters = {},
-    ) {
-      await delay({ milliseconds: 1 });
+    async reloadEntries() {
       this.clearEntries();
+      await this.fetchWithParameters(0);
+    },
+    async loadNextEntries() {
+      await this.fetchWithParameters(this.entries.length);
+    },
+    async fetchWithParameters(from: number) {
+      const orderStore = useOrderStore();
+      const filterStore = useFilterStore();
 
       // TODO with backend
       // TODO check if it works
 
-      const logs = await fetchLogEntries(start, count, []);
+      const logs = await fetchLogEntries(
+        from,
+        50,
+        ["cock", "cock2"],
+        orderStore.order,
+        filterStore.getFilter,
+      );
 
       const testEntries: LogEntry[] = [
         {
@@ -166,28 +161,30 @@ async function fetchLogEntries(
   from: number,
   count: number,
   files: string[],
+  order: string = "ASC",
+  filters: Filters,
 ): Promise<LogEntry[] | null> {
   const sessionStore = useSessionStore();
 
+  const runtimeConfig = useRuntimeConfig();
+
   try {
-    const data = await useFetch(
-      `${process.env.baseURL}/api/log/${sessionStore.sessionID}`,
+    const data = await $fetch<{ logs: LogEntry[] }>(
+      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}`,
       {
         method: "GET",
-        body: {
+        query: {
           from,
           count,
           files,
+          order,
+          filters,
         },
       },
     );
 
-    return data.error.value == null
-      ? (data.data.value as { logs: LogEntry[] }).logs
-      : null;
+    return data.logs;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log("Nuxt Error");
     // eslint-disable-next-line no-console
     console.log(error);
     return null;

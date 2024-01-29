@@ -1,22 +1,41 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
+import { useOrderStore } from "~/stores/orderStore";
 
 const entryStore = useLogEntryStore();
+const orderStore = useOrderStore();
 
-callOnce(() => {
-  entryStore.loadEntries(0, 0);
-});
+if (process.client) {
+  entryStore.reloadEntries();
+}
+
+const desc = ref(true);
+
+const icon = ref("material-symbols:arrow-downward");
+
+function changeSortingDirection() {
+  desc.value = !desc.value;
+  entryStore.loadNextEntries();
+  if (desc.value) {
+    icon.value = "material-symbols:arrow-downward";
+  } else {
+    icon.value = "material-symbols:arrow-upward";
+  }
+  orderStore.setOrder(desc.value ? "DESC" : "ASC");
+}
 </script>
 
 <template>
   <div id="main">
-    <div id="settings">
-      <span>Settings-Placeholder</span>
-    </div>
+    <FilterSettings />
 
-    <div id="tableView">
+    <div id="tableView" class="grow mb-5">
       <div id="tableHeader">
-        <span class="headerElement border-bottom-and-right flex-4">Datum</span>
+        <span class="headerElement border-bottom-and-right flex-4"
+          >Datum
+          <button id="sortButton" @click="changeSortingDirection">
+            <Icon :name="icon" class="icons"></Icon></button
+        ></span>
         <span class="headerElement border-bottom-and-right flex-2">Level</span>
         <span class="headerElement border-bottom-and-right flex-4"
           >IP-Adresse</span
@@ -31,59 +50,26 @@ callOnce(() => {
       </div>
       <!-- Liste an Log-Einträgen -->
       <div id="list">
-        <div
+        <LogEntryComponent
           v-for="log in entryStore.entries"
           :key="log.file_name + log.entry_nr.toString()"
-          class="list-element"
-        >
-          <span class="list-data border-right flex-4">{{
-            log.creation_date.toLocaleString()
-          }}</span>
-          <div id="level-field" class="list-data border-right flex-2">
-            <img
-              v-if="log.classification == 'error'"
-              src="~/assets/error.svg"
-              alt="error"
-            />
-            <img v-else src="~/assets/info.svg" alt="info" />
-          </div>
-          <span class="list-data border-right flex-4">{{
-            log.service_ip
-          }}</span>
-          <span class="list-data border-right flex-3">{{ log.user_id }}</span>
-          <span class="list-data border-right flex-3">{{
-            log.user_session_id
-          }}</span>
-          <span class="list-data text-overflow-ellipsis flex-10"
-            >{{ log.java_class }} {{ log.content }}</span
-          >
-        </div>
+          :log="log"
+        ></LogEntryComponent>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-#main {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  #settings {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 90%;
-    height: 8%;
-    background-color: var(--highlighted-background);
-    border-radius: 10px;
-  }
+#main {
+  @apply w-[100] h-[100] flex flex-col items-center;
 
   #tableView {
-    margin-bottom: 20px;
     width: 90%;
-    height: 90%;
     background-color: var(--highlighted-background);
     border-radius: 10px;
     overflow: hidden;
@@ -129,39 +115,6 @@ callOnce(() => {
     scrollbar-width: none; /* Firefox */
   }
 
-  .list-element {
-    width: 100%;
-    display: flex;
-  }
-
-  .list-data {
-    padding: 10px;
-    margin: 0 2px 2px;
-    text-align: center;
-  }
-
-  .log-type {
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
-  }
-
-  #level-field {
-    display: flex;
-    justify-content: center;
-
-    img {
-      width: 30px;
-    }
-  }
-
-  .text-overflow-ellipsis {
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
   .flex-2 {
     flex: 2;
   }
@@ -176,6 +129,15 @@ callOnce(() => {
 
   .flex-10 {
     flex: 10;
+  }
+
+  #sortButton {
+    float: right;
+  }
+
+  .icons {
+    width: 30px;
+    height: 30px;
   }
 }
 </style>
