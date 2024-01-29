@@ -11,9 +11,9 @@
     "postinstall": "nuxt prepare",
     "start": "nuxt start",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
-    "lint:prettier": "prettier --check .",
+    "lint:prettier": "prettier --check \"**/*.{vue,ts,scss}\"",
     "lint": "pnpm lint:js && pnpm lint:prettier",
-    "lintfix": "prettier --write --list-different . && pnpm lint:js --fix"
+    "lintfix": "prettier --write --list-different \"**/*.{vue,ts,scss}\" && pnpm lint:js --fix"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
