@@ -27,7 +27,12 @@
 #base {
   width: 100vw;
   height: 100vh;
-  background-color: var(--base-background);
+
+  display: flex;
+
+  main {
+    flex: 1;
+  }
 
   #sidebar-left {
     display: flex;

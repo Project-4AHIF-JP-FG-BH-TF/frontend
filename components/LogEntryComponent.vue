@@ -106,20 +106,4 @@ function refetch() {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.flex-2 {
-  flex: 2;
-}
-
-.flex-3 {
-  flex: 3;
-}
-
-.flex-4 {
-  flex: 4;
-}
-
-.flex-10 {
-  flex: 10;
-}
 </style>

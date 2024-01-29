@@ -3,16 +3,21 @@ import TableView from "~/components/TableView.vue";
 </script>
 
 <template>
-  <div id="main-view">
-    <TableView></TableView>
+  <div id="main">
+    <FilterSettings />
+    <TableView />
   </div>
 </template>
 
 <style scoped lang="scss">
-#main-view {
+#main {
+  width: 100%;
+  height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+
+  flex-direction: column;
 }
 </style>
