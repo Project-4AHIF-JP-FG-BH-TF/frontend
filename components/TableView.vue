@@ -5,9 +5,9 @@ import { useOrderStore } from "~/stores/orderStore";
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
 
-if (process.client) {
+onMounted(() => {
   entryStore.reloadEntries();
-}
+});
 
 const desc = ref(true);
 

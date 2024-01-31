@@ -3,14 +3,14 @@ import { useSessionStore } from "~/stores/sessionStore.ts";
 
 const sessionStore = useSessionStore();
 
-if (process.client) {
+onMounted(async () => {
   await sessionStore.requestSession();
 
   setInterval(() => {
     sessionStore.refreshSession();
     // 1 minute
   }, 1000 * 60);
-}
+});
 </script>
 
 <template>

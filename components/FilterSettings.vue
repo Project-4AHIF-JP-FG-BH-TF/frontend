@@ -4,9 +4,10 @@ import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 
 const ipsStore = useIpsStore();
-if (process.client) {
+
+onMounted(() => {
   ipsStore.reloadIps();
-}
+});
 
 const entryStore = useLogEntryStore();
 
