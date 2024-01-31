@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { LogEntry } from "~/types/LogEntry";
+import type { Columns, LogEntry } from "~/types/LogEntry";
 import { type QuickFilterData, useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 
 const props = defineProps<{
   log: LogEntry;
+  columns: Columns;
 }>();
 
 const filterStore = useFilterStore();
@@ -36,10 +37,14 @@ function refetch() {
 
 <template>
   <div class="list-element">
-    <span class="list-data border-right flex-4">{{
+    <span v-if="props.columns.date" class="list-data border-right flex-4">{{
       log.creation_date.toLocaleString()
     }}</span>
-    <div id="level-field" class="list-data border-right flex-2">
+    <div
+      v-if="props.columns.level"
+      id="level-field"
+      class="list-data border-right flex-2"
+    >
       <button @click="clickedClassification">
         <img
           v-if="log.classification == 'error'"
@@ -49,12 +54,19 @@ function refetch() {
         <img v-else src="~/assets/info.svg" alt="info" />
       </button>
     </div>
-    <span class="list-data border-right flex-4"
+    <span v-if="props.columns.ip" class="list-data border-right flex-4"
       ><button @click="clickedIp">{{ log.service_ip }}</button></span
     >
-    <span class="list-data border-right flex-3">{{ log.user_id }}</span>
-    <span class="list-data border-right flex-3">{{ log.user_session_id }}</span>
-    <span class="list-data text-overflow-ellipsis flex-10">
+    <span v-if="props.columns.user" class="list-data border-right flex-3">{{
+      log.user_id
+    }}</span>
+    <span v-if="props.columns.session" class="list-data border-right flex-3">{{
+      log.user_session_id
+    }}</span>
+    <span
+      v-if="props.columns.text"
+      class="list-data text-overflow-ellipsis flex-10"
+    >
       <button @click="clickedText">{{ log.content }}</button>
     </span>
   </div>

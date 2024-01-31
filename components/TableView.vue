@@ -2,6 +2,7 @@
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import { useOrderStore } from "~/stores/orderStore";
 import ColumVisibleMenu from "~/components/ColumVisibleMenu.vue";
+import type { Columns } from "~/types/LogEntry";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
@@ -31,60 +32,63 @@ function switchColumnMenuVisibility() {
   isColumMenuVisible.value = !isColumMenuVisible.value;
 }
 
-const isDateVisible = ref(true);
-const isLevelVisible = ref(true);
-const isIpAddressVisible = ref(true);
-const isUserIdVisible = ref(true);
-const isSessionIdVisible = ref(true);
-const isTextVisible = ref(true);
+const columns = ref({
+  date: true,
+  level: true,
+  ip: true,
+  user: true,
+  session: true,
+  text: true,
+} as Columns);
 </script>
 
 <template>
   <div id="tableView" class="grow mb-5">
     <div id="tableHeader">
       <div
-        v-if="isDateVisible"
+        v-if="columns.date"
         class="headerElement border-bottom-and-right flex-4"
       >
         Datum
         <button id="sortButton" @click="changeSortingDirection">
-          <Icon :name="icon" class="icons"></Icon>
+          <Icon size="30" :name="icon" class="icons"></Icon>
         </button>
       </div>
       <div
-        v-if="isLevelVisible"
+        v-if="columns.level"
         class="headerElement border-bottom-and-right flex-2"
       >
         Level
       </div>
       <div
-        v-if="isIpAddressVisible"
+        v-if="columns.ip"
         class="headerElement border-bottom-and-right flex-4"
       >
         IP-Adresse
       </div>
       <div
-        v-if="isUserIdVisible"
+        v-if="columns.user"
         class="headerElement border-bottom-and-right flex-3"
       >
         Nutzer-ID
       </div>
       <div
-        v-if="isSessionIdVisible"
+        v-if="columns.session"
         class="headerElement border-bottom-and-right flex-3"
       >
         Sitzungs-ID
       </div>
-      <div v-if="isTextVisible" class="headerElement border-bottom flex-10">
+      <div v-if="columns.text" class="headerElement border-bottom flex-10">
         Text
       </div>
 
-      <div id="visibility">
-        <button id="sortButton" @click="switchColumnMenuVisibility">
-          <Icon :name="'material-symbols:list'" class="icons"></Icon>
+      <div>
+        <button id="visibility" @click="switchColumnMenuVisibility">
+          <Icon size="30" :name="'material-symbols:list'" class="icons"></Icon>
         </button>
+
         <div v-if="isColumMenuVisible" id="columnVisibilityMenu">
-          <ColumVisibleMenu></ColumVisibleMenu>
+          <ColumVisibleMenu v-model="columns"></ColumVisibleMenu>
         </div>
       </div>
     </div>
@@ -94,6 +98,7 @@ const isTextVisible = ref(true);
         v-for="log in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"
         :log="log"
+        :columns="columns"
       ></LogEntryComponent>
     </div>
   </div>
@@ -108,6 +113,7 @@ const isTextVisible = ref(true);
 #visibility {
   position: absolute;
   right: 0;
+
   margin-right: 7px;
 }
 
