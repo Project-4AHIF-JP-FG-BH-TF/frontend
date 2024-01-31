@@ -83,12 +83,14 @@ function updateLog() {
           name="material-symbols:arrow-left-alt-rounded"
           size="40"
           class="arrowButton"
+          :class="{ disabled: !previous_available }"
           @click="previousEntry"
         ></Icon>
         <Icon
           name="material-symbols:arrow-right-alt-rounded"
           size="40"
           class="arrowButton"
+          :class="{ disabled: !next_available }"
           @click="nextEntry"
           color="black"
         ></Icon>
@@ -153,6 +155,10 @@ function updateLog() {
 
       .arrowButton:hover {
         cursor: pointer;
+      }
+
+      .disabled {
+        cursor: default !important;
       }
     }
   }

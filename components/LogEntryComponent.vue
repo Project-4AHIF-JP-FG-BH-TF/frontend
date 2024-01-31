@@ -65,7 +65,9 @@ function showExpandedView() {
         {{ log.content }}
       </button>
     </span>
-    <span class="list-data flex-1" @click="showExpandedView">...</span>
+    <span id="expand-button" class="list-data flex-1" @click="showExpandedView"
+      >...</span
+    >
   </div>
 </template>
 
@@ -115,5 +117,9 @@ function showExpandedView() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#expand-button {
+  cursor: pointer;
 }
 </style>
