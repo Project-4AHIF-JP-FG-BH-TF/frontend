@@ -20,7 +20,9 @@ const settingsButtonIcon = computed(() => {
 });
 
 const settingsButtonText = computed(() => {
-  return settingsOpened.value ? "Close settings" : "Open settings";
+  return settingsOpened.value
+    ? "Einstellungen schließen"
+    : "Einstellungen öffnen";
 });
 
 function openCloseSettings() {
@@ -59,9 +61,10 @@ function applyFilter() {
     <div id="settings-head">
       <button id="open-close-button" @click="openCloseSettings">
         <Icon :name="settingsButtonIcon" color="white" size="32px" />
+        <span>{{ settingsButtonText }}</span>
       </button>
-      <span>{{ settingsButtonText }}</span>
     </div>
+
     <div v-if="settingsOpened" id="settings-body">
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
@@ -159,6 +162,7 @@ function applyFilter() {
     width: 100%;
 
     #settings-head {
+
       @apply flex items-center;
       height: 50px;
       width: 100%;
