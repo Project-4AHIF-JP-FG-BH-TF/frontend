@@ -151,8 +151,8 @@ function applyFilter() {
 @tailwind utilities;
 
 #settings {
-  @apply flex flex-col flex-none rounded-[8px] mt-3 mb-6;
-  width: 90%;
+  @apply flex flex-col flex-none rounded-[8px];
+  width: 100%;
   background-color: var(--highlighted-background);
 
   #settings-body {

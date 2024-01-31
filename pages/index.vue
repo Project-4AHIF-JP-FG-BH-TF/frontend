@@ -1,8 +1,8 @@
 <template>
   <div>
-    <LogEntry></LogEntry>
+    <LogEntries></LogEntries>
   </div>
 </template>
 <script setup lang="ts">
-import LogEntry from "~/pages/LogEntry.vue";
+import LogEntries from "~/pages/LogEntries.vue";
 </script>
