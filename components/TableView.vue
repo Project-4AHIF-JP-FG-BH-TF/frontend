@@ -26,7 +26,7 @@ function changeSortingDirection() {
 </script>
 
 <template>
-  <div id="tableView" class="grow mb-5">
+  <div id="tableView">
     <div id="tableHeader">
       <span class="headerElement border-bottom-and-right flex-4"
         >Datum
@@ -57,7 +57,7 @@ function changeSortingDirection() {
 
 <style scoped lang="scss">
 #tableView {
-  width: 90%;
+  width: 100%;
   background-color: var(--highlighted-background);
   border-radius: 10px;
   overflow: hidden;

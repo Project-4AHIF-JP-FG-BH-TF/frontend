@@ -15,9 +15,11 @@ import TableView from "~/components/TableView.vue";
   height: 100vh;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
 
   flex-direction: column;
+
+  padding: var(--gap);
+  gap: var(--gap);
 }
 </style>
