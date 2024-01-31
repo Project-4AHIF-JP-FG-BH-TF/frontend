@@ -79,6 +79,6 @@
 }
 
 .router-link-active {
-  background: var(--active-page) !important;
+  background: var(--light-blue) !important;
 }
 </style>
