@@ -77,4 +77,8 @@
     }
   }
 }
+
+.router-link-active {
+  background: var(--active-page) !important;
+}
 </style>
