@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import { useOrderStore } from "~/stores/orderStore";
+import ColumVisibleMenu from "~/components/ColumVisibleMenu.vue";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
@@ -23,28 +24,71 @@ function changeSortingDirection() {
   }
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
+
+const isColumMenuVisible = ref(false);
+
+function switchColumnMenuVisibility() {
+  isColumMenuVisible.value = !isColumMenuVisible.value;
+}
+
+const isDateVisible = ref(true);
+const isLevelVisible = ref(true);
+const isIpAddressVisible = ref(true);
+const isUserIdVisible = ref(true);
+const isSessionIdVisible = ref(true);
+const isTextVisible = ref(true);
 </script>
 
 <template>
   <div id="tableView" class="grow mb-5">
     <div id="tableHeader">
-      <span class="headerElement border-bottom-and-right flex-4"
-        >Datum
+      <div
+        v-if="isDateVisible"
+        class="headerElement border-bottom-and-right flex-4"
+      >
+        Datum
         <button id="sortButton" @click="changeSortingDirection">
-          <Icon :name="icon" class="icons"></Icon></button
-      ></span>
-      <span class="headerElement border-bottom-and-right flex-2">Level</span>
-      <span class="headerElement border-bottom-and-right flex-4"
-        >IP-Adresse</span
+          <Icon :name="icon" class="icons"></Icon>
+        </button>
+      </div>
+      <div
+        v-if="isLevelVisible"
+        class="headerElement border-bottom-and-right flex-2"
       >
-      <span class="headerElement border-bottom-and-right flex-3"
-        >Nutzer-ID</span
+        Level
+      </div>
+      <div
+        v-if="isIpAddressVisible"
+        class="headerElement border-bottom-and-right flex-4"
       >
-      <span class="headerElement border-bottom-and-right flex-3"
-        >Sitzungs-ID</span
+        IP-Adresse
+      </div>
+      <div
+        v-if="isUserIdVisible"
+        class="headerElement border-bottom-and-right flex-3"
       >
-      <span class="headerElement border-bottom flex-10">Text</span>
+        Nutzer-ID
+      </div>
+      <div
+        v-if="isSessionIdVisible"
+        class="headerElement border-bottom-and-right flex-3"
+      >
+        Sitzungs-ID
+      </div>
+      <div v-if="isTextVisible" class="headerElement border-bottom flex-10">
+        Text
+      </div>
+
+      <div id="visibility">
+        <button id="sortButton" @click="switchColumnMenuVisibility">
+          <Icon :name="'material-symbols:list'" class="icons"></Icon>
+        </button>
+        <div v-if="isColumMenuVisible" id="columnVisibilityMenu">
+          <ColumVisibleMenu></ColumVisibleMenu>
+        </div>
+      </div>
     </div>
+
     <div id="list">
       <LogEntryComponent
         v-for="log in entryStore.entries"
@@ -56,6 +100,17 @@ function changeSortingDirection() {
 </template>
 
 <style scoped lang="scss">
+#columnVisibilityMenu {
+  position: absolute;
+  right: 120px;
+}
+
+#visibility {
+  position: absolute;
+  right: 0;
+  margin-right: 7px;
+}
+
 #tableView {
   width: 90%;
   background-color: var(--highlighted-background);
@@ -63,6 +118,7 @@ function changeSortingDirection() {
   overflow: hidden;
 
   #tableHeader {
+    position: relative;
     display: flex;
 
     .headerElement {
