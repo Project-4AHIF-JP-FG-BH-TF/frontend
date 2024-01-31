@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import { useOrderStore } from "~/stores/orderStore";
+import type { LogEntry } from "~/types/LogEntry";
+import type { Ref } from "vue";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
@@ -23,9 +25,23 @@ function changeSortingDirection() {
   }
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
+
+let selectedLogIndex = ref(-1);
+
+function showExpandedLogView(logIndex: number) {
+  selectedLogIndex.value = logIndex;
+}
+function hideExpandedLogView() {
+  selectedLogIndex.value = -1;
+}
 </script>
 
 <template>
+  <ExpandedLogView
+    :index="selectedLogIndex"
+    v-if="selectedLogIndex !== -1"
+    @close="hideExpandedLogView"
+  ></ExpandedLogView>
   <div id="tableView" class="grow mb-5">
     <div id="tableHeader">
       <span class="headerElement border-bottom-and-right flex-4"
@@ -43,13 +59,15 @@ function changeSortingDirection() {
       <span class="headerElement border-bottom-and-right flex-3"
         >Sitzungs-ID</span
       >
-      <span class="headerElement border-bottom flex-10">Text</span>
+      <span class="headerElement border-bottom-and-right flex-10">Text</span>
+      <span class="headerElement border-bottom flex-1"></span>
     </div>
     <div id="list">
       <LogEntryComponent
-        v-for="log in entryStore.entries"
+        v-for="(log, index) in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"
         :log="log"
+        @expand="showExpandedLogView(index)"
       ></LogEntryComponent>
     </div>
   </div>
