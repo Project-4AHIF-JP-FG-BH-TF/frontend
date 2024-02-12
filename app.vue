@@ -1,13 +1,13 @@
 <script setup>
-import { useSessionStore } from "~/stores/sessionStore.ts";
-
-const sessionStore = useSessionStore();
+import { fetchRefreshSession } from "~/composables/session.ts";
 
 onMounted(async () => {
-  await sessionStore.requestSession();
+  const session = await useSession();
 
-  setInterval(() => {
-    sessionStore.refreshSession();
+  setInterval(async () => {
+    if (session.value) {
+      await fetchRefreshSession(session.value);
+    }
     // 1 minute
   }, 1000 * 60);
 });

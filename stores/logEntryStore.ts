@@ -1,7 +1,6 @@
 import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
 import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
-import { useSessionStore } from "~/stores/sessionStore";
 import type { Filters, LogEntry } from "~/types/LogEntry";
 import { useOrderStore } from "~/stores/orderStore";
 import { useFilterStore } from "~/stores/filterStore";
@@ -164,13 +163,13 @@ async function fetchLogEntries(
   order: string = "ASC",
   filters: Filters,
 ): Promise<LogEntry[] | null> {
-  const sessionStore = useSessionStore();
+  const sessionStore = await useSession();
 
   const runtimeConfig = useRuntimeConfig();
 
   try {
     const data = await $fetch<{ logs: LogEntry[] }>(
-      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}`,
+      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.value}`,
       {
         method: "GET",
         query: {
@@ -185,7 +184,6 @@ async function fetchLogEntries(
 
     return data.logs;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.log(error);
     return null;
   }
