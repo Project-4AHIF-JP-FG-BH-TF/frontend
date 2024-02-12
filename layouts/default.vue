@@ -9,7 +9,7 @@
 
       <div id="actions">
         <nuxt-link to="/logfiles">Log-Dateien</nuxt-link>
-        <nuxt-link to="/logentries">Log-Einträge</nuxt-link>
+        <nuxt-link to="/">Log-Einträge</nuxt-link>
         <nuxt-link to="/statistics">Statistiken</nuxt-link>
       </div>
     </aside>
