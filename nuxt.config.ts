@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       baseURL: "http://localhost:3001",
     },
   },
-  css: ["@/assets/style/color.scss", "@/assets/style/global.scss"],
+  css: ["@/assets/style/variables.scss", "@/assets/style/global.scss"],
   pinia: {
     storesDirs: ["./stores/**"],
   },
