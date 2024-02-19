@@ -25,3 +25,12 @@ export interface Filters {
   regex: boolean | undefined;
   classification: "info" | "error" | undefined;
 }
+
+export interface Columns {
+  date: boolean;
+  level: boolean;
+  ip: boolean;
+  user: boolean;
+  session: boolean;
+  text: boolean;
+}
