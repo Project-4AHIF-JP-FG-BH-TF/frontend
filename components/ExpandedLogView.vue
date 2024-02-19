@@ -50,7 +50,7 @@ function updateLog() {
   <div id="mainView">
     <div id="expandedView">
       <div id="titleContainer">
-        <span>Log-Entry</span>
+        <span>Erweiterte Log-Nachrichten Anzeige</span>
       </div>
       <div id="infoContainer">
         <div id="generalInfoContainer">
@@ -75,7 +75,8 @@ function updateLog() {
           <span>Java Klasse: {{ log.java_class }}</span>
         </div>
       </div>
-      <div>
+      <div id="messageContainer">
+        Nachricht:
         {{ log.content }}
       </div>
       <footer id="footer">
@@ -103,6 +104,7 @@ function updateLog() {
 #background {
   position: absolute;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100vh;
 }
@@ -110,10 +112,13 @@ function updateLog() {
 #mainView {
   position: absolute;
   left: 25%;
+  top: 25%;
   width: 50vw;
   height: 50vh;
 
   background-color: var(--highlighted-background);
+
+  box-shadow: transparentize(#1f2836, 0.1) 5px 5px 10px;
 
   display: flex;
   justify-content: center;
@@ -132,6 +137,10 @@ function updateLog() {
       margin: 3px;
     }
 
+    #titleContainer {
+      text-align: center;
+    }
+
     #infoContainer {
       display: flex;
       flex-direction: row;
@@ -148,6 +157,9 @@ function updateLog() {
         }
       }
     }
+    #messageContainer {
+      margin: 0 auto;
+    }
 
     #footer {
       display: flex;
@@ -159,6 +171,7 @@ function updateLog() {
 
       .disabled {
         cursor: default !important;
+        color: black;
       }
     }
   }

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import { useOrderStore } from "~/stores/orderStore";
-import type { LogEntry } from "~/types/LogEntry";
-import type { Ref } from "vue";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
@@ -42,7 +40,7 @@ function hideExpandedLogView() {
     v-if="selectedLogIndex !== -1"
     @close="hideExpandedLogView"
   ></ExpandedLogView>
-  <div id="tableView" class="grow mb-5">
+  <div id="tableView" class="grow">
     <div id="tableHeader">
       <span class="headerElement border-bottom-and-right flex-4"
         >Datum
@@ -75,7 +73,7 @@ function hideExpandedLogView() {
 
 <style scoped lang="scss">
 #tableView {
-  width: 90%;
+  width: 100%;
   background-color: var(--highlighted-background);
   border-radius: 10px;
   overflow: hidden;
