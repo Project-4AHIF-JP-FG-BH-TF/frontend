@@ -71,17 +71,28 @@ function showExpandedView() {
     }}</span>
     <span
       v-if="props.columns.text"
-      class="list-data text-overflow-ellipsis flex-10"
+      class="list-data text-overflow-ellipsis border-right flex-10"
     >
       <button @click="clickedText">{{ log.content }}</button>
     </span>
-    <span id="expand-button" class="list-data flex-1" @click="showExpandedView"
+    <span
+      id="expand-button"
+      class="list-data flex-0 menu"
+      @click="showExpandedView"
       >...</span
     >
   </div>
 </template>
 
 <style scoped lang="scss">
+.menu {
+  min-width: 50px;
+
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+}
+
 .border-bottom-and-right {
   border-right: var(--base-background) solid 2px;
   border-bottom: var(--base-background) solid 2px;

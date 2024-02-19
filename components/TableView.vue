@@ -31,6 +31,7 @@ const selectedLogIndex = ref(-1);
 function showExpandedLogView(logIndex: number) {
   selectedLogIndex.value = logIndex;
 }
+
 function hideExpandedLogView() {
   selectedLogIndex.value = -1;
 }
@@ -80,14 +81,22 @@ const columns = ref({
       >
         IP-Adresse
       </div>
-      <span class="headerElement border-bottom-and-right flex-3"
-      >Nutzer-ID</span
+      <span
+        v-if="columns.user"
+        class="headerElement border-bottom-and-right flex-3"
+        >Nutzer-ID</span
       >
-      <span class="headerElement border-bottom-and-right flex-3"
-      >Sitzungs-ID</span
+      <span
+        v-if="columns.session"
+        class="headerElement border-bottom-and-right flex-3"
+        >Sitzungs-ID</span
       >
-      <span class="headerElement border-bottom-and-right flex-10">Text</span>
-      <div class="headerElement border-bottom flex-1">
+      <span
+        v-if="columns.text"
+        class="headerElement border-bottom-and-right flex-10"
+        >Text</span
+      >
+      <div class="headerElement border-bottom flex-0 menu">
         <button id="visibility" @click="switchColumnMenuVisibility">
           <Icon size="30" :name="'material-symbols:list'" class="icons"></Icon>
         </button>
@@ -111,17 +120,14 @@ const columns = ref({
 </template>
 
 <style scoped lang="scss">
+.menu {
+  min-width: 50px;
+}
+
 #columnVisibilityMenu {
   position: absolute;
   right: 50px;
   top: 10px;
-}
-
-#visibility {
-  position: absolute;
-  right: 0;
-
-  margin-right: 7px;
 }
 
 #tableView {
@@ -138,6 +144,7 @@ const columns = ref({
       padding: 10px;
       margin: 5px 2px 2px;
       text-align: center;
+      height: 50px;
 
       &.border-bottom-and-right {
         border-right: var(--base-background) solid 2px;
