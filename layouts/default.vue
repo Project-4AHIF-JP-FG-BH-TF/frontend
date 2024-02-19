@@ -2,21 +2,17 @@
 
 <template>
   <div id="base">
-    <aside id="sidebar-left">
+    <aside>
       <div>
         <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo" />
       </div>
 
       <div id="actions">
-        <button>Log-Dateien</button>
-        <br />
-        <button>Log-Einträge</button>
-        <br />
-        <button>Statistiken</button>
-        <br />
+        <nuxt-link to="/logfiles">Log-Dateien</nuxt-link>
+        <nuxt-link to="/">Log-Einträge</nuxt-link>
+        <nuxt-link to="/statistics">Statistiken</nuxt-link>
       </div>
     </aside>
-
     <main>
       <slot />
     </main>
@@ -34,10 +30,12 @@
     flex: 1;
   }
 
-  #sidebar-left {
+  aside {
+    --width: 190px;
+
     display: flex;
-    float: left;
-    width: 240px;
+    flex: 0 0 var(--width);
+
     flex-direction: column;
     text-align: center;
     background-color: var(--highlighted-background);
@@ -50,17 +48,37 @@
       height: 120px;
     }
 
-    button {
-      border: var(--base-background) 2px solid;
-      background-color: var(--base-background);
-      border-radius: 10px;
-      width: 150px;
-      margin: 15px;
-      padding: 5px;
+    #actions {
+      display: flex;
+      flex-direction: column;
 
-      font-size: large;
-      color: white;
+      gap: var(--gap);
+
+      a {
+        background-color: var(--base-background);
+        border-radius: 10px;
+        width: calc(var(--width) - var(--gap) * 2);
+        padding: 5px;
+
+        font-size: large;
+        color: white;
+
+        transition: 0.1s ease-in-out;
+
+        &:hover {
+          background-color: var(--highlight);
+        }
+
+        &:active {
+          background-color: var(--highlight);
+          scale: 1.02;
+        }
+      }
     }
   }
+}
+
+.router-link-active {
+  background: var(--light-blue) !important;
 }
 </style>

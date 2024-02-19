@@ -4,9 +4,10 @@ import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 
 const ipsStore = useIpsStore();
-if (process.client) {
+
+onMounted(() => {
   ipsStore.reloadIps();
-}
+});
 
 const entryStore = useLogEntryStore();
 
@@ -19,7 +20,9 @@ const settingsButtonIcon = computed(() => {
 });
 
 const settingsButtonText = computed(() => {
-  return settingsOpened.value ? "Close settings" : "Open settings";
+  return settingsOpened.value
+    ? "Einstellungen schließen"
+    : "Einstellungen öffnen";
 });
 
 function openCloseSettings() {
@@ -58,13 +61,21 @@ function applyFilter() {
     <div id="settings-head">
       <button id="open-close-button" @click="openCloseSettings">
         <Icon :name="settingsButtonIcon" color="white" size="32px" />
+        <span>{{ settingsButtonText }}</span>
       </button>
-      <span>{{ settingsButtonText }}</span>
+      <button id="reset-button" @click="resetFilters">
+        <Icon
+          size="26"
+          color="black"
+          name="material-symbols:delete-forever"
+        ></Icon>
+      </button>
     </div>
+
     <div v-if="settingsOpened" id="settings-body">
       <div id="filter-settings-1" class="filter-settings">
         <div id="ip-address" class="labeled-input">
-          <label>Ip Address:</label>
+          <label>IP-Adresse:</label>
           <select
             v-model="filterStore.ip"
             class="input"
@@ -106,7 +117,7 @@ function applyFilter() {
       <div id="filter-settings-2" class="filter-settings">
         <div id="date">
           <div id="from" class="labeled-input">
-            <label>From:</label>
+            <label>Von:</label>
             <input
               v-model="filterStore.from"
               type="datetime-local"
@@ -115,7 +126,7 @@ function applyFilter() {
             />
           </div>
           <div id="to" class="labeled-input">
-            <label>To:</label>
+            <label>Bis:</label>
             <input
               v-model="filterStore.to"
               type="datetime-local"
@@ -125,7 +136,7 @@ function applyFilter() {
           </div>
         </div>
         <div id="log-level" class="labeled-input">
-          <label>Log Classification</label>
+          <label>Log-Klassifikation</label>
           <select
             v-model="filterStore.classification"
             class="input"
@@ -137,9 +148,6 @@ function applyFilter() {
           </select>
         </div>
       </div>
-      <div id="filter-footer">
-        <button id="reset-button" @click="resetFilters">reset</button>
-      </div>
     </div>
   </div>
 </template>
@@ -150,22 +158,25 @@ function applyFilter() {
 @tailwind utilities;
 
 #settings {
-  @apply flex flex-col flex-none rounded-[8px] mt-3 mb-6;
-  width: 90%;
+  @apply flex flex-col flex-none rounded-[8px];
+  width: 100%;
   background-color: var(--highlighted-background);
+
+  #settings-head {
+    @apply flex items-center;
+    height: 50px;
+    width: 100%;
+    position: relative;
+
+    #open-close-button {
+      @apply pl-2;
+      height: 100px;
+      padding: 20px;
+    }
+  }
 
   #settings-body {
     width: 100%;
-
-    #settings-head {
-      @apply flex items-center;
-      height: 50px;
-      width: 100%;
-
-      #open-close-button {
-        @apply pl-2;
-      }
-    }
 
     #filter-settings-1 {
       #ip-address {
@@ -218,21 +229,24 @@ function applyFilter() {
         }
       }
     }
+  }
+}
 
-    #filter-footer {
-      @apply flex pt-1 pb-4 ps-6 pe-6;
-      width: 100%;
+#reset-button {
+  @apply rounded text-white p-1;
+  background-color: var(--light-red);
+  position: absolute;
+  right: 0;
+  margin: 5px;
 
-      #reset-button {
-        @apply rounded text-white p-1;
-        background-color: var(--light-red);
-        width: 100%;
+  border-radius: 50%;
 
-        &:hover {
-          background-color: var(--darken-red);
-        }
-      }
-    }
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--darken-red);
   }
 }
 

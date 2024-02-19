@@ -7,9 +7,9 @@ import type { Columns } from "~/types/LogEntry";
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
 
-if (process.client) {
+onMounted(() => {
   entryStore.reloadEntries();
-}
+});
 
 const desc = ref(true);
 
@@ -43,7 +43,7 @@ const columns = ref({
 </script>
 
 <template>
-  <div id="tableView" class="grow mb-5">
+  <div id="tableView">
     <div id="tableHeader">
       <div
         v-if="columns.date"
@@ -119,7 +119,7 @@ const columns = ref({
 }
 
 #tableView {
-  width: 90%;
+  width: 100%;
   background-color: var(--highlighted-background);
   border-radius: 10px;
   overflow: hidden;

@@ -9,7 +9,7 @@ export const useIpsStore = defineStore("ips", {
   actions: {
     async reloadIps() {
       const runtimeConfig = useRuntimeConfig();
-      const sessionStore = useSessionStore();
+      const sessionStore = await useSession();
       const filterStore = useFilterStore();
 
       const files = ["cock", "cock2"];
@@ -17,7 +17,7 @@ export const useIpsStore = defineStore("ips", {
 
       try {
         const data = await $fetch<{ ips: string[] }>(
-          `${runtimeConfig.public.baseURL}/api/log/${sessionStore.sessionID}/ips`,
+          `${runtimeConfig.public.baseURL}/api/log/${sessionStore.value}/ips`,
           {
             method: "GET",
             query: { files, filters },
