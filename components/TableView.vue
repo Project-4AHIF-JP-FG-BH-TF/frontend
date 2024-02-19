@@ -81,21 +81,24 @@ const columns = ref({
       >
         IP-Adresse
       </div>
-      <span
+      <div
         v-if="columns.user"
         class="headerElement border-bottom-and-right flex-3"
-        >Nutzer-ID</span
       >
-      <span
+        Nutzer-ID
+      </div>
+      <div
         v-if="columns.session"
         class="headerElement border-bottom-and-right flex-3"
-        >Sitzungs-ID</span
       >
-      <span
+        Sitzungs-ID
+      </div>
+      <div
         v-if="columns.text"
         class="headerElement border-bottom-and-right flex-10"
-        >Text</span
       >
+        Text
+      </div>
       <div class="headerElement border-bottom flex-0 menu">
         <button id="visibility" @click="switchColumnMenuVisibility">
           <Icon size="30" :name="'material-symbols:list'" class="icons"></Icon>
@@ -112,8 +115,8 @@ const columns = ref({
         v-for="(log, index) in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"
         :log="log"
-        @expand="showExpandedLogView(index)"
         :columns="columns"
+        @expand="showExpandedLogView(index)"
       ></LogEntryComponent>
     </div>
   </div>

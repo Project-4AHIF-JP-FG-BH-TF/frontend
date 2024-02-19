@@ -87,10 +87,6 @@ function showExpandedView() {
 <style scoped lang="scss">
 .menu {
   min-width: 50px;
-
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
 }
 
 .border-bottom-and-right {
