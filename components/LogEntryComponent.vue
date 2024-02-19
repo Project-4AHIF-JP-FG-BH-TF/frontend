@@ -7,6 +7,8 @@ const props = defineProps<{
   log: LogEntry;
 }>();
 
+const emit = defineEmits(["expand"]);
+
 const filterStore = useFilterStore();
 const entryStore = useLogEntryStore();
 const ipsStore = useIpsStore();
@@ -32,6 +34,10 @@ function refetch() {
   entryStore.reloadEntries();
   ipsStore.reloadIps();
 }
+
+function showExpandedView() {
+  emit("expand");
+}
 </script>
 
 <template>
@@ -54,9 +60,14 @@ function refetch() {
     >
     <span class="list-data border-right flex-3">{{ log.user_id }}</span>
     <span class="list-data border-right flex-3">{{ log.user_session_id }}</span>
-    <span class="list-data text-overflow-ellipsis flex-10">
-      <button @click="clickedText">{{ log.content }}</button>
+    <span class="list-data border-right text-overflow-ellipsis flex-10">
+      <button class="text-overflow-ellipsis" @click="clickedText">
+        {{ log.content }}
+      </button>
     </span>
+    <span id="expand-button" class="list-data flex-1" @click="showExpandedView"
+      >...</span
+    >
   </div>
 </template>
 
@@ -101,9 +112,14 @@ function refetch() {
 }
 
 .text-overflow-ellipsis {
+  width: 100%;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#expand-button {
+  cursor: pointer;
 }
 </style>

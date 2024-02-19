@@ -23,10 +23,24 @@ function changeSortingDirection() {
   }
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
+
+const selectedLogIndex = ref(-1);
+
+function showExpandedLogView(logIndex: number) {
+  selectedLogIndex.value = logIndex;
+}
+function hideExpandedLogView() {
+  selectedLogIndex.value = -1;
+}
 </script>
 
 <template>
-  <div id="tableView">
+  <ExpandedLogView
+    v-if="selectedLogIndex !== -1"
+    :index="selectedLogIndex"
+    @close="hideExpandedLogView"
+  ></ExpandedLogView>
+  <div id="tableView" class="grow">
     <div id="tableHeader">
       <span class="headerElement border-bottom-and-right flex-4"
         >Datum
@@ -43,13 +57,15 @@ function changeSortingDirection() {
       <span class="headerElement border-bottom-and-right flex-3"
         >Sitzungs-ID</span
       >
-      <span class="headerElement border-bottom flex-10">Text</span>
+      <span class="headerElement border-bottom-and-right flex-10">Text</span>
+      <span class="headerElement border-bottom flex-1"></span>
     </div>
     <div id="list">
       <LogEntryComponent
-        v-for="log in entryStore.entries"
+        v-for="(log, index) in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"
         :log="log"
+        @expand="showExpandedLogView(index)"
       ></LogEntryComponent>
     </div>
   </div>
