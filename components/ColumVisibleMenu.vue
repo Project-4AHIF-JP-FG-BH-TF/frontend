@@ -29,7 +29,7 @@ function change(type: Types) {
 
 <template>
   <div id="outer">
-    <h1>Column Vision</h1>
+    <h1>Spalten Sichtbarkeit</h1>
 
     <div>
       <input
@@ -103,7 +103,7 @@ function change(type: Types) {
 #outer {
   background-color: var(--base-background);
   border-radius: 10px;
-  border: 1px solid black;
+  box-shadow: transparentize(#1f2836, 0.1) 5px 5px 10px;
 
   display: flex;
   flex-direction: column;

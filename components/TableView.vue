@@ -107,7 +107,8 @@ const columns = ref({
 <style scoped lang="scss">
 #columnVisibilityMenu {
   position: absolute;
-  right: 120px;
+  right: 50px;
+  top: 10px;
 }
 
 #visibility {
