@@ -24,7 +24,7 @@ function changeSortingDirection() {
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
 
-let selectedLogIndex = ref(-1);
+const selectedLogIndex = ref(-1);
 
 function showExpandedLogView(logIndex: number) {
   selectedLogIndex.value = logIndex;
@@ -36,8 +36,8 @@ function hideExpandedLogView() {
 
 <template>
   <ExpandedLogView
-    :index="selectedLogIndex"
     v-if="selectedLogIndex !== -1"
+    :index="selectedLogIndex"
     @close="hideExpandedLogView"
   ></ExpandedLogView>
   <div id="tableView" class="grow">

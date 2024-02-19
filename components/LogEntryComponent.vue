@@ -61,7 +61,7 @@ function showExpandedView() {
     <span class="list-data border-right flex-3">{{ log.user_id }}</span>
     <span class="list-data border-right flex-3">{{ log.user_session_id }}</span>
     <span class="list-data border-right text-overflow-ellipsis flex-10">
-      <button @click="clickedText" class="text-overflow-ellipsis">
+      <button class="text-overflow-ellipsis" @click="clickedText">
         {{ log.content }}
       </button>
     </span>

@@ -8,14 +8,14 @@ const props = defineProps<{
 
 const entryStore = useLogEntryStore();
 
-let log = ref(entryStore.entries[props.index] as LogEntry);
-let index = props.index;
-let log_index = ref(index);
+const log = ref(entryStore.entries[props.index] as LogEntry);
+const index = props.index;
+const logIndex = ref(index);
 
-let next_available = computed(
-  () => log_index.value < entryStore.entries.length - 1,
+const nextAvailable = computed(
+  () => logIndex.value < entryStore.entries.length - 1,
 );
-let previous_available = computed(() => log_index.value > 0);
+const previousAvailable = computed(() => logIndex.value > 0);
 
 const emit = defineEmits(["close"]);
 
@@ -24,20 +24,20 @@ function close() {
 }
 
 function nextEntry() {
-  if (!next_available.value) return;
-  log_index.value++;
+  if (!nextAvailable.value) return;
+  logIndex.value++;
   updateLog();
 }
 
 function previousEntry() {
-  if (!previous_available.value) return;
-  log_index.value--;
+  if (!previousAvailable.value) return;
+  logIndex.value--;
   updateLog();
 }
 
 function updateLog() {
   console.log("updating");
-  log.value = entryStore.entries[log_index.value];
+  log.value = entryStore.entries[logIndex.value];
 }
 </script>
 
@@ -84,16 +84,16 @@ function updateLog() {
           name="material-symbols:arrow-left-alt-rounded"
           size="40"
           class="arrowButton"
-          :class="{ disabled: !previous_available }"
+          :class="{ disabled: !previousAvailable }"
           @click="previousEntry"
         ></Icon>
         <Icon
           name="material-symbols:arrow-right-alt-rounded"
           size="40"
           class="arrowButton"
-          :class="{ disabled: !next_available }"
-          @click="nextEntry"
+          :class="{ disabled: !nextAvailable }"
           color="black"
+          @click="nextEntry"
         ></Icon>
       </footer>
     </div>
