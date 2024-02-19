@@ -36,7 +36,6 @@ function previousEntry() {
 }
 
 function updateLog() {
-  console.log("updating");
   log.value = entryStore.entries[logIndex.value];
 }
 </script>
