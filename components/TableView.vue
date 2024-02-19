@@ -26,6 +26,15 @@ function changeSortingDirection() {
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
 }
 
+const selectedLogIndex = ref(-1);
+
+function showExpandedLogView(logIndex: number) {
+  selectedLogIndex.value = logIndex;
+}
+function hideExpandedLogView() {
+  selectedLogIndex.value = -1;
+}
+
 const isColumMenuVisible = ref(false);
 
 function switchColumnMenuVisibility() {
@@ -43,7 +52,12 @@ const columns = ref({
 </script>
 
 <template>
-  <div id="tableView">
+  <ExpandedLogView
+    v-if="selectedLogIndex !== -1"
+    :index="selectedLogIndex"
+    @close="hideExpandedLogView"
+  ></ExpandedLogView>
+  <div id="tableView" class="grow">
     <div id="tableHeader">
       <div
         v-if="columns.date"
@@ -66,23 +80,14 @@ const columns = ref({
       >
         IP-Adresse
       </div>
-      <div
-        v-if="columns.user"
-        class="headerElement border-bottom-and-right flex-3"
+      <span class="headerElement border-bottom-and-right flex-3"
+      >Nutzer-ID</span
       >
-        Nutzer-ID
-      </div>
-      <div
-        v-if="columns.session"
-        class="headerElement border-bottom-and-right flex-3"
+      <span class="headerElement border-bottom-and-right flex-3"
+      >Sitzungs-ID</span
       >
-        Sitzungs-ID
-      </div>
-      <div v-if="columns.text" class="headerElement border-bottom flex-10">
-        Text
-      </div>
-
-      <div>
+      <span class="headerElement border-bottom-and-right flex-10">Text</span>
+      <div class="headerElement border-bottom flex-1">
         <button id="visibility" @click="switchColumnMenuVisibility">
           <Icon size="30" :name="'material-symbols:list'" class="icons"></Icon>
         </button>
@@ -95,9 +100,10 @@ const columns = ref({
 
     <div id="list">
       <LogEntryComponent
-        v-for="log in entryStore.entries"
+        v-for="(log, index) in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"
         :log="log"
+        @expand="showExpandedLogView(index)"
         :columns="columns"
       ></LogEntryComponent>
     </div>

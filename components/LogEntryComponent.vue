@@ -8,6 +8,8 @@ const props = defineProps<{
   columns: Columns;
 }>();
 
+const emit = defineEmits(["expand"]);
+
 const filterStore = useFilterStore();
 const entryStore = useLogEntryStore();
 const ipsStore = useIpsStore();
@@ -32,6 +34,10 @@ function clickedText() {
 function refetch() {
   entryStore.reloadEntries();
   ipsStore.reloadIps();
+}
+
+function showExpandedView() {
+  emit("expand");
 }
 </script>
 
@@ -69,6 +75,9 @@ function refetch() {
     >
       <button @click="clickedText">{{ log.content }}</button>
     </span>
+    <span id="expand-button" class="list-data flex-1" @click="showExpandedView"
+      >...</span
+    >
   </div>
 </template>
 
@@ -113,9 +122,14 @@ function refetch() {
 }
 
 .text-overflow-ellipsis {
+  width: 100%;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#expand-button {
+  cursor: pointer;
 }
 </style>
