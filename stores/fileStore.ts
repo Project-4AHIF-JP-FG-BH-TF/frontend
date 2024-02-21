@@ -11,8 +11,20 @@ export const useFileStore = defineStore("files", {
     files: [{ name: "foo1" }, { name: "foo2" }],
   }),
   actions: {
-    refetch() {
-      // todo
+    async reFetch() {
+      const { $nodeFetch } = useNuxtApp();
+      const sessionStore = await useSession();
+
+      try {
+        const data = await $nodeFetch<{ files: string[] }>(
+          `/files/${sessionStore.value}`,
+          {
+            method: "GET",
+          },
+        );
+
+        this.files = data.files.map((file) => ({ name: file }) as FileData);
+      } catch (e) {}
     },
   },
 });
