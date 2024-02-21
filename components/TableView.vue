@@ -52,7 +52,7 @@ const columns = ref({
 } as Columns);
 
 function onScroll(event: Event) {
-  let target = event.target as unknown as {
+  const target = event.target as unknown as {
     scrollHeight: number;
     scrollTop: number;
     clientHeight: number;
