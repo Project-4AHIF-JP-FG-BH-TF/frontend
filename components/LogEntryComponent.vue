@@ -124,7 +124,7 @@ function showExpandedView() {
   justify-content: center;
 
   img {
-    width: 30px;
+    width: 26px;
   }
 }
 
