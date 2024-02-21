@@ -105,6 +105,7 @@ const columns = ref({
         </button>
 
         <div v-if="isColumMenuVisible" id="columnVisibilityMenu">
+          <div id="background" @click="switchColumnMenuVisibility" />
           <ColumVisibleMenu v-model="columns"></ColumVisibleMenu>
         </div>
       </div>
@@ -125,12 +126,6 @@ const columns = ref({
 <style scoped lang="scss">
 .menu {
   min-width: 50px;
-}
-
-#columnVisibilityMenu {
-  position: absolute;
-  right: 50px;
-  top: 10px;
 }
 
 #tableView {
@@ -169,6 +164,22 @@ const columns = ref({
       .icons {
         width: 30px;
         height: 30px;
+      }
+    }
+
+    #columnVisibilityMenu {
+      z-index: 0;
+      position: absolute;
+      right: 50px;
+      top: 10px;
+
+      #background {
+        z-index: -1;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
       }
     }
   }
