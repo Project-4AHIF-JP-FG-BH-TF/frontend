@@ -169,7 +169,7 @@ async function fetchLogEntries(
 
   try {
     const data = await $nodeFetch<{ logs: LogEntry[] }>(
-      `/api/log/${sessionStore.value}`,
+      `/log/${sessionStore.value}`,
       {
         method: "GET",
         query: {
