@@ -23,7 +23,7 @@ export const useFileStore = defineStore("files", {
           },
         );
 
-        this.files = data.files.map((file) => file as unknown as FileData);
+        this.files = data.files.map((file) => ({ name: file }) as FileData);
       } catch (e) {}
     },
   },
