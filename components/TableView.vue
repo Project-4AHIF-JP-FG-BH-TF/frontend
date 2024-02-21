@@ -50,6 +50,19 @@ const columns = ref({
   session: true,
   text: true,
 } as Columns);
+
+function onScroll(event: Event) {
+  let target = event.target as unknown as {
+    scrollHeight: number;
+    scrollTop: number;
+    clientHeight: number;
+  };
+
+  // height of full list element < current top of view + visible height * 2
+  if (target.scrollHeight < target.scrollTop + target.clientHeight * 2) {
+    entryStore.loadNextEntries();
+  }
+}
 </script>
 
 <template>
@@ -112,7 +125,7 @@ const columns = ref({
       </div>
     </div>
 
-    <div id="list">
+    <div id="list" @scroll="onScroll">
       <LogEntryComponent
         v-for="(log, index) in entryStore.entries"
         :key="log.file_name + log.entry_nr.toString()"

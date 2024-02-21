@@ -7,11 +7,13 @@ import { useFilterStore } from "~/stores/filterStore";
 
 interface EntryStoreState {
   entries: LogEntry[];
+  isFetching: boolean;
 }
 
 export const useLogEntryStore = defineStore("logEntries", {
   state: (): EntryStoreState => ({
     entries: [],
+    isFetching: false,
   }),
   actions: {
     addEntry(entry: LogEntry) {
@@ -26,13 +28,21 @@ export const useLogEntryStore = defineStore("logEntries", {
       this.entries = [];
     },
     async reloadEntries() {
+      console.log("load new entries");
       this.clearEntries();
       await this.fetchWithParameters(0);
     },
     async loadNextEntries() {
+      console.log("load additional entries");
       await this.fetchWithParameters(this.entries.length);
     },
     async fetchWithParameters(from: number) {
+      if (this.isFetching) {
+        return;
+      }
+
+      this.isFetching = true;
+
       const orderStore = useOrderStore();
       const filterStore = useFilterStore();
 
@@ -152,6 +162,8 @@ export const useLogEntryStore = defineStore("logEntries", {
 
       this.addEntries(testEntries);
       this.addEntries(testEntries);
+
+      this.isFetching = false;
     },
   },
 });
