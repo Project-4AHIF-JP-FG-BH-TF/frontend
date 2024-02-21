@@ -106,9 +106,11 @@ function updateLog() {
   top: 0;
   width: 100%;
   height: 100vh;
+  z-index: 1;
 }
 
 #mainView {
+  z-index: 2;
   position: absolute;
   left: 25%;
   top: 25%;

@@ -58,6 +58,7 @@ const columns = ref({
     :index="selectedLogIndex"
     @close="hideExpandedLogView"
   ></ExpandedLogView>
+
   <div id="tableView" class="grow">
     <div id="tableHeader">
       <div
