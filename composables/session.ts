@@ -33,15 +33,12 @@ export async function useSession() {
 async function fetchNewSession(): Promise<UUID | null> {
   console.log("new Session...");
 
-  const runtimeConfig = useRuntimeConfig();
+  const { $nodeFetch } = useNuxtApp();
 
   try {
-    const data = await $fetch<{ uuid: UUID }>(
-      `${runtimeConfig.public.baseURL}/api/session/`,
-      {
-        method: "GET",
-      },
-    );
+    const data = await $nodeFetch<{ uuid: UUID }>("/api/session/", {
+      method: "GET",
+    });
 
     return data.uuid;
   } catch (error) {
@@ -54,14 +51,11 @@ async function fetchNewSession(): Promise<UUID | null> {
 export async function fetchRefreshSession(sessionID: UUID): Promise<UUID> {
   console.log("refresh Session...");
 
-  const runtimeConfig = useRuntimeConfig();
+  const { $nodeFetch } = useNuxtApp();
 
   return (
-    await $fetch<{ uuid: UUID }>(
-      `${runtimeConfig.public.baseURL}/api/session/${sessionID}`,
-      {
-        method: "POST",
-      },
-    )
+    await $nodeFetch<{ uuid: UUID }>(`$/api/session/${sessionID}`, {
+      method: "POST",
+    })
   ).uuid;
 }

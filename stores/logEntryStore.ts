@@ -165,11 +165,11 @@ async function fetchLogEntries(
 ): Promise<LogEntry[] | null> {
   const sessionStore = await useSession();
 
-  const runtimeConfig = useRuntimeConfig();
+  const { $nodeFetch } = useNuxtApp();
 
   try {
-    const data = await $fetch<{ logs: LogEntry[] }>(
-      `${runtimeConfig.public.baseURL}/api/log/${sessionStore.value}`,
+    const data = await $nodeFetch<{ logs: LogEntry[] }>(
+      `/api/log/${sessionStore.value}`,
       {
         method: "GET",
         query: {

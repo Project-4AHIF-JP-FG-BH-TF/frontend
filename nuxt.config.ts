@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@pinia/nuxt", "nuxt-icon", "@vueuse/nuxt"],
   runtimeConfig: {
     public: {
-      baseURL: "http://localhost:3001",
+      nodeBaseURL: "http://localhost:3001",
+      rustBaseURL: "http://localhost:8000",
     },
   },
   css: ["@/assets/style/variables.scss", "@/assets/style/global.scss"],
