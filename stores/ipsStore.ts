@@ -17,7 +17,7 @@ export const useIpsStore = defineStore("ips", {
 
       try {
         const data = await $nodeFetch<{ ips: string[] }>(
-          `/api/log/${sessionStore.value}/ips`,
+          `/log/${sessionStore.value}/ips`,
           {
             method: "GET",
             query: { files, filters },

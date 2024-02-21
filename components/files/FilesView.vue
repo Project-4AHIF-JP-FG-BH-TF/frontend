@@ -11,7 +11,8 @@ fileStore.refetch();
 
 const uploadingFiles = reactive<{ name: String }[]>([]);
 
-function onUploadFile(files: FileList) {
+async function onUploadFile(files: FileList) {
+  const sessionStore = await useSession();
   const formData = new FormData();
 
   for (const file of files) {
@@ -20,7 +21,7 @@ function onUploadFile(files: FileList) {
   }
 
   // todo handle upload error via popup or something
-  $rustFetch(`/file/upload`, {
+  $rustFetch(`/file/upload/${sessionStore.value}`, {
     method: "POST",
     body: formData,
   })

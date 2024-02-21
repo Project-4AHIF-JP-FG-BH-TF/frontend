@@ -36,7 +36,7 @@ async function fetchNewSession(): Promise<UUID | null> {
   const { $nodeFetch } = useNuxtApp();
 
   try {
-    const data = await $nodeFetch<{ uuid: UUID }>("/api/session/", {
+    const data = await $nodeFetch<{ uuid: UUID }>("/session/", {
       method: "GET",
     });
 
@@ -54,7 +54,7 @@ export async function fetchRefreshSession(sessionID: UUID): Promise<UUID> {
   const { $nodeFetch } = useNuxtApp();
 
   return (
-    await $nodeFetch<{ uuid: UUID }>(`$/api/session/${sessionID}`, {
+    await $nodeFetch<{ uuid: UUID }>(`/session/${sessionID}`, {
       method: "POST",
     })
   ).uuid;

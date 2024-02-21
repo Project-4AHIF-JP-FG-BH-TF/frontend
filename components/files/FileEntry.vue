@@ -6,7 +6,6 @@ defineProps<{ file: FileData }>();
 
 <template>
   <div>
-    <icon name="line-md:uploading-loop" size="24" />
     {{ file.name }}
   </div>
 </template>
