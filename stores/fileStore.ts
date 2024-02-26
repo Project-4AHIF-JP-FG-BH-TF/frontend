@@ -19,7 +19,7 @@ export const useFileStore = defineStore("files", {
     ],
   }),
   actions: {
-    async reFetch() {
+    async refetch() {
       const { $nodeFetch } = useNuxtApp();
       const sessionStore = await useSession();
 
