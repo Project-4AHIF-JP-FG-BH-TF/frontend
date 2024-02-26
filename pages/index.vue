@@ -15,7 +15,7 @@ import TableView from "~/components/TableView.vue";
   height: 100vh;
 
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 
   flex-direction: column;
 

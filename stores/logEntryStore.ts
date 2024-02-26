@@ -45,6 +45,7 @@ export const useLogEntryStore = defineStore("logEntries", {
 
       const orderStore = useOrderStore();
       const filterStore = useFilterStore();
+      const fileStore = useFileStore();
 
       // TODO with backend
       // TODO check if it works
@@ -52,7 +53,9 @@ export const useLogEntryStore = defineStore("logEntries", {
       const logs = await fetchLogEntries(
         from,
         50,
-        ["cock", "cock2"],
+        fileStore.files
+          .filter((value) => value.active)
+          .map((value) => value.name),
         orderStore.order,
         filterStore.getFilter,
       );

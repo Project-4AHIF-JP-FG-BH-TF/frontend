@@ -42,5 +42,7 @@ input {
   padding: 10px;
 
   border: var(--highlighted-background) dashed 4px;
+
+  cursor: pointer;
 }
 </style>
