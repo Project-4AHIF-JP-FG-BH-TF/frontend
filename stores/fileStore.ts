@@ -1,31 +1,30 @@
 export interface FileData {
-    name: string;
+  name: string;
 }
 
 interface FileStoreState {
-    files: FileData[];
+  files: FileData[];
 }
 
 export const useFileStore = defineStore("files", {
-    state: (): FileStoreState => ({
-        files: [{name: "foo1"}, {name: "foo2"}],
-    }),
-    actions: {
-        async refetch() {
-            const {$nodeFetch} = useNuxtApp();
-            const sessionStore = await useSession();
+  state: (): FileStoreState => ({
+    files: [{ name: "foo1" }, { name: "foo2" }],
+  }),
+  actions: {
+    async refetch() {
+      const { $nodeFetch } = useNuxtApp();
+      const sessionStore = await useSession();
 
-            try {
-                const data = await $nodeFetch<{ files: string[] }>(
-                    `/files/${sessionStore.value}`,
-                    {
-                        method: "GET",
-                    },
-                );
+      try {
+        const data = await $nodeFetch<{ files: string[] }>(
+          `/files/${sessionStore.value}`,
+          {
+            method: "GET",
+          },
+        );
 
-                this.files = data.files.map((file) => ({name: file}) as FileData);
-            } catch (e) {
-            }
-        },
+        this.files = data.files.map((file) => ({ name: file }) as FileData);
+      } catch (e) {}
     },
+  },
 });
