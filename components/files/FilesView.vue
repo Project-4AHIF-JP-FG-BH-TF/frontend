@@ -7,7 +7,7 @@ import LoadingFileEntry from "~/components/files/LoadingFileEntry.vue";
 const { $rustFetch } = useNuxtApp();
 
 const fileStore = useFileStore();
-fileStore.reFetch();
+fileStore.refetch();
 
 const uploadingFiles = reactive<{ name: String }[]>([]);
 
@@ -26,7 +26,7 @@ async function onUploadFile(files: FileList) {
     body: formData,
   })
     .then(() => {
-      fileStore.reFetch();
+      fileStore.refetch();
     })
     .finally(() => {
       for (const file of files) {
