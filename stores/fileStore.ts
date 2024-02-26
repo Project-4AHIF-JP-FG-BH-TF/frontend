@@ -32,7 +32,7 @@ export const useFileStore = defineStore("files", {
         );
 
         this.files = data.files.map((file) => {
-          let object = this.files.find((value) => value.name == file);
+          const object = this.files.find((value) => value.name === file);
 
           return {
             name: file,
