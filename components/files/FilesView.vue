@@ -42,12 +42,18 @@ async function onUploadFile(files: FileList) {
 <template>
   <div id="view">
     <FileUpload @upload="onUploadFile" />
-    <FileEntry v-for="file in fileStore.files" :key="file.name" :file="file" />
-    <LoadingFileEntry
-      v-for="file in uploadingFiles"
-      :key="file.name"
-      :file="file"
-    />
+    <div id="file-entries-container">
+      <FileEntry
+        v-for="(file, index) in fileStore.files"
+        :key="file.name"
+        :index="index"
+      />
+      <LoadingFileEntry
+        v-for="file in uploadingFiles"
+        :key="file.name"
+        :file="file"
+      />
+    </div>
   </div>
 </template>
 
@@ -59,5 +65,12 @@ async function onUploadFile(files: FileList) {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+
+  #file-entries-container {
+    border-radius: 10px;
+    padding: 10px;
+
+    background-color: var(--highlighted-background);
+  }
 }
 </style>

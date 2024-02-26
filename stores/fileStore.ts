@@ -1,5 +1,6 @@
 export interface FileData {
   name: string;
+  active: boolean;
 }
 
 interface FileStoreState {
@@ -8,7 +9,14 @@ interface FileStoreState {
 
 export const useFileStore = defineStore("files", {
   state: (): FileStoreState => ({
-    files: [{ name: "foo1" }, { name: "foo2" }],
+    files: [
+      { name: "foo1", active: false },
+      { name: "foo2", active: false },
+      {
+        name: "Dies ist ein gefühlt unendlich langer Text, welcher ein Beispiel dafür sein soll wie lang Dateinamen sein könnten. Sollte trotzdem noch passen.",
+        active: false,
+      },
+    ],
   }),
   actions: {
     async refetch() {
@@ -23,7 +31,14 @@ export const useFileStore = defineStore("files", {
           },
         );
 
-        this.files = data.files.map((file) => ({ name: file }) as FileData);
+        this.files = data.files.map((file) => {
+          const object = this.files.find((value) => value.name === file);
+
+          return {
+            name: file,
+            active: object ? object.active : false,
+          } as FileData;
+        });
       } catch (e) {}
     },
   },
