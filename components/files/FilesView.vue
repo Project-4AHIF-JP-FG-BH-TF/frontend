@@ -44,9 +44,9 @@ async function onUploadFile(files: FileList) {
     <FileUpload @upload="onUploadFile" />
     <div id="file-entries-container">
       <FileEntry
-        v-for="file in fileStore.files"
+        v-for="(file, index) in fileStore.files"
         :key="file.name"
-        :file="file"
+        :index="index"
       />
       <LoadingFileEntry
         v-for="file in uploadingFiles"

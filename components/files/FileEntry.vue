@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import type { FileData } from "~/stores/fileStore";
+const props = defineProps<{
+  index: number;
+}>();
+const store = useFileStore();
 
-const props = defineProps<{ file: FileData }>();
+const file = computed(() => store.files[props.index]);
 
 function setActive() {
-  props.file.active = !props.file.active;
+  file.value.active = !file.value.active;
 }
 </script>
 
 <template>
   <div id="container" @click="setActive">
-    <input id="checkbox" type="checkbox" v-model="props.file.active" />
+    <input id="checkbox" v-model="file.active" type="checkbox" />
     <Icon name="ph:file" size="20" />
     {{ file.name }}
   </div>
