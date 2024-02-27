@@ -11,8 +11,11 @@ export const useIpsStore = defineStore("ips", {
       const { $nodeFetch } = useNuxtApp();
       const sessionStore = await useSession();
       const filterStore = useFilterStore();
+      const fileStore = useFileStore();
 
-      const files = ["cock", "cock2"];
+      const files = fileStore.files
+        .filter((value) => value.active)
+        .map((value) => value.name);
       const filters = filterStore.getFilter;
 
       try {
