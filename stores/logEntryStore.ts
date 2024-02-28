@@ -1,6 +1,4 @@
-import type { UUID } from "node:crypto";
 import { defineStore } from "pinia";
-import { generateUuid } from "vscode-languageclient/lib/common/utils/uuid";
 import type { Filters, LogEntry } from "~/types/LogEntry";
 import { useOrderStore } from "~/stores/orderStore";
 import { useFilterStore } from "~/stores/filterStore";
@@ -60,111 +58,9 @@ export const useLogEntryStore = defineStore("logEntries", {
         filterStore.getFilter,
       );
 
-      const testEntries: LogEntry[] = [
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-01T10:34:23.1234+01:00")),
-          classification: "info",
-          service_ip: "192.168.0.45",
-          user_id: "1",
-          user_session_id: "123",
-          java_class: "",
-          content: "Zusatz Kommentar",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-01T12:00:23.1234+01:00")),
-          classification: "info",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-        {
-          session_id: generateUuid() as UUID,
-          file_name: "",
-          entry_nr: 0,
-          creation_date: new Date(Date.parse("2024-01-02T12:34:23.1234+01:00")),
-          classification: "error",
-          service_ip: "192.168.0.1",
-          user_id: "123",
-          user_session_id: "456",
-          java_class: "",
-          content: "Zusatz Kommentar ZusatzZusatz ZusatzZusatz",
-        },
-      ];
-
       if (logs !== null) {
         this.addEntries(logs);
       }
-
-      this.addEntries(testEntries);
-      this.addEntries(testEntries);
 
       this.isFetching = false;
     },

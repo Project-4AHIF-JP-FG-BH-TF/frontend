@@ -9,14 +9,7 @@ interface FileStoreState {
 
 export const useFileStore = defineStore("files", {
   state: (): FileStoreState => ({
-    files: [
-      { name: "foo1", active: false },
-      { name: "foo2", active: false },
-      {
-        name: "Dies ist ein gefühlt unendlich langer Text, welcher ein Beispiel dafür sein soll wie lang Dateinamen sein könnten. Sollte trotzdem noch passen.",
-        active: false,
-      },
-    ],
+    files: [],
   }),
   actions: {
     async refetch() {
