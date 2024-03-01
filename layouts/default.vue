@@ -4,7 +4,7 @@
   <div id="base">
     <aside>
       <div>
-        <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo" />
+        <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo"/>
       </div>
 
       <div id="actions">
@@ -21,20 +21,20 @@
 
 <style scoped lang="scss">
 #base {
+  --side-width: 190px;
+
   width: 100vw;
   height: 100vh;
 
   display: flex;
 
   main {
-    flex: 1;
+    width: calc(100vw - var(--side-width));
   }
 
   aside {
-    --width: 190px;
-
     display: flex;
-    flex: 0 0 var(--width);
+    flex: 0 0 var(--side-width);
 
     flex-direction: column;
     text-align: center;
@@ -57,7 +57,7 @@
       a {
         background-color: var(--base-background);
         border-radius: 10px;
-        width: calc(var(--width) - var(--gap) * 2);
+        width: calc(var(--side-width) - var(--gap) * 2);
         padding: 5px;
 
         font-size: large;
