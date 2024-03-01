@@ -4,7 +4,7 @@
   <div id="base">
     <aside>
       <div>
-        <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo"/>
+        <img id="logo" src="assets/loggaroo_logo.svg" alt="Loggaroo Logo" />
       </div>
 
       <div id="actions">
