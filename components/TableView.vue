@@ -17,13 +17,14 @@ const icon = ref("material-symbols:arrow-downward");
 
 function changeSortingDirection() {
   desc.value = !desc.value;
-  entryStore.loadNextEntries();
   if (desc.value) {
     icon.value = "material-symbols:arrow-downward";
   } else {
     icon.value = "material-symbols:arrow-upward";
   }
+
   orderStore.setOrder(desc.value ? "DESC" : "ASC");
+  entryStore.reloadEntries();
 }
 
 const selectedLogIndex = ref(-1);
