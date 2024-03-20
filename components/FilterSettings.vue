@@ -147,10 +147,13 @@ function applyFilter() {
             @change="filtersWereChanged"
           >
             <option
-              v-for="ip of ['', ...classificationStore.classifications]"
-              :key="ip"
+              v-for="classification of [
+                '',
+                ...classificationStore.classifications,
+              ]"
+              :key="classification"
             >
-              {{ ip }}
+              {{ classification }}
             </option>
           </select>
         </div>
