@@ -2,11 +2,14 @@
 import { computed, ref } from "vue";
 import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
+import { useClassificationStore } from "~/stores/classificationStore";
 
 const ipsStore = useIpsStore();
+const classificationStore = useClassificationStore();
 
 onMounted(() => {
   ipsStore.reloadIps();
+  classificationStore.reloadClassifications();
 });
 
 const entryStore = useLogEntryStore();
@@ -53,6 +56,7 @@ function filtersWereChanged() {
 function applyFilter() {
   entryStore.reloadEntries();
   ipsStore.reloadIps();
+  classificationStore.reloadClassifications();
 }
 </script>
 
@@ -142,9 +146,15 @@ function applyFilter() {
             class="input"
             @change="filtersWereChanged"
           >
-            <option></option>
-            <option value="info">Info</option>
-            <option value="error">Error</option>
+            <option
+              v-for="classification of [
+                '',
+                ...classificationStore.classifications,
+              ]"
+              :key="classification"
+            >
+              {{ classification }}
+            </option>
           </select>
         </div>
       </div>
