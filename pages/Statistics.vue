@@ -4,8 +4,9 @@ import TestBarChart from "~/components/charts/testCharts/barChart/TestBarChart.v
 
 <template>
   <!--  <h1>Statistics</h1>-->
-  <TestBarChart />
+  <!--  <TestBarChart />-->
   <!--  <ChartsTestChartsPieChartTestPieChart></ChartsTestChartsPieChartTestPieChart>-->
+  <ChartsLogLevelPieChart />
 </template>
 
 <style scoped lang="scss"></style>
