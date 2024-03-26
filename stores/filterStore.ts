@@ -16,7 +16,14 @@ export interface QuickFilterData {
 }
 
 export const useFilterStore = defineStore("filter", {
-  state: (): FilterStoreState => ({}) as FilterStoreState,
+  state: (): FilterStoreState => ({
+    ip: "",
+    regex: false,
+    text: "",
+    from: null,
+    to: null,
+    classification: "",
+  }),
   getters: {
     getFilter: (state): Filters => {
       return {

@@ -39,13 +39,32 @@ function refetch() {
 function showExpandedView() {
   emit("expand");
 }
+
+function formatDate(dateString: string, showMilliseconds: boolean): string {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
+
+  if (!showMilliseconds)
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+  else
+    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}:${milliseconds}`;
+}
 </script>
 
 <template>
   <div class="list-element">
-    <span v-if="props.columns.date" class="list-data border-right flex-4">{{
-      log.creation_date.toLocaleString()
-    }}</span>
+    <abbr
+      v-if="props.columns.date"
+      :title="formatDate(log.creation_date.toLocaleString(), true)"
+      class="list-data border-right flex-4"
+      >{{ formatDate(log.creation_date.toLocaleString(), false) }}</abbr
+    >
     <div
       v-if="props.columns.level"
       id="level-field"
@@ -85,6 +104,10 @@ function showExpandedView() {
 </template>
 
 <style scoped lang="scss">
+abbr {
+  text-decoration: none;
+}
+
 .menu {
   min-width: 50px;
 }
