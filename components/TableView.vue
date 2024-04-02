@@ -210,6 +210,10 @@ function onScroll(event: Event) {
     &::-webkit-scrollbar {
       display: none; /* Chrome */
     }
+
+    > :nth-child(2n) {
+      background-color: var(--dark-highlighted-background);
+    }
   }
 }
 </style>
