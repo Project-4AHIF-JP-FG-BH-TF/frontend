@@ -5,11 +5,13 @@ export interface FileData {
 
 interface FileStoreState {
   files: FileData[];
+  uploadingFiles: FileData[];
 }
 
 export const useFileStore = defineStore("files", {
   state: (): FileStoreState => ({
     files: [],
+    uploadingFiles: [],
   }),
   actions: {
     async refetch() {
@@ -33,6 +35,15 @@ export const useFileStore = defineStore("files", {
           } as FileData;
         });
       } catch (e) {}
+    },
+    addUploadingFile(name: string) {
+      this.uploadingFiles.push({ name, active: false });
+    },
+    removeUploadingFile(name: string) {
+      this.uploadingFiles.splice(
+        this.uploadingFiles.findIndex((value) => value.name === name),
+        1,
+      );
     },
   },
 });
