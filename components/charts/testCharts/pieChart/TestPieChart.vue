@@ -8,6 +8,12 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default {
   name: "App",
+  components: {
+    Pie,
+  },
+  data() {
+    return chartConfig;
+  },
   computed: {
     options() {
       return options;
@@ -15,12 +21,6 @@ export default {
     data() {
       return data;
     },
-  },
-  components: {
-    Pie,
-  },
-  data() {
-    return chartConfig;
   },
 };
 </script>

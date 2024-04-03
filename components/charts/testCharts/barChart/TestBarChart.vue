@@ -23,6 +23,12 @@ ChartJS.register(
 
 export default {
   name: "App",
+  components: {
+    Bar,
+  },
+  data() {
+    return chartConfig;
+  },
   computed: {
     data() {
       return data;
@@ -30,12 +36,6 @@ export default {
     options() {
       return options;
     },
-  },
-  components: {
-    Bar,
-  },
-  data() {
-    return chartConfig;
   },
 };
 </script>
