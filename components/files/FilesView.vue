@@ -9,15 +9,13 @@ const { $rustFetch } = useNuxtApp();
 const fileStore = useFileStore();
 fileStore.refetch();
 
-const uploadingFiles = reactive<{ name: String }[]>([]);
-
 async function onUploadFile(files: FileList) {
   const sessionStore = await useSession();
   const formData = new FormData();
 
   for (const file of files) {
     formData.append("data", file);
-    uploadingFiles.push({ name: file.name });
+    fileStore.addUploadingFile(file.name);
   }
 
   // todo handle upload error via popup or something
@@ -30,10 +28,7 @@ async function onUploadFile(files: FileList) {
     })
     .finally(() => {
       for (const file of files) {
-        uploadingFiles.splice(
-          uploadingFiles.findIndex((value) => value.name === file.name),
-          1,
-        );
+        fileStore.removeUploadingFile(file.name);
       }
     });
 }
@@ -49,7 +44,7 @@ async function onUploadFile(files: FileList) {
         :index="index"
       />
       <LoadingFileEntry
-        v-for="file in uploadingFiles"
+        v-for="file in fileStore.uploadingFiles"
         :key="file.name"
         :file="file"
       />
