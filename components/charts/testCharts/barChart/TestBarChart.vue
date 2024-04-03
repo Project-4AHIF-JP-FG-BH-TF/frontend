@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <Bar id="my-chart-id" :options="options" :data="data" />
+  <Bar :options="options" :data="data" />
 </template>
 
 <style scoped lang="scss"></style>
