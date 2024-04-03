@@ -62,7 +62,7 @@ function formatDate(dateString: string, showMilliseconds: boolean): string {
     <abbr
       v-if="props.columns.date"
       :title="formatDate(log.creation_date.toLocaleString(), true)"
-      class="list-data border-right flex-4"
+      class="list-data border-right text-overflow-ellipsis flex-4"
       >{{ formatDate(log.creation_date.toLocaleString(), false) }}</abbr
     >
     <div
@@ -80,7 +80,9 @@ function formatDate(dateString: string, showMilliseconds: boolean): string {
       </button>
     </div>
     <span v-if="props.columns.ip" class="list-data border-right flex-4"
-      ><button @click="clickedIp">{{ log.service_ip }}</button></span
+      ><button class="text-overflow-ellipsis" @click="clickedIp">
+        {{ log.service_ip }}
+      </button></span
     >
     <span v-if="props.columns.user" class="list-data border-right flex-3">{{
       log.user_id
@@ -92,7 +94,9 @@ function formatDate(dateString: string, showMilliseconds: boolean): string {
       v-if="props.columns.text"
       class="list-data text-overflow-ellipsis border-right flex-10"
     >
-      <button @click="clickedText">{{ log.content }}</button>
+      <button class="text-overflow-ellipsis" @click="clickedText">
+        {{ log.content }}
+      </button>
     </span>
     <span
       id="expand-button"
