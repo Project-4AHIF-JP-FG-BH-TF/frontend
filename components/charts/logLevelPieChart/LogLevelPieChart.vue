@@ -1,8 +1,6 @@
 <script lang="ts">
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "vue-chartjs";
-import * as chartConfig from "./chartConfig.js";
-import { data, options } from "./chartConfig.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,15 +9,28 @@ export default {
   components: {
     Pie,
   },
-  data() {
-    return chartConfig;
-  },
   computed: {
     options() {
-      return options;
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: 100,
+        },
+      };
     },
     data() {
-      return data;
+      return {
+        labels: ["Error", "Warn", "Info"],
+        datasets: [
+          {
+            backgroundColor: ["#FF0000", "#FFFF00", "#545454"],
+            borderColor: "#1f2836",
+
+            data: [10, 20, 50],
+          },
+        ],
+      };
     },
   },
 };

@@ -168,6 +168,8 @@ function applyFilter() {
 @tailwind utilities;
 
 #settings {
+  z-index: 20;
+
   @apply flex flex-col flex-none rounded-[8px];
   width: 100%;
   background-color: var(--highlighted-background);

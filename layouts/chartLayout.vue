@@ -4,7 +4,10 @@
   <div id="base">
     <SideBar />
     <main>
-      <slot />
+      <div id="main">
+        <filter-settings />
+        <slot />
+      </div>
     </main>
   </div>
 </template>
@@ -20,6 +23,20 @@
 
   main {
     width: calc(100vw - var(--side-width));
+
+    #main {
+      height: 100vh;
+
+      display: flex;
+      justify-content: flex-start;
+
+      flex-direction: column;
+
+      padding: var(--gap);
+      gap: var(--gap);
+
+      position: relative;
+    }
   }
 }
 </style>
