@@ -21,7 +21,13 @@ function onFileInput(e: Event) {
 </script>
 
 <template>
-  <input id="fileInput" type="file" multiple @input="onFileInput" accept=".tar.xz"/>
+  <input
+    id="fileInput"
+    type="file"
+    multiple
+    accept=".tar.xz"
+    @input="onFileInput"
+  />
   <label id="dropzone" for="fileInput" @drop.prevent="onDrop" @dragover.prevent>
     <icon name="basil:upload-outline" size="24" />
     Upload File
