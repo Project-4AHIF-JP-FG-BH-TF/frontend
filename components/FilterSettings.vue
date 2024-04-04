@@ -3,12 +3,15 @@ import { computed, ref } from "vue";
 import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 import { useClassificationStore } from "~/stores/classificationStore";
+import { useEntryCountStore } from "~/stores/entryCountStore";
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();
+const entryCountStore = useEntryCountStore();
 
 onMounted(() => {
   ipsStore.reloadIps();
+  entryCountStore.reloadCount();
   classificationStore.reloadClassifications();
 });
 
@@ -55,6 +58,7 @@ function filtersWereChanged() {
 
 function applyFilter() {
   entryStore.reloadEntries();
+  entryCountStore.reloadCount();
   ipsStore.reloadIps();
   classificationStore.reloadClassifications();
 }
@@ -67,13 +71,22 @@ function applyFilter() {
         <Icon :name="settingsButtonIcon" color="white" size="32px" />
         <span>{{ settingsButtonText }}</span>
       </button>
-      <button id="reset-button" @click="resetFilters">
-        <Icon
-          size="26"
-          color="black"
-          name="material-symbols:delete-forever"
-        ></Icon>
-      </button>
+      <div id="right-head">
+        <span
+          ><abbr title="number of entries in filter">{{
+            entryCountStore.filtered
+          }}</abbr>
+          /
+          <abbr title="number of entries">{{ entryCountStore.all }}</abbr></span
+        >
+        <button id="reset-button" @click="resetFilters">
+          <Icon
+            size="26"
+            color="black"
+            name="material-symbols:delete-forever"
+          ></Icon>
+        </button>
+      </div>
     </div>
 
     <div v-if="settingsOpened" id="settings-body">
@@ -180,10 +193,42 @@ function applyFilter() {
     width: 100%;
     position: relative;
 
+    display: flex;
+    justify-content: space-between;
+
     #open-close-button {
       @apply pl-2;
       height: 100px;
       padding: 20px;
+    }
+
+    #right-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+
+      abbr {
+        text-decoration: none;
+      }
+
+      #reset-button {
+        @apply rounded text-white p-1;
+        background-color: var(--light-red);
+        //position: absolute;
+        //right: 0;
+        margin: 5px;
+
+        border-radius: 50%;
+
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: var(--darken-red);
+        }
+      }
     }
   }
 
@@ -241,24 +286,6 @@ function applyFilter() {
         }
       }
     }
-  }
-}
-
-#reset-button {
-  @apply rounded text-white p-1;
-  background-color: var(--light-red);
-  position: absolute;
-  right: 0;
-  margin: 5px;
-
-  border-radius: 50%;
-
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    background-color: var(--darken-red);
   }
 }
 
