@@ -27,14 +27,13 @@ export const useLogEntryStore = defineStore("logEntries", {
     },
     async reloadEntries() {
       console.log("load new entries");
-      this.clearEntries();
-      await this.fetchWithParameters(0);
+      await this.fetchWithParameters(0, true);
     },
     async loadNextEntries() {
       console.log("load additional entries");
-      await this.fetchWithParameters(this.entries.length);
+      await this.fetchWithParameters(this.entries.length, false);
     },
-    async fetchWithParameters(from: number) {
+    async fetchWithParameters(from: number, overwriteCurrent: boolean) {
       if (this.isFetching) {
         return;
       }
@@ -57,6 +56,10 @@ export const useLogEntryStore = defineStore("logEntries", {
         orderStore.order,
         filterStore.getFilter,
       );
+
+      if (overwriteCurrent) {
+        this.clearEntries();
+      }
 
       if (logs !== null) {
         this.addEntries(logs);
