@@ -64,7 +64,7 @@ async function applyFilter() {
   changeTimer.value = false;
   loadingTimer.value = true;
 
-  let promises = [];
+  const promises = [];
 
   promises.push(entryStore.reloadEntries());
   promises.push(entryCountStore.reloadCount());
