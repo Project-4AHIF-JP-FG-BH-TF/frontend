@@ -51,16 +51,29 @@ function setRegex(value: boolean) {
 
 const filterStore = useFilterStore();
 
+const changeTimer = ref(false);
+const loadingTimer = ref(false);
+
 function filtersWereChanged() {
+  changeTimer.value = true;
   clearTimeout(applyId);
   applyId = setTimeout(applyFilter, 1500);
 }
 
-function applyFilter() {
-  entryStore.reloadEntries();
-  entryCountStore.reloadCount();
-  ipsStore.reloadIps();
-  classificationStore.reloadClassifications();
+async function applyFilter() {
+  changeTimer.value = false;
+  loadingTimer.value = true;
+
+  let promises = [];
+
+  promises.push(entryStore.reloadEntries());
+  promises.push(entryCountStore.reloadCount());
+  promises.push(ipsStore.reloadIps());
+  promises.push(classificationStore.reloadClassifications());
+
+  await Promise.all(promises);
+
+  loadingTimer.value = false;
 }
 </script>
 
@@ -72,8 +85,20 @@ function applyFilter() {
         <span>{{ settingsButtonText }}</span>
       </button>
       <div id="right-head">
-        <span
-          ><abbr title="number of entries in filter">{{
+        <span>
+          <Icon
+            v-if="changeTimer"
+            size="26"
+            color="black"
+            name="eos-icons:three-dots-loading"
+          ></Icon>
+          <Icon
+            v-else-if="loadingTimer"
+            size="26"
+            color="black"
+            name="line-md:downloading-loop"
+          ></Icon>
+          <abbr v-else title="number of entries in filter">{{
             entryCountStore.filtered
           }}</abbr>
           /
