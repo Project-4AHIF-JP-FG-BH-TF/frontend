@@ -19,6 +19,7 @@ export const useLogEntryStore = defineStore("logEntries", {
     },
     addEntries(logEntries: LogEntry[]) {
       for (const logEntry of logEntries) {
+        logEntry.creation_date = new Date(logEntry.creation_date);
         this.addEntry(logEntry);
       }
     },

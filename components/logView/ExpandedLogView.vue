@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import type { LogEntry } from "~/types/LogEntry";
+import ExpandedLogViewEntry from "~/components/logView/ExpandedLogViewEntry.vue";
+import {formatDate} from "../../util/formatDate";
 
 const props = defineProps<{
   index: number;
@@ -53,29 +55,35 @@ function updateLog() {
       </div>
       <div id="infoContainer">
         <div id="generalInfoContainer">
-          <span>Generelle Informationen:</span>
-          <span>Eintrags Nr.: {{ log.entry_nr }}</span>
-          <span>Dateiname: {{ log.file_name }}</span>
-          <span
-            >Klassifizierung:
-            <img
-              v-if="log.classification == 'error'"
-              src="~/assets/error.svg"
-              alt="error" />
-            <img v-else src="~/assets/info.svg" alt="info"
-          /></span>
-          <span>Datum/Uhrzeit: {{ log.creation_date.toLocaleString() }}</span>
+          <ExpandedLogViewEntry name="Eintrags Nr."
+            >{{ log.entry_nr }}
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Dateiname"
+            >{{ log.file_name }}
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Klassifizierung">
+            <ClassificationIcon :name="log.classification" />
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Datum/Uhrzeit">
+            {{ formatDate(log.creation_date, true) }}
+          </ExpandedLogViewEntry>
         </div>
         <div id="extendedInfoContainer">
-          <span>Erweiterte Informationen: </span>
-          <span>Nutzer ID: {{ log.user_id }}</span>
-          <span>Nutzer Session ID: {{ log.user_session_id }}</span>
-          <span>Service IP: {{ log.service_ip }}</span>
-          <span>Java Klasse: {{ log.java_class }}</span>
+          <ExpandedLogViewEntry name="Nutzer ID">
+            {{ log.user_id }}
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Nutzer Session ID">
+            {{ log.user_session_id }}
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Service IP">
+            {{ log.service_ip }}
+          </ExpandedLogViewEntry>
+          <ExpandedLogViewEntry name="Java Klasse">
+            {{ log.java_class }}
+          </ExpandedLogViewEntry>
         </div>
       </div>
       <div id="messageContainer">
-        Nachricht:
         {{ log.content }}
       </div>
       <footer id="footer">
@@ -158,6 +166,7 @@ function updateLog() {
         }
       }
     }
+
     #messageContainer {
       margin: 0 auto;
     }
