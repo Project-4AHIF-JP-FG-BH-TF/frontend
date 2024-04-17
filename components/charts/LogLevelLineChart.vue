@@ -70,6 +70,11 @@ const options = computed(() => {
     layout: {
       padding: 100,
     },
+    scales: {
+      y: {
+        suggestedMax: 110,
+      },
+    },
   };
 });
 </script>
