@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { formatDate } from "../util/formatDate";
 import type { Columns, LogEntry } from "~/types/LogEntry";
 import { type QuickFilterData, useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
+import ClassificationIcon from "~/components/ClassificationIcon.vue";
 
 const props = defineProps<{
   log: LogEntry;
@@ -39,31 +41,15 @@ function refetch() {
 function showExpandedView() {
   emit("expand");
 }
-
-function formatDate(dateString: string, showMilliseconds: boolean): string {
-  const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-  const seconds = String(date.getSeconds()).padStart(2, "0");
-  const milliseconds = String(date.getMilliseconds()).padStart(3, "0");
-
-  if (!showMilliseconds)
-    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
-  else
-    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}:${milliseconds}`;
-}
 </script>
 
 <template>
   <div class="list-element">
     <abbr
       v-if="props.columns.date"
-      :title="formatDate(log.creation_date.toLocaleString(), true)"
+      :title="formatDate(log.creation_date, true)"
       class="list-data border-right text-overflow-ellipsis flex-4"
-      >{{ formatDate(log.creation_date.toLocaleString(), false) }}</abbr
+      >{{ formatDate(log.creation_date, false) }}</abbr
     >
     <div
       v-if="props.columns.level"
@@ -71,12 +57,7 @@ function formatDate(dateString: string, showMilliseconds: boolean): string {
       class="list-data border-right flex-2"
     >
       <button @click="clickedClassification">
-        <img
-          v-if="log.classification == 'error'"
-          src="~/assets/error.svg"
-          alt="error"
-        />
-        <img v-else src="~/assets/info.svg" alt="info" />
+        <ClassificationIcon :name="log.classification" />
       </button>
     </div>
     <span v-if="props.columns.ip" class="list-data border-right flex-4"
@@ -150,9 +131,8 @@ abbr {
   display: flex;
   justify-content: center;
 
-  img {
-    width: 26px;
-  }
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .text-overflow-ellipsis {

@@ -3,6 +3,7 @@ import { useLogEntryStore } from "~/stores/logEntryStore";
 import { useOrderStore } from "~/stores/orderStore";
 import ColumVisibleMenu from "~/components/ColumVisibleMenu.vue";
 import type { Columns } from "~/types/LogEntry";
+import ExpandedLogView from "~/components/logView/ExpandedLogView.vue";
 
 const entryStore = useLogEntryStore();
 const orderStore = useOrderStore();
