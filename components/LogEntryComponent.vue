@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { formatDate } from "../util/formatDate";
 import type { Columns, LogEntry } from "~/types/LogEntry";
 import { type QuickFilterData, useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 import ClassificationIcon from "~/components/ClassificationIcon.vue";
-import { formatDate } from "../util/formatDate";
 
 const props = defineProps<{
   log: LogEntry;

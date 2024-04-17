@@ -5,7 +5,7 @@ import InfoIcon from "~/components/icons/InfoIcon.vue";
 import WarnIcon from "~/components/icons/WarnIcon.vue";
 import ErrorIcon from "~/components/icons/ErrorIcon.vue";
 
-const props = defineProps<{
+defineProps<{
   name: string;
 }>();
 </script>
