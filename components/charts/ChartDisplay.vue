@@ -2,10 +2,9 @@
 
 <template>
   <div id="base">
-    <SideBar />
     <main>
       <div id="main">
-        <filter-settings />
+        <slot name="header" />
         <div id="container">
           <slot />
         </div>

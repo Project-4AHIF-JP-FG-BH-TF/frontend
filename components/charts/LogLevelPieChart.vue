@@ -66,6 +66,8 @@ async function loadData() {
     classificationData.value = tempCounts;
   } catch (e) {}
 }
+
+defineExpose({ loadData });
 </script>
 
 <template>

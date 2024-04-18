@@ -21,63 +21,6 @@ ChartJS.register(
   Legend,
 );
 
-// const data = computed(() => {
-//   return {
-//     labels: [
-//       "January",
-//       "February",
-//       "March",
-//       "April",
-//       "May",
-//       "June",
-//       "July",
-//       "August",
-//       "September",
-//       "October",
-//       "November",
-//       "December",
-//     ],
-//     datasets: [
-//       {
-//         label: "Info",
-//         backgroundColor: "#84cc16",
-//         data: [40, 39, 10, 40, 39, 80, 40, 100, 99, 40, 10, 15],
-//         borderColor: "#84cc16",
-//         tension: 0.25,
-//       },
-//       {
-//         label: "Warn",
-//         backgroundColor: "#FFFF00",
-//         data: [1, 5, 15, 9, 35, 67, 1, 0, 24, 87, 12, 9],
-//         borderColor: "#FFFF00",
-//         tension: 0.25,
-//       },
-//       {
-//         label: "Error",
-//         backgroundColor: "#FF0000",
-//         data: [1, 2, 5, 0, 1, 5, 2, 7, 3, 10, 3, 2],
-//         borderColor: "#FF0000",
-//         tension: 0.25,
-//       },
-//     ],
-//   };
-// });
-//
-// const options = computed(() => {
-//   return {
-//     responsive: true,
-//     maintainAspectRatio: false,
-//     layout: {
-//       padding: 100,
-//     },
-//     scales: {
-//       y: {
-//         suggestedMax: 110,
-//       },
-//     },
-//   };
-// });
-
 onMounted(() => {
   loadData();
 });
@@ -136,19 +79,6 @@ async function loadData() {
 
     console.log(fetchedData);
 
-    // const fetchedData = {
-    //   data: {
-    //     time: { penis: 20, penis2: 30 },
-    //     time1: { penis: 20 },
-    //     time2: { penis: 20 },
-    //     time3: { penis: 20 },
-    //     time4: { penis: 20 },
-    //     time5: { penis: 20 },
-    //     time6: { penis: 20 },
-    //     time7: { penis: 20 },
-    //   },
-    // };
-
     const tempTimestamps: string[] = [];
     const tempClassificationData: ClassificationChartData[] = [];
 
@@ -202,6 +132,8 @@ function createDataSetData() {
   chartDatasetData.value = temp;
   console.log(chartDatasetData.value);
 }
+
+defineExpose({ loadData });
 </script>
 
 <template>
