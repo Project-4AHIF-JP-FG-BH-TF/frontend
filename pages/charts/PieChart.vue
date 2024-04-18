@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import TableView from "~/components/TableView.vue";
+import LogLevelPieChart from "~/components/charts/LogLevelPieChart.vue";
+import ChartDisplay from "~/components/charts/ChartDisplay.vue";
 
-const entryStore = useLogEntryStore();
+definePageMeta({
+  layout: undefined,
+});
+
+const chart = ref<typeof LogLevelPieChart | null>(null);
+
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();
 const entryCountStore = useEntryCountStore();
@@ -9,10 +15,10 @@ const entryCountStore = useEntryCountStore();
 async function onSettingsChange(callback: () => void) {
   const promises = [];
 
-  promises.push(entryStore.reloadEntries());
   promises.push(entryCountStore.reloadCount());
   promises.push(ipsStore.reloadIps());
   promises.push(classificationStore.reloadClassifications());
+  promises.push(chart.value!.loadData());
 
   await Promise.all(promises);
 
@@ -21,22 +27,12 @@ async function onSettingsChange(callback: () => void) {
 </script>
 
 <template>
-  <div id="main">
-    <FilterSettings @change="onSettingsChange" />
-    <TableView />
-  </div>
+  <ChartDisplay>
+    <template #header>
+      <FilterSettings @change="onSettingsChange" />
+    </template>
+    <LogLevelPieChart ref="chart" />
+  </ChartDisplay>
 </template>
 
-<style scoped lang="scss">
-#main {
-  height: 100vh;
-
-  display: flex;
-  justify-content: flex-start;
-
-  flex-direction: column;
-
-  padding: var(--gap);
-  gap: var(--gap);
-}
-</style>
+<style scoped lang="scss"></style>

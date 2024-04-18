@@ -15,7 +15,9 @@ onMounted(() => {
   classificationStore.reloadClassifications();
 });
 
-const entryStore = useLogEntryStore();
+const emit = defineEmits<{
+  change: [callback: () => void];
+}>();
 
 const settingsOpened = ref(false);
 
@@ -60,20 +62,13 @@ function filtersWereChanged() {
   applyId = setTimeout(applyFilter, 1500);
 }
 
-async function applyFilter() {
+function applyFilter() {
   changeTimer.value = false;
   loadingTimer.value = true;
 
-  const promises = [];
-
-  promises.push(entryStore.reloadEntries());
-  promises.push(entryCountStore.reloadCount());
-  promises.push(ipsStore.reloadIps());
-  promises.push(classificationStore.reloadClassifications());
-
-  await Promise.all(promises);
-
-  loadingTimer.value = false;
+  emit("change", () => {
+    loadingTimer.value = false;
+  });
 }
 </script>
 
@@ -206,6 +201,8 @@ async function applyFilter() {
 @tailwind utilities;
 
 #settings {
+  z-index: 20;
+
   @apply flex flex-col flex-none rounded-[8px];
   width: 100%;
   background-color: var(--highlighted-background);
