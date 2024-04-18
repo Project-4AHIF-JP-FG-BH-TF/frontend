@@ -30,8 +30,6 @@ const data = computed(() => {
     ],
   };
 });
-
-let fetchedData;
 let labels = ref([] as string[]);
 let classificationData = ref([] as number[]);
 
@@ -47,17 +45,25 @@ async function loadData() {
   const filters = filterStore.getFilter;
 
   try {
-    fetchedData = await $nodeFetch<{
+    let fetchedData = await $nodeFetch<{
       data: [{ classification: string; count: number }];
-    }>(`/charts/classificationChart/${sessionStore.value}`, {
+    }>(`charts/classificationChart/${sessionStore.value}`, {
       method: "GET",
       query: { files, filters },
     });
 
+    let tempLabels: string[] = [];
+    let tempCounts: number[] = [];
+
     for (let chartObject of fetchedData.data) {
-      labels.value.push(chartObject.classification);
-      classificationData.value.push(chartObject.count);
+      console.log(chartObject);
+
+      tempLabels.push(chartObject.classification);
+      tempCounts.push(chartObject.count);
     }
+
+    labels.value = tempLabels;
+    classificationData.value = tempCounts;
   } catch (e) {}
 }
 </script>
