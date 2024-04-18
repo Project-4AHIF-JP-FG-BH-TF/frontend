@@ -30,8 +30,8 @@ const data = computed(() => {
     ],
   };
 });
-let labels = ref([] as string[]);
-let classificationData = ref([] as number[]);
+const labels = ref([] as string[]);
+const classificationData = ref([] as number[]);
 
 async function loadData() {
   const { $nodeFetch } = useNuxtApp();
@@ -45,17 +45,17 @@ async function loadData() {
   const filters = filterStore.getFilter;
 
   try {
-    let fetchedData = await $nodeFetch<{
+    const fetchedData = await $nodeFetch<{
       data: [{ classification: string; count: number }];
     }>(`charts/classificationChart/${sessionStore.value}`, {
       method: "GET",
       query: { files, filters },
     });
 
-    let tempLabels: string[] = [];
-    let tempCounts: number[] = [];
+    const tempLabels: string[] = [];
+    const tempCounts: number[] = [];
 
-    for (let chartObject of fetchedData.data) {
+    for (const chartObject of fetchedData.data) {
       console.log(chartObject);
 
       tempLabels.push(chartObject.classification);

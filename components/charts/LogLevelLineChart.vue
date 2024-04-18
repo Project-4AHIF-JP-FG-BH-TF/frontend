@@ -111,9 +111,9 @@ const data = computed(() => {
     datasets: chartDatasetData.value,
   };
 });
-let timestamps = ref([] as string[]);
-let classificationData = ref([] as ClassificationChartData[]);
-let chartDatasetData = ref([] as ChartDatasetData[]);
+const timestamps = ref([] as string[]);
+const classificationData = ref([] as ClassificationChartData[]);
+const chartDatasetData = ref([] as ChartDatasetData[]);
 
 async function loadData() {
   const { $nodeFetch } = useNuxtApp();
@@ -127,7 +127,7 @@ async function loadData() {
   const filters = filterStore.getFilter;
 
   try {
-    let fetchedData = await $nodeFetch<{
+    const fetchedData = await $nodeFetch<{
       data: any;
     }>(`charts/classificationTimeChart/${sessionStore.value}`, {
       method: "GET",
@@ -149,21 +149,21 @@ async function loadData() {
     //   },
     // };
 
-    let tempTimestamps: string[] = [];
-    let tempClassificationData: ClassificationChartData[] = [];
+    const tempTimestamps: string[] = [];
+    const tempClassificationData: ClassificationChartData[] = [];
 
-    for (let [key, value] of Object.entries(fetchedData.data)) {
+    for (const [key, value] of Object.entries(fetchedData.data)) {
       tempTimestamps.push(key);
-      for (let [name, count] of Object.entries(value as any)) {
+      for (const [name, count] of Object.entries(value as any)) {
         if (
-          tempClassificationData.find((value) => value.name == name) !==
+          tempClassificationData.find((value) => value.name === name) !==
           undefined
         ) {
           tempClassificationData
-            .find((value) => value.name == name)!
+            .find((value) => value.name === name)!
             .counts.push(count as number);
         } else {
-          let counts: number[] = [];
+          const counts: number[] = [];
           for (let i = 1; i < tempTimestamps.length - 1; i++) {
             counts.push(0);
           }
@@ -174,7 +174,7 @@ async function loadData() {
           } as ClassificationChartData);
         }
       }
-      for (let data of tempClassificationData.values()) {
+      for (const data of tempClassificationData.values()) {
         if (data.counts.length !== tempTimestamps.length) {
           data.counts.push(0);
         }
@@ -188,8 +188,8 @@ async function loadData() {
 }
 
 function createDataSetData() {
-  let temp: ChartDatasetData[] = [];
-  for (let value of classificationData.value.values()) {
+  const temp: ChartDatasetData[] = [];
+  for (const value of classificationData.value.values()) {
     temp.push({
       label: value.name,
       backgroundColor: "#FF0000",

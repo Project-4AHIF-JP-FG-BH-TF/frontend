@@ -115,8 +115,8 @@ const data = computed(() => {
   };
 });
 
-let labels = ref([] as string[]);
-let counts = ref([] as number[]);
+const labels = ref([] as string[]);
+const counts = ref([] as number[]);
 
 async function loadData() {
   const { $nodeFetch } = useNuxtApp();
@@ -130,17 +130,17 @@ async function loadData() {
   const filters = filterStore.getFilter;
 
   try {
-    let fetchedData = await $nodeFetch<{
+    const fetchedData = await $nodeFetch<{
       data: [{ java_class: string; count: number }];
     }>(`charts/classChart/${sessionStore.value}`, {
       method: "GET",
       query: { files, filters },
     });
 
-    let tempLabels: string[] = [];
-    let tempCounts: number[] = [];
+    const tempLabels: string[] = [];
+    const tempCounts: number[] = [];
 
-    for (let chartObject of fetchedData.data) {
+    for (const chartObject of fetchedData.data) {
       tempLabels.push(chartObject.java_class);
       tempCounts.push(chartObject.count);
     }
