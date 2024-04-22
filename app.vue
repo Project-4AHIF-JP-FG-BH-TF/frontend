@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { fetchRefreshSession } from "~/composables/session.ts";
-import { ToastType } from "~/types/ToastType.js";
 import { useToastStore } from "~/stores/toastStore";
-
-let index = 1;
-function getIndex(): number {
-  index++;
-  return index - 1;
-}
 
 const toastStore = useToastStore();
 
@@ -23,16 +16,16 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <div id="toast-list">
-    <transition-group name="toast-list">
-      <toast
-        :toast-data="toast"
-        v-for="toast in toastStore.messages"
-        :key="toast"
-      />
-    </transition-group>
-  </div>
   <nuxt-layout>
+    <div id="toast-list">
+      <transition-group name="toast-list">
+        <toast-display
+          v-for="toast in toastStore.messages"
+          :key="toast"
+          :toast-data="toast"
+        />
+      </transition-group>
+    </div>
     <nuxt-page />
   </nuxt-layout>
 </template>

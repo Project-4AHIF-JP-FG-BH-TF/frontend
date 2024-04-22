@@ -4,7 +4,7 @@ import type { UploadingFileData } from "~/stores/fileStore";
 const props = defineProps<{ file: UploadingFileData }>();
 
 const runningSeconds = ref(0);
-let interval: NodeJS.Timeout;
+let interval: number;
 
 const seconds = computed(() => {
   return Math.round(runningSeconds.value) % 60;

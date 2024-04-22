@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatDate } from "../util/formatDate";
+import { formatDate } from "~/util/formatDate";
 import type { Columns, LogEntry } from "~/types/LogEntry";
 import { type QuickFilterData, useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";

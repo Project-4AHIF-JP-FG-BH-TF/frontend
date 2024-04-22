@@ -22,6 +22,8 @@ ChartJS.register(
   Legend,
 );
 
+defineExpose({ loadData });
+
 const { $nodeFetch } = useNuxtApp();
 const sessionStore = await useSession();
 const filterStore = useFilterStore();
@@ -127,20 +129,18 @@ async function loadData() {
 function createDataSetData() {
   const temp: ChartDatasetData[] = [];
   for (const value of classificationData.value.values()) {
-    temp.push(<ChartDatasetData>{
+    temp.push({
       label: value.name,
       backgroundColor: "#FF0000",
       borderColor: "#FF0000",
       data: value.counts,
       tension: 0.25,
-    });
+    } as ChartDatasetData);
   }
 
   chartDatasetData.value = temp;
   console.log(chartDatasetData.value);
 }
-
-defineExpose({ loadData });
 </script>
 
 <template>

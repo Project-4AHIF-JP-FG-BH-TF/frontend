@@ -20,6 +20,8 @@ ChartJS.register(
   Legend,
 );
 
+defineExpose({ loadData });
+
 const { $nodeFetch } = useNuxtApp();
 const sessionStore = await useSession();
 const filterStore = useFilterStore();
@@ -134,8 +136,6 @@ async function loadData() {
     });
   }
 }
-
-defineExpose({ loadData });
 </script>
 
 <template>
