@@ -1,4 +1,4 @@
-export enum Types {
+export enum ColumnType {
   DATE,
   LEVEL,
   IP_ADDRESS,
