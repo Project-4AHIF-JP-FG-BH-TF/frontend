@@ -76,12 +76,10 @@ function applyFilter() {
 <template>
   <div id="settings">
     <div id="settings-head" @click="openCloseSettings">
-      <div id="left-head">
-        <button id="open-close-button">
-          <Icon :name="settingsButtonIcon" color="white" size="32px" />
-          <span>{{ settingsButtonText }}</span>
-        </button>
-      </div>
+      <button id="open-close-button">
+        <Icon :name="settingsButtonIcon" color="white" size="32px" />
+        <span>{{ settingsButtonText }}</span>
+      </button>
       <div id="right-head">
         <span>
           <Icon
@@ -225,10 +223,6 @@ function applyFilter() {
     #open-close-button {
       @apply pl-2;
       padding-left: 20px;
-    }
-
-    #left-head {
-      flex: 1;
     }
 
     #right-head {
