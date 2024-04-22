@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Pie } from "vue-chartjs";
+import { ToastType } from "~/types/ToastType";
+
+defineExpose({ loadData });
+
+const { $nodeFetch } = useNuxtApp();
+const sessionStore = await useSession();
+const filterStore = useFilterStore();
+const fileStore = useFileStore();
+const toastStore = useToastStore();
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 onMounted(() => {
@@ -34,11 +43,6 @@ const labels = ref([] as string[]);
 const classificationData = ref([] as number[]);
 
 async function loadData() {
-  const { $nodeFetch } = useNuxtApp();
-  const sessionStore = await useSession();
-  const filterStore = useFilterStore();
-  const fileStore = useFileStore();
-
   const files = fileStore.files
     .filter((value) => value.active)
     .map((value) => value.name);
@@ -64,10 +68,13 @@ async function loadData() {
 
     labels.value = tempLabels;
     classificationData.value = tempCounts;
-  } catch (e) {}
+  } catch (e) {
+    toastStore.addMessage({
+      message: "Failed to fetch diagram data!",
+      type: ToastType.ERROR,
+    });
+  }
 }
-
-defineExpose({ loadData });
 </script>
 
 <template>

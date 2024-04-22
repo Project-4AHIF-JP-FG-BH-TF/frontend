@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const emits = defineEmits<{ upload: [files: FileList] }>();
+const emits = defineEmits<{ (e: "upload", files: FileList) }>();
 
 function onDrop(e: DragEvent) {
   if (!e.dataTransfer) {

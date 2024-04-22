@@ -1,4 +1,5 @@
 import { useFilterStore } from "~/stores/filterStore";
+import { ToastType } from "~/types/ToastType";
 
 interface EntryCountStoreState {
   all: number;
@@ -13,6 +14,7 @@ export const useEntryCountStore = defineStore("count", {
       const sessionStore = await useSession();
       const filterStore = useFilterStore();
       const fileStore = useFileStore();
+      const toastStore = useToastStore();
 
       const files = fileStore.files
         .filter((value) => value.active)
@@ -30,7 +32,12 @@ export const useEntryCountStore = defineStore("count", {
 
         this.all = data.all;
         this.filtered = data.filtered;
-      } catch (e) {}
+      } catch (e) {
+        toastStore.addMessage({
+          message: "Failed to fetch entry count!",
+          type: ToastType.ERROR,
+        });
+      }
     },
   },
 });

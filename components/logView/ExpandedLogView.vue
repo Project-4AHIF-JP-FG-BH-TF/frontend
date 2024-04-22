@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatDate } from "../../util/formatDate";
+import { formatDate } from "~/util/formatDate";
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import type { LogEntry } from "~/types/LogEntry";
 import ExpandedLogViewEntry from "~/components/logView/ExpandedLogViewEntry.vue";

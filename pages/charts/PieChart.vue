@@ -6,7 +6,7 @@ definePageMeta({
   layout: undefined,
 });
 
-const chart = ref<typeof LogLevelPieChart | null>(null);
+const chart = ref<LogLevelPieChart | null>(null);
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();

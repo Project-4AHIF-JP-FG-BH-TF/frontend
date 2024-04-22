@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import { ToastType } from "~/types/ToastType";
 
 ChartJS.register(
   CategoryScale,
@@ -18,6 +19,14 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
+
+defineExpose({ loadData });
+
+const { $nodeFetch } = useNuxtApp();
+const sessionStore = await useSession();
+const filterStore = useFilterStore();
+const fileStore = useFileStore();
+const toastStore = useToastStore();
 
 onMounted(() => {
   loadData();
@@ -94,11 +103,6 @@ const labels = ref([] as string[]);
 const counts = ref([] as number[]);
 
 async function loadData() {
-  const { $nodeFetch } = useNuxtApp();
-  const sessionStore = await useSession();
-  const filterStore = useFilterStore();
-  const fileStore = useFileStore();
-
   const files = fileStore.files
     .filter((value) => value.active)
     .map((value) => value.name);
@@ -125,10 +129,13 @@ async function loadData() {
 
     console.log(labels.value.length);
     console.log(labels.value.at(labels.value.length - 1));
-  } catch (e) {}
+  } catch (e) {
+    toastStore.addMessage({
+      message: "Failed to fetch diagram data!",
+      type: ToastType.ERROR,
+    });
+  }
 }
-
-defineExpose({ loadData });
 </script>
 
 <template>
