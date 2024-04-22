@@ -39,7 +39,8 @@ function openCloseSettings() {
 
 let applyId: NodeJS.Timeout;
 
-function resetFilters() {
+function resetFilters(event: Event) {
+  event.stopPropagation();
   filterStore.clearFilter();
   filtersWereChanged();
 }
@@ -74,11 +75,13 @@ function applyFilter() {
 
 <template>
   <div id="settings">
-    <div id="settings-head">
-      <button id="open-close-button" @click="openCloseSettings">
-        <Icon :name="settingsButtonIcon" color="white" size="32px" />
-        <span>{{ settingsButtonText }}</span>
-      </button>
+    <div id="settings-head" @click="openCloseSettings">
+      <div id="left-head">
+        <button id="open-close-button">
+          <Icon :name="settingsButtonIcon" color="white" size="32px" />
+          <span>{{ settingsButtonText }}</span>
+        </button>
+      </div>
       <div id="right-head">
         <span>
           <Icon
@@ -212,14 +215,18 @@ function applyFilter() {
     height: 50px;
     width: 100%;
     position: relative;
+    cursor: pointer;
 
     display: flex;
     justify-content: space-between;
 
     #open-close-button {
       @apply pl-2;
-      height: 100px;
-      padding: 20px;
+      padding-left: 20px;
+    }
+
+    #left-head {
+      flex: 1;
     }
 
     #right-head {
@@ -310,7 +317,7 @@ function applyFilter() {
 }
 
 .labeled-input {
-  @apply flex flex-col items-center inline;
+  @apply flex flex-col items-center;
 
   input,
   select {
