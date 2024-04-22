@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "vue-chartjs";
+import { ToastType } from "~/types/ToastType";
 
 ChartJS.register(
   CategoryScale,
@@ -20,6 +21,12 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
+
+const { $nodeFetch } = useNuxtApp();
+const sessionStore = await useSession();
+const filterStore = useFilterStore();
+const fileStore = useFileStore();
+const toastStore = useToastStore();
 
 onMounted(() => {
   loadData();
@@ -59,11 +66,6 @@ const classificationData = ref([] as ClassificationChartData[]);
 const chartDatasetData = ref([] as ChartDatasetData[]);
 
 async function loadData() {
-  const { $nodeFetch } = useNuxtApp();
-  const sessionStore = await useSession();
-  const filterStore = useFilterStore();
-  const fileStore = useFileStore();
-
   const files = fileStore.files
     .filter((value) => value.active)
     .map((value) => value.name);
@@ -114,13 +116,18 @@ async function loadData() {
     classificationData.value = tempClassificationData;
 
     createDataSetData();
-  } catch (e) {}
+  } catch (e) {
+    toastStore.addMessage({
+      message: "Failed to fetch diagram data!",
+      type: ToastType.ERROR,
+    });
+  }
 }
 
 function createDataSetData() {
   const temp: ChartDatasetData[] = [];
   for (const value of classificationData.value.values()) {
-    temp.push({
+    temp.push(<ChartDatasetData>{
       label: value.name,
       backgroundColor: "#FF0000",
       borderColor: "#FF0000",

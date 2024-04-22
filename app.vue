@@ -39,6 +39,7 @@ onMounted(async () => {
 
 <style lang="scss">
 #toast-list {
+  overflow: hidden;
   position: absolute;
   bottom: 0;
   left: 0;

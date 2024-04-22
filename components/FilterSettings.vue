@@ -16,7 +16,7 @@ onMounted(() => {
 });
 
 const emit = defineEmits<{
-  change: [callback: () => void];
+  (e: "change", callback: () => void);
 }>();
 
 const settingsOpened = ref(false);

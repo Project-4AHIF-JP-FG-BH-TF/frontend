@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type { Filters, LogEntry } from "~/types/LogEntry";
 import { useOrderStore } from "~/stores/orderStore";
 import { useFilterStore } from "~/stores/filterStore";
+import { ToastType } from "~/types/ToastType";
 
 interface EntryStoreState {
   entries: LogEntry[];
@@ -79,6 +80,7 @@ async function fetchLogEntries(
   filters: Filters,
 ): Promise<LogEntry[] | null> {
   const sessionStore = await useSession();
+  const toastStore = useToastStore();
 
   const { $nodeFetch } = useNuxtApp();
 
@@ -99,7 +101,10 @@ async function fetchLogEntries(
 
     return data.logs;
   } catch (error) {
-    console.log(error);
+    toastStore.addMessage({
+      message: "Failed to fetch entries!",
+      type: ToastType.ERROR,
+    });
     return null;
   }
 }

@@ -6,7 +6,7 @@ definePageMeta({
   layout: undefined,
 });
 
-const chart = ref<typeof InterfaceBarChart | null>(null);
+const chart = ref<InterfaceBarChart | null>(null);
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();

@@ -3,9 +3,11 @@ import { useFileStore } from "~/stores/fileStore";
 import FileUpload from "~/components/files/FileUpload.vue";
 import FileEntry from "~/components/files/FileEntry.vue";
 import LoadingFileEntry from "~/components/files/LoadingFileEntry.vue";
+import { ToastType } from "~/types/ToastType";
 
 const { $rustFetch } = useNuxtApp();
 
+const toastStore = useToastStore();
 const fileStore = useFileStore();
 fileStore.refetch();
 
@@ -18,11 +20,16 @@ async function onUploadFile(files: FileList) {
     fileStore.addUploadingFile(file.name);
   }
 
-  // todo handle upload error via popup or something
   $rustFetch(`/file/upload/${sessionStore.value}`, {
     method: "POST",
     body: formData,
   })
+    .catch(() => {
+      toastStore.addMessage({
+        type: ToastType.ERROR,
+        message: "Failed to upload files!",
+      });
+    })
     .then(() => {
       fileStore.refetch();
     })

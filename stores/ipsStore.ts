@@ -1,4 +1,5 @@
 import { useFilterStore } from "~/stores/filterStore";
+import { ToastType } from "~/types/ToastType";
 
 interface IpsStoreState {
   ips: string[];
@@ -12,6 +13,7 @@ export const useIpsStore = defineStore("ips", {
       const sessionStore = await useSession();
       const filterStore = useFilterStore();
       const fileStore = useFileStore();
+      const toastStore = useToastStore();
 
       const files = fileStore.files
         .filter((value) => value.active)
@@ -28,7 +30,12 @@ export const useIpsStore = defineStore("ips", {
         );
 
         this.ips = data.ips;
-      } catch (e) {}
+      } catch (e) {
+        toastStore.addMessage({
+          message: "Failed to fetch IPs!",
+          type: ToastType.ERROR,
+        });
+      }
     },
   },
 });

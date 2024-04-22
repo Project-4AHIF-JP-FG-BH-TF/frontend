@@ -1,3 +1,5 @@
+import { ToastType } from "~/types/ToastType";
+
 export interface FileData {
   name: string;
   active: boolean;
@@ -22,6 +24,7 @@ export const useFileStore = defineStore("files", {
     async refetch() {
       const { $nodeFetch } = useNuxtApp();
       const sessionStore = await useSession();
+      const toastStore = useToastStore();
 
       try {
         const data = await $nodeFetch<{ files: string[] }>(
@@ -49,7 +52,12 @@ export const useFileStore = defineStore("files", {
 
             return true;
           });
-      } catch (e) {}
+      } catch (e) {
+        toastStore.addMessage({
+          message: "Failed to refetch files!",
+          type: ToastType.ERROR,
+        });
+      }
     },
     addUploadingFile(name: string) {
       this.uploadingFiles.push({ name, startTime: new Date() });
