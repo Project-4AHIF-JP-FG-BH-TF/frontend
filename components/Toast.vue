@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ToastType } from "~/types/ToastType";
+import type { ToastData } from "~/types/ToastData";
 
 interface Props {
-  type: ToastType;
-  message: string;
+  toastData: ToastData;
 }
 const props = defineProps<Props>();
 
 const color = computed(() => {
-  switch (props.type) {
+  switch (props.toastData.type) {
     case ToastType.INFO:
       return "#86B6F6";
     case ToastType.WARNING:
@@ -20,7 +20,9 @@ const color = computed(() => {
 </script>
 
 <template>
-  <div id="toast" :style="{ background: color }">{{ props.message }}</div>
+  <div id="toast" :style="{ background: color }">
+    {{ props.toastData.message }}
+  </div>
 </template>
 
 <style scoped lang="scss">

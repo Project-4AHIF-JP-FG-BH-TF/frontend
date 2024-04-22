@@ -15,7 +15,7 @@ onMounted(async () => {
 </script>
 <template>
   <div id="toast-list">
-    <toast :type="ToastType.WARNING" message="Benedikt Huff" />
+    <toast :toast-data="{ type: ToastType.INFO, message: 'huff puff' }" />
   </div>
   <nuxt-layout>
     <nuxt-page />
