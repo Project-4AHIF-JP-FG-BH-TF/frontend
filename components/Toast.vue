@@ -34,7 +34,7 @@ const color = computed(() => {
   height: 50px;
 
   box-sizing: border-box;
-  margin: 16px 32px;
+  margin: 8px 32px;
   border-radius: 8px;
   padding: 0 8px;
 }

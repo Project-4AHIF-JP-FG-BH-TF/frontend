@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { fetchRefreshSession } from "~/composables/session.ts";
 import { ToastType } from "~/types/ToastType.js";
+import { useToastStore } from "~/stores/toastStore";
+
+let index = 1;
+function getIndex(): number {
+  index++;
+  return index - 1;
+}
+
+const toastStore = useToastStore();
 
 onMounted(async () => {
   const session = await useSession();
@@ -15,7 +24,13 @@ onMounted(async () => {
 </script>
 <template>
   <div id="toast-list">
-    <toast :toast-data="{ type: ToastType.INFO, message: 'huff puff' }" />
+    <transition-group name="toast-list">
+      <toast
+        :toast-data="toast"
+        v-for="toast in toastStore.messages"
+        :key="toast"
+      />
+    </transition-group>
   </div>
   <nuxt-layout>
     <nuxt-page />
@@ -31,6 +46,24 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
 
-  width: 100%;
+  width: 100vw;
+}
+
+.toast-list-move, /* apply transition to moving elements */
+.toast-list-enter-active,
+.toast-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.toast-list-enter-from,
+.toast-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.toast-list-leave-active {
+  position: absolute;
 }
 </style>
