@@ -161,6 +161,7 @@ function applyFilter() {
             <input
               v-model="filterStore.from"
               type="datetime-local"
+              step="1"
               class="input"
               @change="filtersWereChanged"
             />
@@ -170,6 +171,7 @@ function applyFilter() {
             <input
               v-model="filterStore.to"
               type="datetime-local"
+              step="1"
               class="input"
               @change="filtersWereChanged"
             />
