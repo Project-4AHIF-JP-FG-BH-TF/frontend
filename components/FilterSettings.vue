@@ -5,12 +5,16 @@ import { useIpsStore } from "~/stores/ipsStore";
 import { useClassificationStore } from "~/stores/classificationStore";
 import { useEntryCountStore } from "~/stores/entryCountStore";
 import { useFileStore } from "~/stores/fileStore";
+import { ToastType } from "~/types/ToastType";
+import { useToastStore } from "#imports";
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();
 const entryCountStore = useEntryCountStore();
 
 const fileStore = useFileStore();
+
+const toastStore = useToastStore();
 
 onMounted(() => {
   ipsStore.reloadIps();
@@ -75,7 +79,9 @@ function applyFilter() {
   });
 }
 
-async function exportEntries() {
+async function exportEntries(event: Event) {
+  event.stopPropagation();
+
   const { $nodeFetch } = useNuxtApp();
   const sessionStore = await useSession();
 
@@ -84,13 +90,20 @@ async function exportEntries() {
     .map((value) => value.name);
   const filters = filterStore.getFilter;
 
-  await $nodeFetch(`/log/${sessionStore.value}/export.tar.gz`, {
-    method: "GET",
-    query: {
-      files,
-      filters,
-    },
-  });
+  try {
+    await $nodeFetch(`/log/${sessionStore.value}/export.tar.xz`, {
+      method: "GET",
+      query: {
+        files,
+        filters,
+      },
+    });
+  } catch (e) {
+    toastStore.addMessage({
+      message: "Failed to export data!",
+      type: ToastType.ERROR,
+    });
+  }
 }
 </script>
 
