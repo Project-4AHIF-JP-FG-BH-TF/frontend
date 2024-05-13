@@ -4,10 +4,13 @@ import { useFilterStore } from "~/stores/filterStore";
 import { useIpsStore } from "~/stores/ipsStore";
 import { useClassificationStore } from "~/stores/classificationStore";
 import { useEntryCountStore } from "~/stores/entryCountStore";
+import { useFileStore } from "~/stores/fileStore";
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();
 const entryCountStore = useEntryCountStore();
+
+const fileStore = useFileStore();
 
 onMounted(() => {
   ipsStore.reloadIps();
@@ -71,6 +74,24 @@ function applyFilter() {
     loadingTimer.value = false;
   });
 }
+
+async function exportEntries() {
+  const { $nodeFetch } = useNuxtApp();
+  const sessionStore = await useSession();
+
+  const files = fileStore.files
+    .filter((value) => value.active)
+    .map((value) => value.name);
+  const filters = filterStore.getFilter;
+
+  await $nodeFetch(`/log/${sessionStore.value}/export.tar.gz`, {
+    method: "GET",
+    query: {
+      files,
+      filters,
+    },
+  });
+}
 </script>
 
 <template>
@@ -106,6 +127,13 @@ function applyFilter() {
             color="black"
             name="material-symbols:delete-forever"
           ></Icon>
+        </button>
+        <button id="export-button" @click="exportEntries">
+          <Icon
+            size="26"
+            color="black"
+            name="material-symbols:sim-card-download"
+          />
         </button>
       </div>
     </div>
@@ -229,7 +257,11 @@ function applyFilter() {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      //gap: 20px;
+
+      span {
+        margin-right: 10px;
+      }
 
       abbr {
         text-decoration: none;
@@ -238,8 +270,6 @@ function applyFilter() {
       #reset-button {
         @apply rounded text-white p-1;
         background-color: var(--light-red);
-        //position: absolute;
-        //right: 0;
         margin: 5px;
 
         border-radius: 50%;
@@ -250,6 +280,23 @@ function applyFilter() {
 
         &:hover {
           background-color: var(--darken-red);
+        }
+      }
+
+      #export-button {
+        @apply rounded text-white p-1;
+        background-color: #888888;
+
+        margin: 5px 7px 5px 5px;
+
+        border-radius: 50%;
+
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: #666666;
         }
       }
     }

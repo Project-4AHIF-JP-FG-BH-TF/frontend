@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 import { Line } from "vue-chartjs";
 import { ToastType } from "~/types/ToastType";
+import { useToastStore } from "~/stores/toastStore";
 
 ChartJS.register(
   CategoryScale,
