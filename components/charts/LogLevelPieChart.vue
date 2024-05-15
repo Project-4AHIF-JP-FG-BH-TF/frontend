@@ -2,6 +2,7 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Pie } from "vue-chartjs";
 import { ToastType } from "~/types/ToastType";
+import { useChartColorStore } from "~/stores/chartColorStore";
 
 defineExpose({ loadData });
 
@@ -10,6 +11,7 @@ const sessionStore = await useSession();
 const filterStore = useFilterStore();
 const fileStore = useFileStore();
 const toastStore = useToastStore();
+const chartColorStore = useChartColorStore();
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 onMounted(() => {
@@ -23,6 +25,14 @@ const options = computed(() => {
     layout: {
       padding: 100,
     },
+
+    plugins: {
+      legend: {
+        labels: {
+          color: "#cccccc",
+        },
+      },
+    },
   };
 });
 
@@ -31,7 +41,9 @@ const data = computed(() => {
     labels: labels.value,
     datasets: [
       {
-        backgroundColor: ["#FF0000", "#FFFF00", "#545454"],
+        backgroundColor: labels.value.map((value) =>
+          chartColorStore.colors.get(value),
+        ),
         borderColor: "#1f2836",
 
         data: classificationData.value,
@@ -74,6 +86,8 @@ async function loadData() {
       type: ToastType.ERROR,
     });
   }
+
+  chartColorStore.addColorsForMissingLabels(labels.value);
 }
 </script>
 

@@ -39,6 +39,26 @@ const options = computed(() => {
     layout: {
       padding: 100,
     },
+
+    plugins: {
+      legend: {
+        labels: {
+          color: "#cccccc",
+        },
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          color: "#cccccc",
+        },
+      },
+      x: {
+        ticks: {
+          color: "#cccccc",
+        },
+      },
+    },
   };
 });
 
@@ -47,53 +67,12 @@ const data = computed(() => {
     labels: labels.value,
     datasets: [
       {
-        label: ">500.000",
-        backgroundColor: ["#FF0000"],
+        label: "Data",
+        backgroundColor: ["#86B6F6"],
         borderColor: "#1f2836",
 
-        data: counts.value.filter((value) => value > 500000),
-      },
-      {
-        label: ">250.000",
-        backgroundColor: ["#FFFF00"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 500000 && value > 250000),
-      },
-      {
-        label: ">100.000",
-        backgroundColor: ["#00FF00"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 250000 && value > 100000),
-      },
-      {
-        label: ">50.000",
-        backgroundColor: ["#FF00FF"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 100000 && value > 50000),
-      },
-      {
-        label: ">10.000",
-        backgroundColor: ["#454545"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 50000 && value > 10000),
-      },
-      {
-        label: ">5.000",
-        backgroundColor: ["#454545"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 10000 && value > 5000),
-      },
-      {
-        label: "<5.000",
-        backgroundColor: ["#454545"],
-        borderColor: "#1f2836",
-
-        data: counts.value.filter((value) => value <= 5000),
+        data: counts.value,
+        barThickness: 25,
       },
     ],
   };
@@ -126,9 +105,6 @@ async function loadData() {
 
     labels.value = tempLabels;
     counts.value = tempCounts;
-
-    console.log(labels.value.length);
-    console.log(labels.value.at(labels.value.length - 1));
   } catch (e) {
     toastStore.addMessage({
       message: "Failed to fetch diagram data!",

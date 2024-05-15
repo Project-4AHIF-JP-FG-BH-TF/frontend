@@ -11,6 +11,8 @@ import {
 } from "chart.js";
 import { Line } from "vue-chartjs";
 import { ToastType } from "~/types/ToastType";
+import { useChartColorStore } from "~/stores/chartColorStore";
+import { formatDate } from "~/util/formatDate";
 
 ChartJS.register(
   CategoryScale,
@@ -29,6 +31,7 @@ const sessionStore = await useSession();
 const filterStore = useFilterStore();
 const fileStore = useFileStore();
 const toastStore = useToastStore();
+const chartColorStore = useChartColorStore();
 
 onMounted(() => {
   loadData();
@@ -40,6 +43,26 @@ const options = computed(() => {
     maintainAspectRatio: false,
     layout: {
       padding: 100,
+    },
+
+    plugins: {
+      legend: {
+        labels: {
+          color: "#cccccc",
+        },
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          color: "#cccccc",
+        },
+      },
+      x: {
+        ticks: {
+          color: "#cccccc",
+        },
+      },
     },
   };
 });
@@ -87,7 +110,7 @@ async function loadData() {
     const tempClassificationData: ClassificationChartData[] = [];
 
     for (const [key, value] of Object.entries(fetchedData.data)) {
-      tempTimestamps.push(key);
+      tempTimestamps.push(formatDate(new Date(key), false));
       for (const [name, count] of Object.entries(value as any)) {
         if (
           tempClassificationData.find((value) => value.name === name) !==
@@ -117,6 +140,10 @@ async function loadData() {
     timestamps.value = tempTimestamps;
     classificationData.value = tempClassificationData;
 
+    chartColorStore.addColorsForMissingLabels(
+      classificationData.value.map((value) => value.name),
+    );
+
     createDataSetData();
   } catch (e) {
     toastStore.addMessage({
@@ -129,17 +156,18 @@ async function loadData() {
 function createDataSetData() {
   const temp: ChartDatasetData[] = [];
   for (const value of classificationData.value.values()) {
+    const color = chartColorStore.colors.get(value.name);
+
     temp.push({
       label: value.name,
-      backgroundColor: "#FF0000",
-      borderColor: "#FF0000",
+      backgroundColor: color,
+      borderColor: color,
       data: value.counts,
       tension: 0.25,
     } as ChartDatasetData);
   }
 
   chartDatasetData.value = temp;
-  console.log(chartDatasetData.value);
 }
 </script>
 
