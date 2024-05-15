@@ -47,7 +47,7 @@ function updateLog() {
 }
 
 function onKeyDown(event: KeyboardEvent) {
-  if (event.key == "Escape") {
+  if (event.key === "Escape") {
     close();
   }
 }
@@ -70,7 +70,7 @@ onUnmounted(() => {
   <div id="mainView">
     <div
       class="sides"
-      :class="{ hidden: logIndex == 0 }"
+      :class="{ hidden: logIndex === 0 }"
       @click="previousEntry"
     >
       <Icon
