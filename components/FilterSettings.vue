@@ -7,6 +7,7 @@ import { useEntryCountStore } from "~/stores/entryCountStore";
 import { useFileStore } from "~/stores/fileStore";
 import { ToastType } from "~/types/ToastType";
 import { useToastStore } from "#imports";
+import { withQuery } from "ufo";
 
 const ipsStore = useIpsStore();
 const classificationStore = useClassificationStore();
@@ -79,25 +80,32 @@ function applyFilter() {
   });
 }
 
-async function exportEntries(event: Event) {
+async function downloadFile(event: Event) {
   event.stopPropagation();
 
-  const { $nodeFetch } = useNuxtApp();
-  const sessionStore = await useSession();
-
-  const files = fileStore.files
-    .filter((value) => value.active)
-    .map((value) => value.name);
-  const filters = filterStore.getFilter;
-
   try {
-    await $nodeFetch(`/log/${sessionStore.value}/export.tar.xz`, {
-      method: "GET",
-      query: {
+    const files = fileStore.files
+      .filter((value) => value.active)
+      .map((value) => value.name);
+    const filters = filterStore.getFilter;
+
+    const sessionStore = await useSession();
+    const runtimeConfig = useRuntimeConfig();
+
+    const s = withQuery(
+      `${runtimeConfig.public.nodeBaseURL}/log/${sessionStore.value}/export.tar.xz`,
+      {
         files,
         filters,
       },
-    });
+    );
+
+    const link = document.createElement("a");
+
+    link.href = s;
+    link.download = "export.tar.xz";
+
+    link.click();
   } catch (e) {
     toastStore.addMessage({
       message: "Failed to export data!",
@@ -141,13 +149,13 @@ async function exportEntries(event: Event) {
             name="material-symbols:delete-forever"
           ></Icon>
         </button>
-        <a id="export-button" @click="exportEntries">
+        <button id="export-button" @click="downloadFile">
           <Icon
             size="26"
             color="black"
             name="material-symbols:sim-card-download"
           />
-        </a>
+        </button>
       </div>
     </div>
 
