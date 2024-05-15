@@ -22,15 +22,15 @@ const statisticsExpanded = ref(false);
         >
         <div v-if="statisticsExpanded" id="chartSelectorsContainer">
           <nuxt-link to="/charts/piechart" class="chartSelectors"
-            >PieChart
+            >Klassifikation
           </nuxt-link>
           <nuxt-link to="/charts/barchart" class="chartSelectors"
-            >BarChart
+            >Schnittstellen
           </nuxt-link>
           <nuxt-link
             to="/charts/linechart"
             class="chartSelectors bottomSelector"
-            >LineChart
+            >Zeitübersicht
           </nuxt-link>
         </div>
       </div>
