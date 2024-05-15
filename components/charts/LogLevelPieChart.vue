@@ -72,8 +72,6 @@ async function loadData() {
     const tempCounts: number[] = [];
 
     for (const chartObject of fetchedData.data) {
-      console.log(chartObject);
-
       tempLabels.push(chartObject.classification);
       tempCounts.push(chartObject.count);
     }

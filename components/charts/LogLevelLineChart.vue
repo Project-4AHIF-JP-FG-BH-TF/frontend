@@ -104,8 +104,6 @@ async function loadData() {
       query: { files, filters },
     });
 
-    console.log(fetchedData);
-
     const tempTimestamps: string[] = [];
     const tempClassificationData: ClassificationChartData[] = [];
 
