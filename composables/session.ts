@@ -5,7 +5,7 @@ let currentSessionFetch: Promise<UUID | null> | undefined;
 export async function useSession() {
   const session = useCookie<UUID | null>("session", {
     sameSite: "lax",
-    //1 day
+    // 1 day
     maxAge: 24 * 60 * 60,
   });
 
