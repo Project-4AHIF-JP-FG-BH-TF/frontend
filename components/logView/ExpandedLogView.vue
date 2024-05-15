@@ -3,6 +3,7 @@ import { formatDate } from "~/util/formatDate";
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import type { LogEntry } from "~/types/LogEntry";
 import ExpandedLogViewEntry from "~/components/logView/ExpandedLogViewEntry.vue";
+import { onUnmounted } from "vue";
 
 const props = defineProps<{
   index: number;
@@ -40,6 +41,20 @@ function previousEntry() {
 function updateLog() {
   log.value = entryStore.entries[logIndex.value];
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  if (event.key == "Escape") {
+    close();
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("keydown", onKeyDown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", onKeyDown);
+});
 </script>
 
 <template>
@@ -114,11 +129,11 @@ function updateLog() {
   top: 0;
   width: 100%;
   height: 100vh;
-  z-index: 1;
+  z-index: 100;
 }
 
 #mainView {
-  z-index: 2;
+  z-index: 101;
   position: absolute;
   left: 25%;
   top: 25%;
