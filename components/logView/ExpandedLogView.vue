@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { onUnmounted } from "vue";
 import { formatDate } from "~/util/formatDate";
 import { useLogEntryStore } from "~/stores/logEntryStore";
 import type { LogEntry } from "~/types/LogEntry";
 import ExpandedLogViewEntry from "~/components/logView/ExpandedLogViewEntry.vue";
-import { onUnmounted } from "vue";
 
 const props = defineProps<{
   index: number;
@@ -26,7 +26,7 @@ function close() {
 }
 
 function nextEntry() {
-  if (entryStore.entries.length - 1 == logIndex.value) {
+  if (entryStore.entries.length - 1 === logIndex.value) {
     entryStore.loadNextEntries();
   }
 
