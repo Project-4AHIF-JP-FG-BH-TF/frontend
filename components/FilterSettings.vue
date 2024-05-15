@@ -141,13 +141,13 @@ async function exportEntries(event: Event) {
             name="material-symbols:delete-forever"
           ></Icon>
         </button>
-        <button id="export-button" @click="exportEntries">
+        <a id="export-button" @click="exportEntries">
           <Icon
             size="26"
             color="black"
             name="material-symbols:sim-card-download"
           />
-        </button>
+        </a>
       </div>
     </div>
 
