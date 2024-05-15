@@ -12,8 +12,7 @@ const props = defineProps<{
 const entryStore = useLogEntryStore();
 
 const log = ref(entryStore.entries[props.index] as LogEntry);
-const index = props.index;
-const logIndex = ref(index);
+const logIndex = ref(props.index);
 
 const nextAvailable = computed(
   () => logIndex.value < entryStore.entries.length - 1,
@@ -27,7 +26,12 @@ function close() {
 }
 
 function nextEntry() {
+  if (entryStore.entries.length - 1 == logIndex.value) {
+    entryStore.loadNextEntries();
+  }
+
   if (!nextAvailable.value) return;
+
   logIndex.value++;
   updateLog();
 }
@@ -64,12 +68,21 @@ onUnmounted(() => {
     @click="close"
   ></div>
   <div id="mainView">
+    <div
+      class="sides"
+      :class="{ hidden: logIndex == 0 }"
+      @click="previousEntry"
+    >
+      <Icon
+        name="material-symbols:arrow-left-alt-rounded"
+        size="40"
+        class="arrowButton"
+        :class="{ disabled: !previousAvailable }"
+      ></Icon>
+    </div>
     <div id="expandedView">
-      <div id="titleContainer">
-        <span>Erweiterte Log-Nachrichten Anzeige</span>
-      </div>
       <div id="infoContainer">
-        <div id="generalInfoContainer">
+        <div>
           <ExpandedLogViewEntry name="Eintrags Nr."
             >{{ log.entry_nr }}
           </ExpandedLogViewEntry>
@@ -77,13 +90,16 @@ onUnmounted(() => {
             >{{ log.file_name }}
           </ExpandedLogViewEntry>
           <ExpandedLogViewEntry name="Klassifizierung">
-            <ClassificationIcon :name="log.classification" />
+            <ClassificationIcon
+              id="classification"
+              :name="log.classification"
+            />
           </ExpandedLogViewEntry>
           <ExpandedLogViewEntry name="Datum/Uhrzeit">
             {{ formatDate(log.creation_date, true) }}
           </ExpandedLogViewEntry>
         </div>
-        <div id="extendedInfoContainer">
+        <div>
           <ExpandedLogViewEntry name="Nutzer ID">
             {{ log.user_id }}
           </ExpandedLogViewEntry>
@@ -99,25 +115,19 @@ onUnmounted(() => {
         </div>
       </div>
       <div id="messageContainer">
-        {{ log.content }}
+        <div>
+          {{ log.content }}
+        </div>
       </div>
-      <footer id="footer">
-        <Icon
-          name="material-symbols:arrow-left-alt-rounded"
-          size="40"
-          class="arrowButton"
-          :class="{ disabled: !previousAvailable }"
-          @click="previousEntry"
-        ></Icon>
-        <Icon
-          name="material-symbols:arrow-right-alt-rounded"
-          size="40"
-          class="arrowButton"
-          :class="{ disabled: !nextAvailable }"
-          color="black"
-          @click="nextEntry"
-        ></Icon>
-      </footer>
+    </div>
+    <div class="sides" :class="{ hidden: !nextAvailable }" @click="nextEntry">
+      <Icon
+        name="material-symbols:arrow-right-alt-rounded"
+        size="40"
+        class="arrowButton"
+        :class="{ disabled: !nextAvailable }"
+        color="black"
+      ></Icon>
     </div>
   </div>
 </template>
@@ -147,13 +157,34 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
 
+  overflow: hidden;
+
   border-radius: 10px;
 
-  #expandedView {
-    width: 100%;
+  .sides {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+
+    width: 40px;
+
+    &:hover:not(.hidden) {
+      background: var(--dark-highlighted-background);
+    }
+
+    &.hidden {
+      :deep(path) {
+        color: var(--dark-highlighted-background);
+      }
+    }
+  }
+
+  #expandedView {
+    max-width: calc(100% - 40px * 2);
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
 
     padding: 5px;
 
@@ -161,42 +192,30 @@ onUnmounted(() => {
       margin: 3px;
     }
 
-    #titleContainer {
-      text-align: center;
-    }
-
     #infoContainer {
       display: flex;
       flex-direction: row;
-      justify-content: space-evenly;
+      justify-content: space-between;
 
-      #generalInfoContainer,
-      #extendedInfoContainer {
-        display: flex;
-        flex-direction: column;
+      padding: 20px;
 
-        img {
-          width: 30px;
-          display: inline;
-        }
+      overflow-x: scroll;
+
+      :deep(svg) {
+        width: 30px;
       }
     }
 
     #messageContainer {
-      margin: 0 auto;
-    }
+      flex: 1;
 
-    #footer {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      overflow-x: scroll;
 
-      .arrowButton:hover {
-        cursor: pointer;
-      }
-
-      .disabled {
-        cursor: default !important;
-        color: black;
+      div {
+        width: 100%;
       }
     }
   }

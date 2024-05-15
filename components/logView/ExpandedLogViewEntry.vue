@@ -15,8 +15,11 @@ div {
   align-items: center;
   gap: 10px;
 
+  color: #cccccc;
+
   span {
     font-weight: lighter;
+    color: #cccccc;
   }
 }
 </style>
