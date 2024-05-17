@@ -40,7 +40,7 @@ export const useFileStore = defineStore("files", {
 
             return {
               name: file,
-              active: object ? object.active : false,
+              active: object ? object.active : true,
             } as FileData;
           })
           .filter((value) => {

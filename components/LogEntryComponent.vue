@@ -15,6 +15,8 @@ const emit = defineEmits(["expand"]);
 const filterStore = useFilterStore();
 const entryStore = useLogEntryStore();
 const ipsStore = useIpsStore();
+const entryCountStore = useEntryCountStore();
+const classificationStore = useClassificationStore();
 
 function clickedClassification() {
   filterStore.applyQuickFilter({
@@ -33,9 +35,15 @@ function clickedText() {
   refetch();
 }
 
-function refetch() {
-  entryStore.reloadEntries();
-  ipsStore.reloadIps();
+async function refetch() {
+  const promises = [];
+
+  promises.push(entryStore.reloadEntries());
+  promises.push(entryCountStore.reloadCount());
+  promises.push(ipsStore.reloadIps());
+  promises.push(classificationStore.reloadClassifications());
+
+  await Promise.all(promises);
 }
 
 function showExpandedView() {

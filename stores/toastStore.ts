@@ -5,7 +5,7 @@ interface ToastStoreState {
   messages: ToastData[];
 }
 
-export const useToastStore = defineStore("order", {
+export const useToastStore = defineStore("toast", {
   state: (): ToastStoreState => ({
     messages: [],
   }),
